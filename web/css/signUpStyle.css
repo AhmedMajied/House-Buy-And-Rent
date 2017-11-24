@@ -78,6 +78,10 @@ input {
     border-radius: 3px;
     color: white;
     cursor: pointer;
+    
+}
+#signUpButton:disabled{
+    cursor: default;
 }
 .message
 {

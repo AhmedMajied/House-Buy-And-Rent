@@ -9,16 +9,17 @@ and open the template in the editor.
         <title>Log In</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/indexStyle.css">
+        <script src="js/jQuery.js" ></script>
+        <script src="js/loginJS.js"></script>
     </head>
-    <script src="js/LoginValidator.js"></script>
-    <script src="js/jQuery.js" ></script>
+    
     <body>
         <div id="login">
-            <form name="form-login" action="Home.jsp" method="post" onsubmit="return validate();">
+            <form name="form-login" action="Home.jsp" method="post" onsubmit="return validateInputs();">
                 <span id="userIcon"></span>
-                <input id="user" placeholder="Username" type="text"required pattern="^[a-zA-Z]+" title="name only contains letters">
+                <input id="user" placeholder="Username" type="text" required pattern="^[a-zA-Z]+" title="name only contains letters">
                 <span id="lock"></span>
-                <input id="pass" placeholder="Password" type="password"required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$">
+                <input id="pass" placeholder="Password" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$">
                 <br>
                 <div id="warning"></div>
                 <br>

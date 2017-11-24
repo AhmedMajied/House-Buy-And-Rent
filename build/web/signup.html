@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <html>
     <head>
         <title>Sign Up</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/signUpStyle.css">
         <script src="js/jQuery.js" ></script>
-        <script src="js/signUpValidate.js"></script>
+        <script src="js/signupJS.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
         <div id="signUp">
-            <form name="form-signUp" action="Home.jsp" method="post" onsubmit="return validate()">
+            <form name="form-signUp" action="Home.jsp" method="post" onsubmit="return validateInputs()">
                 <div class="message">Sign Up</div>
                 <br>
                 <span id="userIcon"></span>
@@ -31,6 +27,13 @@ and open the template in the editor.
                 <span id="phone"></span>
                 <input id="phoneNumber" placeholder="PhoneNumber" type="text" pattern="^[0-9]+" title="phone number">
                 <br>
+                
+                <center><div
+                    class="g-recaptcha"
+                    data-sitekey="6LdRWTkUAAAAAMK20VualcTI0UHCU20PMOYy62e0" 
+                    data-callback="validateCaptcha">
+                    </div>
+                </center>
                 
                 <input value="Sign Up" type="submit" id="signUpButton">
             </form>
