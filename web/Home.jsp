@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>Welcome in Home Page</h1>
+        <div class="div"style="background-color: aqua">
+            <a href="jsp/profile.jsp">Profile Page</a>
+        </div>
     </body>
 </html>
