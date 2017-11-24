@@ -16,12 +16,24 @@ html
     background-repeat: no-repeat;
     background-position: center;
 }
-#login {
-    margin-top:15%;
+#e-mail
+{
+    background-image: url("../images/email.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#phone
+{
+    background-image: url("../images/phone.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#signUp {
+    margin-top:5%;
     margin-left: 37%;
     width: 320px;
 }
-#login form {
+#signUp form {
     margin: auto;
     padding: 22px 22px 22px 22px;
     width: 100%;
@@ -30,7 +42,7 @@ html
     border-top: 3px solid #434a52;
     border-bottom: 3px solid #434a52;
 }
-#userIcon , #lock
+#userIcon , #lock , #e-mail , #phone
 {
     background-color: #363b41;
     border-radius: 3px 0px 0px 3px;
@@ -49,7 +61,7 @@ input {
     font-size: 16px;
     line-height: 1.5em;
 }
-#pass , #user {
+#pass , #user , #phoneNumber , #email{
     background-color: #3b4148;
     border-radius: 0px 3px 3px 0px;
     color: #a9a9a9;
@@ -58,7 +70,7 @@ input {
     width: 235px;
     height: 50px;
 }
-#loginButton{
+#signUpButton{
     background: #b5cd60;
     border: 0;
     width: 100%;
@@ -67,18 +79,15 @@ input {
     color: white;
     cursor: pointer;
 }
-#account , #link
+.message
 {
-    font-family: arial;
-    font-size: 12px;
-    color: activeborder;
+    font-size: 25px;
+    font-weight: bold;
     font-style: italic;
+    text-align: center;
+    color:aqua;
 }
-#link:hover
-{
-    color: fuchsia;
-}
-#warning
+#userWarn , #mailWarn , #phoneWarn
 {
     color: red;
 }
