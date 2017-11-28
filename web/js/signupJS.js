@@ -6,15 +6,18 @@ $(document).ready(function(){
 function validateInputs()
     {
         var Name=$("#user").val();
-        var password=$("#pass").val();
         var mail=$("#email").val();
-        var phoneNumber=$("#phoneNumber").val();
-        valid=false;
 
-        if(Name.length<4)
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("GET","validate?name="+name+"&e-mail="+mail,true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange=function()
         {
-            $("#userWarn").html("user name must have at least 4 characters");
-            valid=false;
+            if(xmlhttp.readyState==4&&xmlhttp.status==200)
+            {
+                $("#userWarn").html(xmlhttp.responseText);
+
+            }
         }
         // check if name or mail already exists in the system
 

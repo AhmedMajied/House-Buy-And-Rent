@@ -14,20 +14,18 @@
                 <div class="message">Sign Up</div>
                 <br>
                 <span id="userIcon"></span>
-                <input id="user" placeholder="Username *" type="text" required pattern="^[a-zA-Z]+" title="name only contains letters">
-                <div id="userWarn"></div>
+                <input id="user" placeholder="Username *" type="text" required pattern="^[a-zA-Z].{2,20}$" title="name has at least 3 lettes & name contains only letters">
 
                 <span id="e-mail"></span>
-                <input id="email" placeholder="Email *" type="email" required>
-                <div id="mailWarn"></div>
+                <input id="email" placeholder="Email *" type="email" required title="must follow mail format">
                 
                 <span id="lock"></span>
                 <input id="pass" placeholder="Password *" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$" title="Password must have at least 4 letters ,at least one capital letter ,one number and one small letter eg. x1A@y">
                 
                 <span id="phone"></span>
-                <input id="phoneNumber" placeholder="PhoneNumber" type="text" pattern="^[0-9]+" title="phone number">
+                <input id="phoneNumber" placeholder="PhoneNumber" type="tel" pattern="^[0-9]+" title="phone number">
                 <br>
-                
+                <div id="userWarn"></div>
                 <center><div
                     class="g-recaptcha"
                     data-sitekey="6LdRWTkUAAAAAMK20VualcTI0UHCU20PMOYy62e0" 
