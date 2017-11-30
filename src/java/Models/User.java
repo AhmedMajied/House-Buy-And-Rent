@@ -5,17 +5,21 @@
  */
 package Models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author andre
  */
 public class User {
     public int ID;
-    public String Username;
-    public String Email;
-    public String Password;
-    public String Phone;
+    public String username;
+    public String password;
+    public String phone;
     public boolean isAdmin;
-    public byte[] Picture;
+    public byte[] picture;
+    public ArrayList<Advertisement> advertisements;
+    public ArrayList<UserNotification> notifications;
+    public ArrayList<Interest> interests;
     
 }

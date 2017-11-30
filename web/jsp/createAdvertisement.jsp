@@ -21,10 +21,10 @@
 		<label>Status</label>
 		<select name="Status">
 			<%
-				ArrayList<Status> statuses = (ArrayList)request.getAttribute("Statuses");
-				for(Status status : statuses){
+				ArrayList<BuildingStatus> statuses = (ArrayList)request.getAttribute("Statuses");
+				for(BuildingStatus status : statuses){
 			%>
-			<option value="<%=status.ID%>"><%=status.Name %></option>
+			<option value="<%=status.ID%>"><%=status.name %></option>
 			
 			<%	}
 			%>
@@ -34,10 +34,10 @@
 		<label>Type</label>
 		<select name="Status">
 			<%
-				ArrayList<Type> types = (ArrayList)request.getAttribute("Types");
-				for(Type type : types){
+				ArrayList<BuildingType> types = (ArrayList)request.getAttribute("Types");
+				for(BuildingType type : types){
 			%>
-			<option value="<%=type.ID%>"><%=type.Name %></option>
+			<option value="<%=type.ID%>"><%=type.name %></option>
 			
 			<%	}
 			%>
