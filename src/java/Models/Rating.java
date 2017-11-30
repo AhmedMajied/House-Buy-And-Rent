@@ -9,7 +9,7 @@ package Models;
  *
  * @author andre
  */
-class Rating {
+public class Rating {
     public int userID;
     public int advertisementID;
     public double value;

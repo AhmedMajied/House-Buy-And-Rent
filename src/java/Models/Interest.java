@@ -9,7 +9,7 @@ package Models;
  *
  * @author andre
  */
-class Interest {
+public class Interest {
     public int ID;
     public boolean isSize;
     public int minSize;

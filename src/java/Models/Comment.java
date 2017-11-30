@@ -9,7 +9,7 @@ package Models;
  *
  * @author andre
  */
-class Comment {
+public class Comment {
     public int ID;
     public int userID;
     public int advertisementID;

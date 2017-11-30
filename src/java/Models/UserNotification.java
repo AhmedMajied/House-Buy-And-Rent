@@ -9,7 +9,7 @@ package Models;
  *
  * @author andre
  */
-class UserNotification {
+public class UserNotification {
     public int userID;
     public int notificationID;
     public boolean isRead;
