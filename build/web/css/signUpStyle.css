@@ -67,7 +67,7 @@ input {
     color: #a9a9a9;
     margin-bottom: 1em;
     padding: 0 16px;
-    width: 235px;
+    width: 250px;
     height: 50px;
 }
 #signUpButton{
@@ -91,7 +91,7 @@ input {
     text-align: center;
     color:aqua;
 }
-#userWarn , #mailWarn , #phoneWarn
+#userWarn
 {
     color: red;
 }
