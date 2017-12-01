@@ -10,7 +10,7 @@
 		<title>Create Advertisement</title>
 	</head>
 <body>
-	<form action="AddAdvertisement" method="POST">
+	<form action="AdvertisementController?action=addAdvertisement" method="POST">
 		<label>Title</label>
 		<input type="text" name="Title" />
 		<label>Size</label>
@@ -24,7 +24,7 @@
 				ArrayList<BuildingStatus> statuses = (ArrayList)request.getAttribute("Statuses");
 				for(BuildingStatus status : statuses){
 			%>
-			<option value="<%=status.ID%>"><%=status.name %></option>
+			<option value="<%=status.getID()%>"><%=status.getName() %></option>
 			
 			<%	}
 			%>
@@ -37,7 +37,7 @@
 				ArrayList<BuildingType> types = (ArrayList)request.getAttribute("Types");
 				for(BuildingType type : types){
 			%>
-			<option value="<%=type.ID%>"><%=type.name %></option>
+			<option value="<%=type.getID()%>"><%=type.getName() %></option>
 			
 			<%	}
 			%>

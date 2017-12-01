@@ -8,10 +8,10 @@ public class Interest {
     private BuildingType buildingType;
     private BuildingStatus buildingStatus;
     
-    public Interest(int size,int statusID,int typeID,int userID){
+    public Interest(int size,BuildingStatus status,BuildingType type,int userID){
         this.size = size;
-        buildingStatus = new BuildingStatus(statusID);
-        buildingType = new BuildingType(typeID);
+        buildingStatus = status;
+        buildingType = type;
         this.userID = userID;
     }
 

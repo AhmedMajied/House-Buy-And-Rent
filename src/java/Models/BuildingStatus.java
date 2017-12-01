@@ -4,8 +4,9 @@ public class BuildingStatus {
     private int ID;
     private String name;
 
-    public BuildingStatus(int ID){
+    public BuildingStatus(int ID,String name){
         this.ID = ID;
+        this.name=name;
     }
 
     public int getID() {
