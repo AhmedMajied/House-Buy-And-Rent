@@ -6,7 +6,10 @@ import Models.*;
 
 public class UserController {
 
+    private UserDBModel userDBModel;
+    
     public UserController() {
+        userDBModel = new UserDBModel();
     }
 
     public void signIn() {
@@ -57,15 +60,14 @@ public class UserController {
         return false;
     }
 
-    public boolean addInterest(int size,int statusID,int typeID) {
+    public boolean addInterest(int size,int statusID,int typeID,int userID) {
+        Interest interest = new Interest(size,statusID,typeID,userID);
+        boolean success = userDBModel.addInterest(interest);
         
-        
-        
-        return false;
+        return success;
     }
 
-    public Vector<Notification> getUserNotifications() {
-        // TODO implement here
-        return null;
+    public Vector<Notification> getUserNotifications(int userID) {
+        return userDBModel.getUserNotifications(userID);
     }
 }

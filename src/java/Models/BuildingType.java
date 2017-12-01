@@ -1,8 +1,8 @@
 package Models;
 
 public class BuildingType {
-    public int ID;
-    public String name;
+    private int ID;
+    private String name;
         
     public BuildingType(int ID){
         this.ID = ID;

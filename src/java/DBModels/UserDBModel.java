@@ -100,13 +100,72 @@ public class UserDBModel {
     }
 
     public boolean addInterest(Interest userInterest) {
-        // TODO implement here
+        
+        try {
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("insert into Interest values(null,?,?,?,?)");
+            
+            prepStmt.setInt(1, userInterest.getSize());
+            prepStmt.setInt(2, userInterest.getBuildingStatus().getID());
+            prepStmt.setInt(3, userInterest.getBuildingType().getID());
+            prepStmt.setInt(4, userInterest.getUserID());
+            
+            int affectedRows = prepStmt.executeUpdate();
+            prepStmt.close();
+            conn.close();
+            
+            if(affectedRows > 0)
+                return true;
+            
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return false;
     }
 
     public Vector<Notification> getUserNotifications(int userID) {
-        // TODO implement here
-        return null;
+        Vector<Notification> allNotifications = null;
+        try {
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("select Notifications.ID,Notifications.Text,Notifications.Time,Notifications.Link"
+                                        + " from Notifications,UserNotifications"
+                                        +" where UserNotifications.UserID = ? and isRead = 0"
+                                        + " and UserNotifications.NotificationID = Notifications.ID");
+            prepStmt.setInt(1, userID);
+            ResultSet resultSet = prepStmt.executeQuery();
+            allNotifications = new Vector<>();
+            
+            while(resultSet.next()){
+                Notification notification = new Notification();
+                notification.setID(resultSet.getInt("ID"));
+                notification.setText(resultSet.getString("Text"));
+                notification.setTime(resultSet.getDate("Time"));// ensure that it is correct
+                notification.setLink(resultSet.getString("Link"));
+                
+                allNotifications.add(notification);
+            }
+            
+            prepStmt.close();
+            conn.close();
+            
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return allNotifications;
     }
 
 }
