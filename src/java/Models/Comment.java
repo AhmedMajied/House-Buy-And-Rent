@@ -1,17 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Models;
 
-/**
- *
- * @author andre
- */
 public class Comment {
-    public int ID;
-    public int userID;
-    public int advertisementID;
-    public String text;
+    private int ID;
+    private int userID;
+    private int advertisementID;
+    private String text;
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getAdvertisementID() {
+        return advertisementID;
+    }
+
+    public void setAdvertisementID(int advertisementID) {
+        this.advertisementID = advertisementID;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+    
+    
 }

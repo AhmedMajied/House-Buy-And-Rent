@@ -205,7 +205,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -234,7 +234,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+username: String",
+											"text": "-username: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -263,7 +263,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+password: String",
+											"text": "-password: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -292,7 +292,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+picture: byte[]",
+											"text": "-picture: byte[]",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -321,7 +321,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+phoneNumber: String",
+											"text": "-phoneNumber: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -350,7 +350,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+isAdmin: boolean",
+											"text": "-isAdmin: boolean",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -669,7 +669,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -698,7 +698,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+title: String",
+											"text": "-title: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -727,7 +727,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+adType: String",
+											"text": "-adType: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -756,7 +756,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+description: String",
+											"text": "-description: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -785,7 +785,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+buildingSize: int",
+											"text": "-buildingSize: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -814,7 +814,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+buildingFloor: int",
+											"text": "-buildingFloor: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -843,7 +843,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+photos: byte[][]",
+											"text": "-photos: byte[][]",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -872,7 +872,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+latitude: double",
+											"text": "-latitude: double",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -901,7 +901,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+longitude: double",
+											"text": "-longitude: double",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1646,7 +1646,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1675,7 +1675,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+userID: int",
+											"text": "-userID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1704,7 +1704,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+advertisementID: int",
+											"text": "-advertisementID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1733,7 +1733,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+text: String",
+											"text": "-text: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2903,7 +2903,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2932,7 +2932,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+name: String",
+											"text": "-name: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3251,7 +3251,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3280,7 +3280,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+name: String",
+											"text": "-name: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4447,7 +4447,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4476,7 +4476,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+size: int",
+											"text": "-size: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4505,7 +4505,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+userID: int",
+											"text": "-userID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6096,7 +6096,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ID: int",
+											"text": "-ID: int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6125,7 +6125,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+text: String",
+											"text": "-text: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6154,7 +6154,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+time: Date",
+											"text": "-time: Date",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6183,7 +6183,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+link: String",
+											"text": "-link: String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6502,7 +6502,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+isRead: boolean",
+											"text": "-isRead: boolean",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -7269,7 +7269,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+value: double",
+											"text": "-value: double",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -8188,7 +8188,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -8206,7 +8206,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "username",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -8224,7 +8224,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "password",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -8242,7 +8242,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "picture",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "byte[]",
@@ -8260,7 +8260,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "phoneNumber",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -8278,7 +8278,7 @@
 								"$ref": "AAAAAAFf4tDneQ3xazU="
 							},
 							"name": "isAdmin",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "boolean",
@@ -9738,7 +9738,7 @@
 										"$ref": "AAAAAAFgB9//jVMEoYc="
 									},
 									"name": "value",
-									"visibility": "public",
+									"visibility": "private",
 									"isStatic": false,
 									"isLeaf": false,
 									"type": "double",
@@ -9765,7 +9765,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9783,7 +9783,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "title",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -9801,7 +9801,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "adType",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -9819,7 +9819,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "description",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -9837,7 +9837,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "buildingSize",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9855,7 +9855,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "buildingFloor",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9873,7 +9873,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "photos",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "byte[][]",
@@ -9891,7 +9891,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "latitude",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "double",
@@ -9909,7 +9909,7 @@
 								"$ref": "AAAAAAFf90OHq1nI+Kc="
 							},
 							"name": "longitude",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "double",
@@ -9942,7 +9942,7 @@
 								"$ref": "AAAAAAFf91VBqWedf0k="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9960,7 +9960,7 @@
 								"$ref": "AAAAAAFf91VBqWedf0k="
 							},
 							"name": "userID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9978,7 +9978,7 @@
 								"$ref": "AAAAAAFf91VBqWedf0k="
 							},
 							"name": "advertisementID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -9996,7 +9996,7 @@
 								"$ref": "AAAAAAFf91VBqWedf0k="
 							},
 							"name": "text",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -14515,7 +14515,7 @@
 								"$ref": "AAAAAAFgB6Ns63vvZyQ="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14533,7 +14533,7 @@
 								"$ref": "AAAAAAFgB6Ns63vvZyQ="
 							},
 							"name": "name",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -14566,7 +14566,7 @@
 								"$ref": "AAAAAAFgB6RTsH7g3qE="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14584,7 +14584,7 @@
 								"$ref": "AAAAAAFgB6RTsH7g3qE="
 							},
 							"name": "name",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -14761,7 +14761,7 @@
 								"$ref": "AAAAAAFgB6z9xqMxUPw="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14779,7 +14779,7 @@
 								"$ref": "AAAAAAFgB6z9xqMxUPw="
 							},
 							"name": "size",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14797,7 +14797,7 @@
 								"$ref": "AAAAAAFgB6z9xqMxUPw="
 							},
 							"name": "userID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14899,7 +14899,7 @@
 										"$ref": "AAAAAAFgB91P6UdNU9Y="
 									},
 									"name": "isRead",
-									"visibility": "public",
+									"visibility": "private",
 									"isStatic": false,
 									"isLeaf": false,
 									"type": "boolean",
@@ -14926,7 +14926,7 @@
 								"$ref": "AAAAAAFgB9m7AjxRjGM="
 							},
 							"name": "ID",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "int",
@@ -14944,7 +14944,7 @@
 								"$ref": "AAAAAAFgB9m7AjxRjGM="
 							},
 							"name": "text",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",
@@ -14962,7 +14962,7 @@
 								"$ref": "AAAAAAFgB9m7AjxRjGM="
 							},
 							"name": "time",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "Date",
@@ -14980,7 +14980,7 @@
 								"$ref": "AAAAAAFgB9m7AjxRjGM="
 							},
 							"name": "link",
-							"visibility": "public",
+							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
 							"type": "String",

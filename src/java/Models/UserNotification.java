@@ -1,16 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Models;
 
-/**
- *
- * @author andre
- */
 public class UserNotification {
-    public int userID;
-    public int notificationID;
-    public boolean isRead;
+    private int userID;
+    private int notificationID;
+    private boolean isRead;
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getNotificationID() {
+        return notificationID;
+    }
+
+    public void setNotificationID(int notificationID) {
+        this.notificationID = notificationID;
+    }
+
+    public boolean isIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
+    
+    
 }

@@ -2,12 +2,48 @@ package DBModels;
 
 import java.util.*;
 import Models.*;
+import config.DBConfig;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDBModel {
 
     public UserDBModel() {
     }
 
+    /*public static void main(String [] args){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("select * from Interests");
+            
+            ResultSet result = prepStmt.executeQuery();
+            
+            while(result.next()){
+                String email = result.getString("ID");
+            }
+            
+            System.out.println("here");
+            
+            result.close();
+            prepStmt.close();
+            conn.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
+    */
     public User validateUser(String name, String password) {
         // TODO implement here
         return null;

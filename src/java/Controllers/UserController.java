@@ -57,8 +57,10 @@ public class UserController {
         return false;
     }
 
-    public boolean addInterest() {
-        // TODO implement here
+    public boolean addInterest(int size,int statusID,int typeID) {
+        
+        
+        
         return false;
     }
 

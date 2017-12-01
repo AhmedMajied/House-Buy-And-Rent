@@ -1,16 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Models;
 
-/**
- *
- * @author andre
- */
 public class Rating {
-    public int userID;
-    public int advertisementID;
-    public double value;
+    private int userID;
+    private int advertisementID;
+    private double value;
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getAdvertisementID() {
+        return advertisementID;
+    }
+
+    public void setAdvertisementID(int advertisementID) {
+        this.advertisementID = advertisementID;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+    
+    
 }
