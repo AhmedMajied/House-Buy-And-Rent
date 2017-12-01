@@ -66,9 +66,24 @@ public class UserDBModel {
         return valid;
 
     }
-    public boolean addNewUser(User user) {
-        // TODO implement here
-        return false;
+    public boolean validateUserName(String name) throws InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
+    {
+        Connection conn=DBConfig.getConnection();
+        Statement stmt=conn.createStatement();
+        ResultSet result=stmt.executeQuery("SELECT * FROM users where Username = '"+name+"'"+";");
+        stmt.close();
+        if(result.next())
+        {
+            return false;
+        }
+        return true;
+        
+    }
+    public boolean addNewUser(User user) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn=DBConfig.getConnection();
+        Statement stmt=conn.createStatement();
+        int numrows=stmt.executeUpdate("INSERT INTO users (Username,Password,Phone) values( '"+user.getUsername()+"' , '"+user.getPassword()+"' , '"+user.getPhone()+"' );");
+        return numrows>0;
     }
 
     public boolean savePicture(String name, Byte picture) {

@@ -7,4 +7,39 @@ and open the template in the editor.
     Created on : Nov 19, 2017, 11:30:13 PM
     Author     : MariamAshraf
 */
-
+html
+{
+    background-image: url("../images/building.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#notification
+{
+    background-image: url("../images/notification.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#navBar
+{
+    background-color: #7D7D7D;
+    overflow: hidden;
+}
+#navBar a
+{
+    float: left;
+    color:#ffffff;
+    text-align: center;
+    text-decoration: none;
+    padding: 20px 30px ;
+    font-size: 18px;
+}
+#navBar a:hover
+{
+    background-color: lightseagreen;
+    color: #000;
+}
+#navBar a#active
+{
+    background-color: lightseagreen;
+    color: #000;
+}

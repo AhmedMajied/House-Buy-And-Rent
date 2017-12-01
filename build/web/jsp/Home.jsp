@@ -5,12 +5,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home</title>
     </head>
     <body>
-        <h1>Welcome in Home Page</h1>
-        <div class="div"style="background-color: aqua">
-            <a href="jsp/profile.jsp">Profile Page</a>
-        </div>
+        <header>
+            <div id="navBar">
+                <a id="active" href ="Home.jsp">Home</a>
+                <a href="#">My Advertisments</a>
+                <a href="#">About</a>
+                <a href="#"id="notification"></a>
+                <a href="profile.jsp">MyProfile</a>
+                <a href="../index.html">LogOut</a>
+                
+            </div>
+        </header>
     </body>
 </html>

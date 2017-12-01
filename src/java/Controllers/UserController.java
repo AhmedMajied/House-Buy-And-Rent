@@ -8,10 +8,15 @@ package Controllers;
 import DBModels.UserDBModel;
 import Models.Interest;
 import Models.Notification;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author MariamAshraf
  */
+@WebServlet(urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
     /**
@@ -32,7 +38,7 @@ public class UserController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -42,6 +48,22 @@ public class UserController extends HttpServlet {
                String userName=request.getParameter("name");
                String password=request.getParameter("password");
                authenticateUser(request,response,userName,password);
+           }
+           else if(action.equals("validateUserName"))
+           {
+               String userName=request.getParameter("name"); 
+               validateUserName(request, response, userName);
+           }
+           else if(action.equals("addNewUser"))
+           {
+               String Username=request.getParameter("Username");
+               String password=request.getParameter("password");
+               String phone=request.getParameter("phone");
+               User user=new User();
+               user.setUsername(Username);
+               user.setPhone(phone);
+               user.setPassword(password);
+               signUp(request, response, user);
            }
         }
     }
@@ -58,7 +80,17 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -72,7 +104,17 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -88,18 +130,37 @@ public class UserController extends HttpServlet {
     
     
 
-    public void authenticateUser(HttpServletRequest request, HttpServletResponse response,String name,String password) throws IOException {
-           UserDBModel userDBModel = new UserDBModel();
-           boolean result= userDBModel.authenticateUser(name, password);
-           PrintWriter out = response.getWriter();
-           out.print(result);
-    }
-    public void signIn()
+    public void authenticateUser(HttpServletRequest request, HttpServletResponse response,String name,String password) throws IOException 
     {
-        
+        UserDBModel userDBModel = new UserDBModel();
+        boolean result= userDBModel.authenticateUser(name, password);
+        PrintWriter out = response.getWriter();
+        out.print(result);
     }
-    public void signUp() {
-        // TODO implement here
+    public void validateUserName(HttpServletRequest request, HttpServletResponse response,String name) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
+    {
+        UserDBModel userDBModel = new UserDBModel();
+        PrintWriter out = response.getWriter();
+       boolean result= userDBModel.validateUserName(name);
+       out.print(result);
+       
+
+    }
+    public void signUp(HttpServletRequest request, HttpServletResponse response,User user) throws IOException, InstantiationException
+    {
+        try {
+            UserDBModel userDBModel = new UserDBModel();
+            boolean result=userDBModel.addNewUser(user);
+            
+            response.sendRedirect("jsp/Home.jsp");
+            
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean addPicture() {

@@ -11,30 +11,26 @@ function validateInputs()
         var confirmPassword=document.getElementById("cPass").value;
         if(password.length!=confirmPassword.length || (password!=confirmPassword))
         {
-            passwordValid=false;
-            //document.getElememtById("passWarn").innerHTML="confirm password doesn't match password";
-            $("#passWarn").html("confirm password doesn't match password");
+            document.getElememtById("passWarn").innerHTML="confirm password doesn't match password";
+            return false;
         }
         else if(password.length==confirmPassword.length && password==confirmPassword)
         {
             passwordValid=true;
         }
 
-     var returnType;
-     var valid=false;
+       var valid=false;
        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.open("GET","process_ajax?name="+Name);
+        xmlhttp.open("GET","UserController?ACTION=validateUserName?name="+Name,true);
         xmlhttp.send();
         xmlhttp.onreadystatechange=function()
         {
-            if(xmlhttp.readyState==4&&xmlhttp.status==200)
+            if(xmlhttp.readyState===4&&xmlhttp.status===200)
             {
                 var result=xmlhttp.responseText==="true";
                 if(result)
                 {
                     valid=true;
-                    document.getElementById("userWarn").innerHTML="valid name ";
-
                 }
                 else
                 {
@@ -42,7 +38,7 @@ function validateInputs()
                     valid=false;
                 }
             }
-        }        
+        };   
         if(valid===true&&passwordValid===true)
             return true;
         else
