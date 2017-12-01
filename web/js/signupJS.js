@@ -1,7 +1,4 @@
-$(document).ready(function(){
-    $("#signUpButton").attr('disabled', 'disabled');
-    
-});
+document.getElementById("signUpButton").disabled = true;
 
 function validateInputs()
     {
@@ -25,7 +22,7 @@ function validateInputs()
     }
 
 function validateCaptcha(){
-        $("#signUpButton").removeAttr('disabled');
+        document.getElementById("signUpButton").disabled = false;
     }
 
 

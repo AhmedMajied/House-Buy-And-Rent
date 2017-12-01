@@ -1,8 +1,4 @@
 
-$(document).ready(function(){
-    
-});
-
 function validateInputs()
     {
         var Name=$("#user").val();
