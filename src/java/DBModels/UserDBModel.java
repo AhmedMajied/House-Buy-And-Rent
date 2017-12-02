@@ -57,6 +57,7 @@ public class UserDBModel {
                 {
                     valid=true;
                 }
+                conn.close();
             }
             stmt.close();  
             
@@ -72,6 +73,7 @@ public class UserDBModel {
         Statement stmt=conn.createStatement();
         ResultSet result=stmt.executeQuery("SELECT * FROM users where Username = '"+name+"'"+";");
         stmt.close();
+        conn.close();
         if(result.next())
         {
             return false;
@@ -83,6 +85,7 @@ public class UserDBModel {
         Connection conn=DBConfig.getConnection();
         Statement stmt=conn.createStatement();
         int numrows=stmt.executeUpdate("INSERT INTO users (Username,Password,Phone) values( '"+user.getUsername()+"' , '"+user.getPassword()+"' , '"+user.getPhone()+"' );");
+        conn.close();
         return numrows>0;
     }
 
