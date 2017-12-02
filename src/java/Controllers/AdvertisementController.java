@@ -52,6 +52,10 @@ public class AdvertisementController extends HttpServlet {
                 case "addAdvertisement":
                     createAdvertisement(request,response);
                     break;
+                case "Advertisement":
+                    displayAdvertisement(request,response);
+                    break;
+                
             }
         }
     }
@@ -138,7 +142,7 @@ public class AdvertisementController extends HttpServlet {
         adv.setDescription(request.getParameter("Description"));
         adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
         adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
-        adv.setAdvertisor((User)request.getSession(false).getAttribute("User"));
+        adv.setAdvertisorID(((User)request.getSession(false).getAttribute("User")).getID());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         
@@ -169,5 +173,13 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
         request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
+    }
+
+    private void displayAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        Advertisement adv = advDB.retrieveAd(id);
+        request.setAttribute("Advertisement", adv);
+        request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
 }
