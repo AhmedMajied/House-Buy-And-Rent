@@ -9,9 +9,54 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="../css/headerStyle.css">
+        <link rel="stylesheet" href="../css/profileStyle.css">
+        <script src="../js/profileJs.js"></script>
+
         <title>User Profile</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <header>
+            <div id="navBar">
+                <a id="active" href ="Home.jsp">Home</a>
+                <a href="#">My Advertisments</a>
+                <a href="#">About</a>
+                <span id="search"></span>
+                <input type="text"name="search"id="searchText" placeholder="search field"/>
+                <a href="#"id="notification"></a>
+                <a href="profile.jsp">MyProfile</a>
+                <a href="../index.html">LogOut</a>
+            </div>
+        </header>
+        <section>
+            <br><br>
+              <img src="../images/userImage.png"alt="No Image" name="image" id="userImage">
+              <input type="file" accept="image/*" id="file" onchange="loadFile(event)">
+              <br><br>
+              <label id="userName">User Name</label>
+              <br><br>
+              
+              <button id="submit1" onclick="displayPhone();">add Number</button>
+              <fieldset id="Phone">
+                    <span id="phone"></span>
+                    <input type="tel"placeholder="Add Your Phone"id="phoneNumber">
+                    <br><br>
+                    <form action=""method="POST">
+                        <input type="submit" id="submit" value="add phone Number"/>
+                    </form>
+              </fieldset>
+              
+              <br><br>
+              
+              <input type="button" id="submit2" value="add Email"onclick="displayEmail()"/>
+              <fieldset id="Email">
+                    <span id="email"></span>
+                    <input type="email"placeholder="Add Your Email"id="userEmail">
+                    <br><br>
+                    <form action=""method="POST">
+                        <input type="submit" id="submit" value="Add Your Email""/>
+                    </form>
+              </fieldset>
+        </section>
     </body>
 </html>

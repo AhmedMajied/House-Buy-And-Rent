@@ -5,6 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="../css/headerStyle.css">
         <link rel="stylesheet" href="../css/homeStyle.css">
         <title>Home</title>
     </head>
