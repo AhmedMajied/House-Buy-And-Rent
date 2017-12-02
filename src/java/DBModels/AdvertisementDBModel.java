@@ -2,7 +2,7 @@ package DBModels;
 
 import java.util.*;
 import Models.*;
-import config.DBConfig;
+import config.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ public class AdvertisementDBModel {
     public Vector<BuildingType> retrieveAllTypes() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM BuildingStatuses");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM BuildingTypes");
         Vector<BuildingType> ret = new Vector<>();
         while(rs.next()) {
         	ret.add(new BuildingType(rs.getInt("ID"),rs.getString("Name")));
@@ -48,9 +48,16 @@ public class AdvertisementDBModel {
         return null;
     }
 
-    public boolean saveNewAd(Advertisement ad) {
-        // TODO implement here
-        return false;
+    public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        Statement stmt= conn.createStatement();
+        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
+                            +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisor().getID()+",'"
+                            +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
+        );
+        stmt.close();
+        conn.close();
     }
 
     public boolean updateAd(Advertisement ad) {

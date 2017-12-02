@@ -61,10 +61,10 @@ public class UserController {
     }
 
     public boolean addInterest(int size,int statusID,int typeID,int userID) {
-        Interest interest = new Interest(size,statusID,typeID,userID);
-        boolean success = userDBModel.addInterest(interest);
+        //Interest interest = new Interest(size,statusID,typeID,userID);
+       // boolean success = userDBModel.addInterest(interest);
         
-        return success;
+        return false;
     }
 
     public Vector<Notification> getUserNotifications(int userID) {

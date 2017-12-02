@@ -7,6 +7,9 @@ package Controllers;
 
 import DBModels.AdvertisementDBModel;
 import Models.Advertisement;
+import Models.BuildingStatus;
+import Models.BuildingType;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,9 +44,14 @@ public class AdvertisementController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
+            System.out.print(action);
             switch(action){
                 case "createAdvertisementPage":
                     createAdvertisementPage(request,response);
+                    break;
+                case "addAdvertisement":
+                    createAdvertisement(request,response);
+                    break;
             }
         }
     }
@@ -119,9 +127,23 @@ public class AdvertisementController extends HttpServlet {
     /**
      * @return
      */
-    public boolean createAdvertisement() {
-        // TODO implement here
-        return false;
+    public void createAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Advertisement adv = new Advertisement();
+        adv.setTitle(request.getParameter("Title"));
+        adv.setBuildingSize(Integer.parseInt(request.getParameter("Size")));
+        adv.setBuildingFloor(Integer.parseInt(request.getParameter("Floor")));
+        adv.setStatus(new BuildingStatus(Integer.parseInt(request.getParameter("Status")),""));
+        adv.setType(new BuildingType(Integer.parseInt(request.getParameter("Type")),""));
+        adv.setAdType(request.getParameter("AdType"));
+        adv.setDescription(request.getParameter("Description"));
+        adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
+        adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
+        adv.setAdvertisor((User)request.getSession(false).getAttribute("User"));
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        advDB.saveNewAd(adv);
+        
+        //TO BE IMPLEMENTED
+        // GO TO HOME PAGE
     }
 
     /**
@@ -146,6 +168,6 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
-        request.getRequestDispatcher("createAdvertisement.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
     }
 }

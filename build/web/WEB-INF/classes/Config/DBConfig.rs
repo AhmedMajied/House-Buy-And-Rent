@@ -1,1 +1,1 @@
-conf.DBConfig
+config.DBConfig
