@@ -39,7 +39,7 @@
               <button id="submit1" onclick="displayPhone();">add Number</button>
               <fieldset id="Phone">
                     
-                  <form action="UserController?ACTION=addPhone" method="POST">
+                  <form action="/UserController?ACTION=addPhone" method="POST">
                         <span id="phone"></span>
                         <input type="text" pattern="^[0-9]+" placeholder="Add Your Phone" name="phoneNumber" id="phoneNumber">
                         <br><br>

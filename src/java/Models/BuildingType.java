@@ -4,8 +4,9 @@ public class BuildingType {
     private int ID;
     private String name;
         
-    public BuildingType(int ID){
+    public BuildingType(int ID,String name){
         this.ID = ID;
+        this.name=name;
     }
 
     public int getID() {

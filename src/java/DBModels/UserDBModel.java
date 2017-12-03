@@ -45,6 +45,7 @@ public class UserDBModel {
          
     }
     */
+    
     public boolean authenticateUser(String name,String password)
     {
         boolean valid=false;
@@ -88,12 +89,6 @@ public class UserDBModel {
         conn.close();
         return numrows>0;
     }
-
-    public boolean savePicture(String name, Byte picture) {
-        // TODO implement here
-        return false;
-    }
-
     public boolean savePhoneNumber(String name, String phoneNumber) throws InstantiationException, SQLException, IllegalAccessException, IllegalAccessException, IllegalAccessException, IllegalAccessException, ClassNotFoundException {
         
         Connection conn=DBConfig.getConnection();
@@ -102,6 +97,10 @@ public class UserDBModel {
         conn.close();
         stmt.close();
         return result>0;
+    }
+    public boolean savePicture(String name, Byte picture) {
+        // TODO implement here
+        return false;
     }
 
     public boolean updateUsername(String oldName, String newName) {
