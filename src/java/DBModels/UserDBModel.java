@@ -94,9 +94,14 @@ public class UserDBModel {
         return false;
     }
 
-    public boolean savePhoneNumber(String name, String phoneNumber) {
-        // TODO implement here
-        return false;
+    public boolean savePhoneNumber(String name, String phoneNumber) throws InstantiationException, SQLException, IllegalAccessException, IllegalAccessException, IllegalAccessException, IllegalAccessException, ClassNotFoundException {
+        
+        Connection conn=DBConfig.getConnection();
+        Statement stmt=conn.createStatement();
+        int result=stmt.executeUpdate("UPDATE users SET Phone = '"+phoneNumber+"' WHERE Username = '"+name+"'"+";");
+        conn.close();
+        stmt.close();
+        return result>0;
     }
 
     public boolean updateUsername(String oldName, String newName) {

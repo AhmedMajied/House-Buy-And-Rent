@@ -65,6 +65,16 @@ public class UserController extends HttpServlet {
                user.setPassword(password);
                signUp(request, response, user);
            }
+           else if(action.equals("DisplayHome"))
+           {
+               DisplayHome(response);
+           }
+           else if(action.equals("addPhone"))
+           {
+               String name=request.getParameter("name");
+               String phone=request.getParameter("phone");
+               addPhoneNumber(response,name,phone);
+           }
         }
     }
 
@@ -137,14 +147,16 @@ public class UserController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(result);
     }
+    public void DisplayHome(HttpServletResponse response) throws IOException
+    {
+        response.sendRedirect("jsp/Home.jsp");
+    }
     public void validateUserName(HttpServletRequest request, HttpServletResponse response,String name) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
     {
         UserDBModel userDBModel = new UserDBModel();
         PrintWriter out = response.getWriter();
        boolean result= userDBModel.validateUserName(name);
        out.print(result);
-       
-
     }
     public void signUp(HttpServletRequest request, HttpServletResponse response,User user) throws IOException, InstantiationException
     {
@@ -162,16 +174,19 @@ public class UserController extends HttpServlet {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void addPhoneNumber(HttpServletResponse response,String name,String phone) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException
+    {
+        UserDBModel userDBModel=new UserDBModel();
+        userDBModel.savePhoneNumber(name, phone);
+        response.sendRedirect("jsp/profile.jsp");
 
+    }
     public boolean addPicture() {
         // TODO implement here
         return false;
     }
 
-    public boolean addPhoneNumber() {
-        // TODO implement here
-        return false;
-    }
+   
 
     public boolean updatePicture() {
         // TODO implement here

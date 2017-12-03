@@ -33,16 +33,18 @@
               <img src="../images/userImage.png"alt="No Image" name="image" id="userImage">
               <input type="file" accept="image/*" id="file" onchange="loadFile(event)">
               <br><br>
-              <label id="userName">User Name</label>
+              <label id="userName">Mariam</label>
               <br><br>
               
               <button id="submit1" onclick="displayPhone();">add Number</button>
               <fieldset id="Phone">
-                    <span id="phone"></span>
-                    <input type="tel"placeholder="Add Your Phone"id="phoneNumber">
-                    <br><br>
-                    <form action=""method="POST">
-                        <input type="submit" id="submit" value="add phone Number"/>
+                    
+                  <form action="UserController?ACTION=addPhone" method="POST">
+                        <span id="phone"></span>
+                        <input type="text" pattern="^[0-9]+" placeholder="Add Your Phone" name="phoneNumber" id="phoneNumber">
+                        <br><br>
+                        <input type="submit" id="submit" value="add phone Number"/> 
+                        <p id="res"></p>
                     </form>
               </fieldset>
               
@@ -54,7 +56,7 @@
                     <input type="email"placeholder="Add Your Email"id="userEmail">
                     <br><br>
                     <form action=""method="POST">
-                        <input type="submit" id="submit" value="Add Your Email""/>
+                        <input type="submit" id="submit" value="Add Your Email"/>
                     </form>
               </fieldset>
         </section>
