@@ -1,73 +1,99 @@
 package Controllers;
 
-import java.util.*;
 import DBModels.UserDBModel;
 import Models.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Vector;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class UserController {
+@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
+public class UserController extends HttpServlet {
 
-    private UserDBModel userDBModel;
-    
-    public UserController() {
-        userDBModel = new UserDBModel();
-    }
-
-    public void signIn() {
-        // TODO implement here
-    }
-
-    public void signUp() {
-        // TODO implement here
-    }
-
-    public boolean addPicture() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean addPhoneNumber() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean updatePicture() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean updatePassword() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean updatePhoneNumber() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean deletePicture() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean deletePhoneNumber() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean requestUserContact() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean addInterest(int size,int statusID,int typeID,int userID) {
-        //Interest interest = new Interest(size,statusID,typeID,userID);
-       // boolean success = userDBModel.addInterest(interest);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         
-        return false;
+        String action = request.getParameter("action");
+        
+        switch(action){
+            case "adInterest":
+                addInterest(request, response);
+            case "login":
+                getBuildingStatuses(request, response);
+                getBuildingTypes(request, response);
+                request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+        }
     }
 
-    public Vector<Notification> getUserNotifications(int userID) {
-        return userDBModel.getUserNotifications(userID);
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+    private void addInterest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int size,statusID,typeID,userID;
+        UserDBModel userDBModel = new UserDBModel();
+        
+        size = Integer.parseInt(request.getParameter("size"));
+        statusID = Integer.parseInt(request.getParameter("status"));
+        typeID = Integer.parseInt(request.getParameter("type"));
+        //userID = ((User)request.getSession().getAttribute("User")).getID();
+        
+        //boolean success = userDBModel.addInterest(size,statusID,typeID,userID);
+        //response.getWriter().print(size+" "+statusID+" "+typeID);
+        
+        //TODO handle if false
+        response.sendRedirect("jsp/Home.jsp");
+    }
+    
+    private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response){
+        UserDBModel userDBModel = new UserDBModel();
+        Vector<BuildingStatus> statuses = userDBModel.fetchBuildingStatuses();
+        request.setAttribute("Statuses", statuses);
+    }
+    
+    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response){
+        UserDBModel userDBModel = new UserDBModel();
+        Vector<BuildingType> types = userDBModel.fetchBuildingTypes();
+        request.setAttribute("Types", types);
+    }
+    
 }

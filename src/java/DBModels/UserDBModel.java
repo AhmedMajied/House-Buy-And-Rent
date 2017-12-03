@@ -15,35 +15,39 @@ public class UserDBModel {
     public UserDBModel() {
     }
 
-    /*public static void main(String [] args){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
+    public static void main(String [] args){
+        Vector<BuildingType> types = new Vector<>();
+        int ID;
+        String name;
+        
+        try{
             Connection conn = DBConfig.getConnection();
-            PreparedStatement prepStmt = conn.prepareStatement("select * from Interests");
-            
+        
+            PreparedStatement prepStmt = conn.prepareStatement("select * from BuildingTypes");
+
             ResultSet result = prepStmt.executeQuery();
-            
-            while(result.next()){
-                String email = result.getString("ID");
+            while(result.next()){ 
+                ID = result.getInt("ID");
+                name = result.getString("Name");
+
+                types.add(new BuildingType(ID, name));
             }
-            
-            System.out.println("here");
-            
+            System.out.println(types.get(0).getName());
             result.close();
             prepStmt.close();
             conn.close();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        }catch (InstantiationException ex) {
             Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
         }
          
     }
-    */
+    
     public User validateUser(String name, String password) {
         // TODO implement here
         return null;
@@ -99,16 +103,16 @@ public class UserDBModel {
         return false;
     }
 
-    public boolean addInterest(Interest userInterest) {
+    public boolean addInterest(int size,int statusID,int typeID,int userID) {
         
         try {
             Connection conn = DBConfig.getConnection();
-            PreparedStatement prepStmt = conn.prepareStatement("insert into Interest values(null,?,?,?,?)");
+            PreparedStatement prepStmt = conn.prepareStatement("insert into Interests values(null,?,?,?,?);");
             
-            prepStmt.setInt(1, userInterest.getSize());
-            prepStmt.setInt(2, userInterest.getBuildingStatus().getID());
-            prepStmt.setInt(3, userInterest.getBuildingType().getID());
-            prepStmt.setInt(4, userInterest.getUserID());
+            prepStmt.setInt(1, size);
+            prepStmt.setInt(2, statusID);
+            prepStmt.setInt(3, typeID);
+            prepStmt.setInt(4, userID);
             
             int affectedRows = prepStmt.executeUpdate();
             prepStmt.close();
@@ -128,6 +132,74 @@ public class UserDBModel {
         }
         
         return false;
+    }
+    
+    public Vector<BuildingStatus> fetchBuildingStatuses(){
+        Vector<BuildingStatus> statuses = new Vector<>();
+        int ID;
+        String name;
+        
+        try{
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("select * from BuildingStatuses");
+
+            ResultSet result = prepStmt.executeQuery();
+            while(result.next()){ 
+                ID = result.getInt("ID");
+                name = result.getString("Name");
+
+                statuses.add(new BuildingStatus(ID, name));
+            }
+
+            result.close();
+            prepStmt.close();
+            conn.close();
+        
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return statuses;
+    }
+    
+    public Vector<BuildingType> fetchBuildingTypes(){
+        Vector<BuildingType> types = new Vector<>();
+        int ID;
+        String name;
+        
+        try{
+            Connection conn = DBConfig.getConnection();
+        
+            PreparedStatement prepStmt = conn.prepareStatement("select * from BuildingTypes");
+
+            ResultSet result = prepStmt.executeQuery();
+            while(result.next()){ 
+                ID = result.getInt("ID");
+                name = result.getString("Name");
+
+                types.add(new BuildingType(ID, name));
+            }
+
+            result.close();
+            prepStmt.close();
+            conn.close();
+        }catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return types;
     }
 
     public Vector<Notification> getUserNotifications(int userID) {
