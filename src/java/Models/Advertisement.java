@@ -12,7 +12,7 @@ public class Advertisement {
     private byte[][] photos;
     private double latitude;
     private double longitude;
-    private User advertisor;
+    private int advertisorID;
     private BuildingType type;
     private BuildingStatus status;
     private ArrayList<Comment> comments;
@@ -90,12 +90,12 @@ public class Advertisement {
         this.longitude = longitude;
     }
 
-    public User getAdvertisor() {
-        return advertisor;
+    public int getAdvertisorID() {
+        return advertisorID;
     }
 
-    public void setAdvertisor(User advertisor) {
-        this.advertisor = advertisor;
+    public void setAdvertisorID(int advertisorID) {
+        this.advertisorID = advertisorID;
     }
 
     public BuildingType getType() {

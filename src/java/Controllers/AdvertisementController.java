@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import DBModels.AdvertisementDBModel;
@@ -22,22 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author andre
- */
 @WebServlet(name = "AdvertisementController", urlPatterns = {"/AdvertisementController"})
 public class AdvertisementController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
        
@@ -52,6 +34,10 @@ public class AdvertisementController extends HttpServlet {
                 case "addAdvertisement":
                     createAdvertisement(request,response);
                     break;
+                case "Advertisement":
+                    displayAdvertisement(request,response);
+                    break;
+                
             }
         }
     }
@@ -138,7 +124,7 @@ public class AdvertisementController extends HttpServlet {
         adv.setDescription(request.getParameter("Description"));
         adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
         adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
-        adv.setAdvertisor((User)request.getSession(false).getAttribute("User"));
+        adv.setAdvertisorID(((User)request.getSession(false).getAttribute("User")).getID());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         
@@ -169,5 +155,13 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
         request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
+    }
+
+    private void displayAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        Advertisement adv = advDB.retrieveAd(id);
+        request.setAttribute("Advertisement", adv);
+        request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
 }

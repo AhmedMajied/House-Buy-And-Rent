@@ -53,7 +53,7 @@ public class AdvertisementDBModel {
         Statement stmt= conn.createStatement();
         stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisor().getID()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisorID()+",'"
                             +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
         );
         stmt.close();
@@ -83,6 +83,30 @@ public class AdvertisementDBModel {
     public boolean commentOnAd(int userID, int adID, String commentText) {
         // TODO implement here
         return false;
+    }
+
+    public Advertisement retrieveAd(int id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        Statement stmt= conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Advertisements WHERE ID = "+id);
+        rs.next();
+        Advertisement ret = new Advertisement();
+        ret.setTitle(rs.getString("Title"));
+        ret.setDescription(rs.getString("Description"));
+        ret.setBuildingSize(rs.getInt("buildingSize"));
+        ret.setBuildingFloor(rs.getInt("buildingFloor"));
+        ret.setLatitude(rs.getDouble("Latitude"));
+        ret.setLongitude(rs.getDouble("Longitude"));
+        ret.setAdvertisorID(rs.getInt("AdvertisorID"));
+        ResultSet rs2 = stmt.executeQuery("SELECT * FROM BuildingTypes WHERE ID = "+rs.getInt("buildingType"));
+        ret.setType(new BuildingType(rs2.getInt("ID"),rs2.getString("Name")));
+        rs2 = stmt.executeQuery("SELECT * FROM BuildingStatuses WHERE ID = "+rs.getInt("buildingType"));
+        ret.setStatus(new BuildingStatus(rs2.getInt("ID"),rs2.getString("Name")));
+        ret.setAdType(rs.getString("AdType"));
+        rs.close();
+        stmt.close();
+        conn.close();
+        return ret;
     }
 
 }
