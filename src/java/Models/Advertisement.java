@@ -1,6 +1,8 @@
 package Models;
 
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Advertisement {
     private int ID;
@@ -9,7 +11,7 @@ public class Advertisement {
     private String description;
     private int buildingSize;
     private int buildingFloor;
-    private byte[][] photos;
+    private Vector<Blob> photos;
     private double latitude;
     private double longitude;
     private int advertisorID;
@@ -66,11 +68,11 @@ public class Advertisement {
         this.buildingFloor = buildingFloor;
     }
 
-    public byte[][] getPhotos() {
+    public Vector<Blob> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(byte[][] photos) {
+    public void setPhotos(Vector<Blob> photos) {
         this.photos = photos;
     }
 
