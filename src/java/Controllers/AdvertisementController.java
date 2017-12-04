@@ -6,12 +6,8 @@ import Models.BuildingStatus;
 import Models.BuildingType;
 import Models.User;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.sql.Blob;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +22,10 @@ public class AdvertisementController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-<<<<<<< HEAD
+
         response.setContentType("text/html;charset=UTF-8");
-=======
-       
-        try (PrintWriter out = response.getWriter()) {
->>>>>>> master
+
+      
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
             switch(action){
