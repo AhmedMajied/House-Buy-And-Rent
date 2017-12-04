@@ -16,12 +16,6 @@ html
     background-repeat: no-repeat;
     background-position: center;
 }
-#e-mail
-{
-    background-image: url("../images/email.png");
-    background-repeat: no-repeat;
-    background-position: center;
-}
 #phone
 {
     background-image: url("../images/phone.png");
@@ -42,7 +36,7 @@ html
     border-top: 3px solid #434a52;
     border-bottom: 3px solid #434a52;
 }
-#userIcon , #lock , #e-mail , #phone
+#userIcon , #lock , #phone
 {
     background-color: #363b41;
     border-radius: 3px 0px 0px 3px;
@@ -59,13 +53,13 @@ input {
     border: none;
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 16px;
-    line-height: 1.5em;
+    line-height: 24px/*1.5em*/;
 }
-#pass , #user , #phoneNumber , #email{
+#pass , #user , #phoneNumber , #cPass{
     background-color: #3b4148;
     border-radius: 0px 3px 3px 0px;
     color: #a9a9a9;
-    margin-bottom: 1em;
+    margin-bottom: 16px;/*1em;*/
     padding: 0 16px;
     width: 250px;
     height: 50px;
@@ -91,7 +85,11 @@ input {
     text-align: center;
     color:aqua;
 }
+<<<<<<< HEAD
+#userWarn , #passWarn
+=======
 #userWarn
+>>>>>>> master
 {
     color: red;
 }

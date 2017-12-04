@@ -9,16 +9,29 @@ and open the template in the editor.
         <title>Log In</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/indexStyle.css">
-        <script src="js/jQuery.js" ></script>
+<<<<<<< HEAD
+        <script src="js/jquery-3.1.1.min.js"></script>
+=======
+        <script src="../js/jquery-3.1.1.min.js"></script>
+>>>>>>> master
+        <script src="js/loginJS.js"></script>
     </head>
     
     <body>
         <div id="login">
+<<<<<<< HEAD
+            <form name="form-login" id="formLogin" action="UserController?action=DisplayHome" method="post">
+                <span id="userIcon"></span>
+                <input id="user" placeholder="Username" name="name" type="text" required />
+                <span id="lock"></span>
+                <input id="pass" placeholder="Password"name="password" type="password" required />
+=======
             <form name="form-login" action="Home.jsp" method="post" onsubmit="return validateInputs();">
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" type="text" required pattern="^[a-zA-Z]+" title="name only contains letters">
                 <span id="lock"></span>
                 <input id="pass" placeholder="Password" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$">
+>>>>>>> master
                 <br>
                 <div id="warning"></div>
                 <br>
@@ -29,9 +42,15 @@ and open the template in the editor.
                         <a href="signup.html" id="link">create one</a>
                 </center>
             </form>
+<<<<<<< HEAD
+         </div>
+=======
         </div>
+>>>>>>> master
         
-        <!-- include java script file -->>
-        <script src="js/loginJS.js"></script>
+        <!-- for testing-->
+        <form action="UserController?action=login" method="POST">
+            <input type="submit"/>
+        </form>
     </body>
 </html>

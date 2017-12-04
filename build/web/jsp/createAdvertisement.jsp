@@ -10,7 +10,7 @@
 		<title>Create Advertisement</title>
                 <link rel="stylesheet" href="../css/createAdvertisement.css"/>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></script>
-                <script src="../js/jquery.min.js"></script>
+                <script src="../js/jquery-3.1.1.min.js"></script>
                 <script src="../js/Map.js"></script>
 	</head>
 <body>
