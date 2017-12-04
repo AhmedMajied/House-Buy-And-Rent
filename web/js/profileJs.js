@@ -9,11 +9,45 @@
   
   function displayPhone()
   {
-       	document.getElementById("submit1").style.display = (document.getElementById("submit1").style.display === 'block') ? 'none' :"";
+       	document.getElementById("displayPhone").style.display = (document.getElementById("displayPhone").style.display === 'block') ? 'none' :"";
         document.getElementById("Phone").style.display = (document.getElementById("Phone").style.display === 'block') ? 'none' : 'block';
   }
-  function displayEmail()
+  function displayFields()
   {
-       	document.getElementById("submit2").style.display = (document.getElementById("submit2").style.display === 'block') ? 'none' :"";
-        document.getElementById("Email").style.display = (document.getElementById("Email").style.display === 'block') ? 'none' : 'block';
+        document.getElementById("changePassword").style.display = (document.getElementById("changePassword").style.display === 'block') ? 'none' :"";
+        document.getElementById("password").style.display = (document.getElementById("password").style.display === 'block') ? 'none' : 'block';
   }
+
+$(document).ready(function() {
+    var frm = $('#passwordForm');
+    
+    frm.submit(function(e){
+        var name=$('input:hidden[name=userName]').val();
+        var password=$("#oPassword").val();
+        if(password.length<4)
+        {
+            $('#valid').html("password is wrong");
+        }
+        e.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "/IAProject/UserController?action=authenticateUser",
+            data:"name="+name+"&password="+password,
+            success: function(data){
+                if(data==="true")
+                {
+                    $("#passwordForm").off("submit");
+                    $("#passwordForm").submit();
+                }
+                else
+                {
+                    $('#valid').html("password is wrong");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#valid').html(textStatus);
+            }
+        });
+    });
+});

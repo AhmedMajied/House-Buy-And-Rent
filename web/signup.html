@@ -4,12 +4,13 @@
         <title>Sign Up</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/signUpStyle.css">
+        <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/signupJS.js"></script>
         <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
         <div id="signUp">
-            <form name="form-signUp" action="UserController?ACTION=addNewUser" method="post" onsubmit="return validateInputs()">
+            <form name="form-signUp" id="formSignup" action="UserController?action=addNewUser" method="post">
                 <div class="message">Sign Up</div>
                 <br>
                 <span id="userIcon"></span>
@@ -17,10 +18,10 @@
                 <div id="userWarn"></div>
                                 
                 <span id="lock"></span>
-                <input id="pass" placeholder="Password *" name="password" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$" title="Password must have at least 4 letters ,at least one capital letter ,one number and one small letter eg. x1A@y">
+                <input id="pass" placeholder="Password *" name="password" type="password" pattern=".{4,}" required title="password must be atleast 4 symbols">
                 
                 <span id="lock"></span>
-                <input id="cPass" placeholder="confirm Password *" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,50}$" title="confirm password must same as password">
+                <input id="cPass" placeholder="confirm Password *" type="password"  pattern=".{4,}" required title="password must be atleast 4 symbols">
                 
                 <div id="passWarn"></div>
                 

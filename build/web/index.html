@@ -9,11 +9,13 @@ and open the template in the editor.
         <title>Log In</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/indexStyle.css">
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="js/loginJS.js"></script>
     </head>
     
     <body>
         <div id="login">
-            <form name="form-login" action="UserController?ACTION=DisplayHome" method="post" onsubmit="return validateInputs();">
+            <form name="form-login" id="formLogin" action="UserController?action=DisplayHome" method="post">
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" type="text" required />
                 <span id="lock"></span>
@@ -29,6 +31,10 @@ and open the template in the editor.
                 </center>
             </form>
         </div>
-        <script src="js/loginJS.js"></script>
+        
+        <!-- for testing-->
+        <form action="UserController?action=login" method="POST">
+            <input type="submit"/>
+        </form>
     </body>
 </html>

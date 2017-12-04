@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import DBModels.UserDBModel;
-import Models.Interest;
-import Models.Notification;
-import Models.User;
+import Models.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -20,61 +14,47 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
-/**
- *
- * @author MariamAshraf
- */
-@WebServlet(urlPatterns = {"/UserController"})
+@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-           String action=request.getParameter("ACTION");
-           if(action.equals("authenticateUser"))
-           {
-               String userName=request.getParameter("name");
-               String password=request.getParameter("password");
-               authenticateUser(request,response,userName,password);
-           }
-           else if(action.equals("validateUserName"))
-           {
-               String userName=request.getParameter("name"); 
-               validateUserName(request, response, userName);
-           }
-           else if(action.equals("addNewUser"))
-           {
-               String Username=request.getParameter("Username");
-               String password=request.getParameter("password");
-               String phone=request.getParameter("phone");
-               User user=new User();
-               user.setUsername(Username);
-               user.setPhone(phone);
-               user.setPassword(password);
-               signUp(request, response, user);
-           }
-           else if(action.equals("DisplayHome"))
-           {
-               DisplayHome(response);
-           }
-           else if(action.equals("addPhone"))
-           {
-               String name=request.getParameter("name");
-               String phone=request.getParameter("phone");
-               addPhoneNumber(response,name,phone);
-           }
+        
+        String action = request.getParameter("action");
+        
+        switch(action){
+            case "adInterest":
+                addInterest(request, response);
+            case "login":
+                getBuildingStatuses(request, response);
+                getBuildingTypes(request, response);
+                request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+            case "authenticateUser":
+                   authenticateUser(request,response);
+                   break;
+               case "validateUserName":
+                    validateUserName(request, response);
+                    break;
+               case "addNewUser":
+                    signUp(request, response);
+                    break;
+               case "DisplayHome":
+                    DisplayHome(response);
+                    break;
+               case "addPhone":
+                   addPhoneNumber(request,response);
+                   break;
+                case "deletePhone":
+                   deletePhoneNumber(request,response);
+                   break;
+                case "changePassword":
+                    changePassword(request,response);
+                    break;
+                case "addPhoto":
+                    addPicture(request,response);
+                    break;
         }
     }
 
@@ -136,12 +116,38 @@ public class UserController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
-    
 
-    public void authenticateUser(HttpServletRequest request, HttpServletResponse response,String name,String password) throws IOException 
+    private void addInterest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int size,statusID,typeID,userID;
+        UserDBModel userDBModel = new UserDBModel();
+        
+        size = Integer.parseInt(request.getParameter("size"));
+        statusID = Integer.parseInt(request.getParameter("status"));
+        typeID = Integer.parseInt(request.getParameter("type"));
+        //userID = ((User)request.getSession().getAttribute("User")).getID();
+        
+        //boolean success = userDBModel.addInterest(size,statusID,typeID,userID);
+        //response.getWriter().print(size+" "+statusID+" "+typeID);
+        
+        //TODO handle if false
+        response.sendRedirect("jsp/Home.jsp");
+    }
+    
+    private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response){
+        UserDBModel userDBModel = new UserDBModel();
+        Vector<BuildingStatus> statuses = userDBModel.fetchBuildingStatuses();
+        request.setAttribute("Statuses", statuses);
+    }
+    
+    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response){
+        UserDBModel userDBModel = new UserDBModel();
+        Vector<BuildingType> types = userDBModel.fetchBuildingTypes();
+        request.setAttribute("Types", types);
+    }
+    public void authenticateUser(HttpServletRequest request, HttpServletResponse response)throws IOException 
     {
+        String name=request.getParameter("name");
+        String password=request.getParameter("password");
         UserDBModel userDBModel = new UserDBModel();
         boolean result= userDBModel.authenticateUser(name, password);
         PrintWriter out = response.getWriter();
@@ -151,17 +157,26 @@ public class UserController extends HttpServlet {
     {
         response.sendRedirect("jsp/Home.jsp");
     }
-    public void validateUserName(HttpServletRequest request, HttpServletResponse response,String name) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
+    public void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
     {
+        String name=request.getParameter("name"); 
         UserDBModel userDBModel = new UserDBModel();
         PrintWriter out = response.getWriter();
-       boolean result= userDBModel.validateUserName(name);
+        boolean result= userDBModel.validateUserName(name);
        out.print(result);
     }
-    public void signUp(HttpServletRequest request, HttpServletResponse response,User user) throws IOException, InstantiationException
+    public void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException
     {
+        String Username=request.getParameter("Username");
+        String password=request.getParameter("password");
+        String phone=request.getParameter("phone");
+        User user=new User();
+        user.setUsername(Username);
+         user.setPhone(phone);
+        user.setPassword(password);
         try {
             UserDBModel userDBModel = new UserDBModel();
+            
             boolean result=userDBModel.addNewUser(user);
             
             response.sendRedirect("jsp/Home.jsp");
@@ -174,59 +189,55 @@ public class UserController extends HttpServlet {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void addPhoneNumber(HttpServletResponse response,String name,String phone) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException
+    public void addPhoneNumber(HttpServletRequest request,HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException
     {
+        String name=request.getParameter("userName");
+        String phone=request.getParameter("phoneNumber");
         UserDBModel userDBModel=new UserDBModel();
         userDBModel.savePhoneNumber(name, phone);
         response.sendRedirect("jsp/profile.jsp");
-
     }
-    public boolean addPicture() {
-        // TODO implement here
-        return false;
+    public void deletePhoneNumber(HttpServletRequest request,HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException
+    {
+        String name=request.getParameter("userName");
+        UserDBModel userDBModel=new UserDBModel();
+        userDBModel.deletePhoneNumber(name);
+        response.sendRedirect("jsp/profile.jsp");
     }
-
-   
-
-    public boolean updatePicture() {
-        // TODO implement here
-        return false;
+    public void changePassword(HttpServletRequest request,HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException
+    {
+        String newPassword=request.getParameter("newPassword");
+        String name=request.getParameter("userName");
+        UserDBModel userDBModel=new UserDBModel();
+        userDBModel.updatePassword(name, newPassword);
+        response.sendRedirect("jsp/profile.jsp");
     }
-
-    public boolean updatePassword() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean updatePhoneNumber() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean deletePicture() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean deletePhoneNumber() {
-        // TODO implement here
-        return false;
+    public void addPicture(HttpServletRequest request,HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException
+    {
+        String name=request.getParameter("userName");
+        System.out.println("name "+name);
+        Part filePart=request.getPart("photo");
+        System.out.println(filePart.toString());
+        UserDBModel userDBModel=new UserDBModel();
+        InputStream inputStream=null;
+        inputStream=filePart.getInputStream();
+        if(inputStream!=null){
+            boolean res=userDBModel.savePicture(name, inputStream);
+        }
     }
 
-    public boolean requestUserContact() {
-        // TODO implement here
-        return false;
+    public void deletePicture(HttpServletRequest request,HttpServletResponse response)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+    {
+        UserDBModel userDBModel=new UserDBModel();
+        String name=request.getParameter("userName");
+        userDBModel.deletePicture(name);
     }
-
-  /*  public boolean addInterest(int size,int statusID,int typeID,int userID) {
-        Interest interest = new Interest(size,statusID,typeID,userID);
-        boolean success = userDBModel.addInterest(interest);
+     public User getUser(String userName) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+    {
+        UserDBModel userDBModel=new UserDBModel();
+                
+        return userDBModel.getUser(userName);
         
-        return success;
     }
-
-    public Vector<Notification> getUserNotifications(int userID) {
-        return userDBModel.getUserNotifications(userID);
-    }*/
-
+    
 }
