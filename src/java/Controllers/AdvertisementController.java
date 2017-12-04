@@ -11,8 +11,12 @@ import Models.BuildingStatus;
 import Models.BuildingType;
 import Models.User;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,10 +45,8 @@ public class AdvertisementController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
-            System.out.print(action);
             switch(action){
                 case "createAdvertisementPage":
                     createAdvertisementPage(request,response);
@@ -56,7 +58,6 @@ public class AdvertisementController extends HttpServlet {
                     displayAdvertisement(request,response);
                     break;
                 
-            }
         }
     }
 
@@ -180,6 +181,13 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         Advertisement adv = advDB.retrieveAd(id);
         request.setAttribute("Advertisement", adv);
+        List<String> list = new ArrayList<String>();
+        for(Blob image : adv.getPhotos()) { 
+            byte[] imgData = image.getBytes(1, (int)image.length());
+            list.add(new String(imgData)); 
+        }
+        request.setAttribute("Photos", list);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
+
 }

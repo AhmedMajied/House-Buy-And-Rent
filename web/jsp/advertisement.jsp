@@ -4,6 +4,9 @@
     Author     : andre
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Vector"%>
+<%@page import="java.sql.Blob"%>
 <%@page import="Models.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -29,7 +32,10 @@
         <br/>
         Status: <%=ad.getStatus().getName()%>
         <br/>
-        
+        <% ArrayList<String>images=(ArrayList)request.getAttribute("Photos");
+          for(int i=0;i<images.size();++i){%>
+            <img src="data:image/jpg;base64,<%=images.get(i)%>" />
+        <%}%>
         
     </body>
 </html>

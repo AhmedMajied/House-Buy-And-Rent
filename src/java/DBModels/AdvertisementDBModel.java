@@ -3,6 +3,7 @@ package DBModels;
 import java.util.*;
 import Models.*;
 import config.*;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,6 +92,7 @@ public class AdvertisementDBModel {
         ResultSet rs = stmt.executeQuery("SELECT * FROM Advertisements WHERE ID = "+id);
         rs.next();
         Advertisement ret = new Advertisement();
+        ret.setID(rs.getInt("ID"));
         ret.setTitle(rs.getString("Title"));
         ret.setDescription(rs.getString("Description"));
         ret.setBuildingSize(rs.getInt("buildingSize"));
@@ -98,11 +100,21 @@ public class AdvertisementDBModel {
         ret.setLatitude(rs.getDouble("Latitude"));
         ret.setLongitude(rs.getDouble("Longitude"));
         ret.setAdvertisorID(rs.getInt("AdvertisorID"));
-        ResultSet rs2 = stmt.executeQuery("SELECT * FROM BuildingTypes WHERE ID = "+rs.getInt("buildingType"));
-        ret.setType(new BuildingType(rs2.getInt("ID"),rs2.getString("Name")));
-        rs2 = stmt.executeQuery("SELECT * FROM BuildingStatuses WHERE ID = "+rs.getInt("buildingType"));
-        ret.setStatus(new BuildingStatus(rs2.getInt("ID"),rs2.getString("Name")));
+        int buildingType=rs.getInt("buildingType");
+        int buildingStatus=rs.getInt("buildingStatus");
         ret.setAdType(rs.getString("AdType"));
+
+        ResultSet rs2 = stmt.executeQuery("SELECT * FROM BuildingTypes WHERE ID = "+buildingType);
+        if(rs2.next())ret.setType(new BuildingType(rs2.getInt("ID"),rs2.getString("Name")));
+        ResultSet rs3 = stmt.executeQuery("SELECT * FROM BuildingStatuses WHERE ID = "+buildingStatus);
+        if(rs3.next())ret.setStatus(new BuildingStatus(rs3.getInt("ID"),rs3.getString("Name")));
+        
+        ResultSet rs4 = stmt.executeQuery("SELECT Photo FROM BuildingPhotos WHERE AdID = "+ret.getID());
+        Vector<Blob> pics= new Vector<>();
+        while(rs4.next()){
+            pics.add(rs4.getBlob("Photo"));
+        }
+        ret.setPhotos(pics);
         rs.close();
         stmt.close();
         conn.close();
