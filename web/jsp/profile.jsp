@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/headerStyle.css">
         <link rel="stylesheet" href="../css/profileStyle.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/profileJs.js"></script>
 
         <title>User Profile</title>
@@ -38,7 +38,7 @@
         </header>
         <section>
             <br><br>
-            <form action="/IAProject/UserController?action=addPhoto" method="POST" enctype="mulipart/form-data">
+            <form action="/IA_Project/UserController?action=addPhoto" method="POST" enctype="mulipart/form-data">
                 <input type="hidden" value="<%=user.getUsername()%>" name="userName" id="userName">
                 <img src="../images/userImage.png" name="image" id="userImage">
                 <input type="file" accept="image/*" id="addPhoto" name="photo" onchange="loadFile(event)">
@@ -56,7 +56,7 @@
               
               <button id="addPhone" onclick="displayPhone();">Add Phone</button>
               <fieldset id="Phone">
-                  <form action="/IAProject/UserController?action=addPhone" method="post">
+                  <form action="/IA_Project/UserController?action=addPhone" method="post">
                         <input type="hidden"name="userName"value="<%=user.getUsername()%>">
                         <span id="phone"></span>
                         <input type="text" pattern="^[0-9]+" placeholder="Add Your Phone" name="phoneNumber" id="phoneNumber">
@@ -65,7 +65,7 @@
                     </form>
               </fieldset>              
               
-                <form id="deletePhone" action="/IAProject/UserController?action=deletePhone" method="post">
+                <form id="deletePhone" action="/IA_Project/UserController?action=deletePhone" method="post">
                     <input type="hidden"name="userName"value="<%=user.getUsername()%>">
                     <br>
                     <input type="submit" id="submit1" value="Delete Phone"/> 
@@ -74,7 +74,7 @@
               
                <button id="changePassword" onclick="displayFields();">ChangePassword</button>
                 <fieldset id="password">
-                    <form action="/IAProject/UserController?action=changePassword" method="post"id="passwordForm">
+                    <form action="/IA_Project/UserController?action=changePassword" method="post"id="passwordForm">
                           <input type="hidden"name="userName"id="userName" value="<%=user.getUsername()%>"><br>
                           <span id='iPass'></span>
                           <input type="password" required placeholder='old Password'name="oldPassword" id="oPassword"><br><br>
