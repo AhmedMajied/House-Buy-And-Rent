@@ -1,5 +1,6 @@
 package Models;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 public class User {
@@ -8,7 +9,7 @@ public class User {
     private String password;
     private String phone;
     private boolean isAdmin;
-    private byte[] picture;
+    private Blob picture;
     private ArrayList<Advertisement> advertisements;
     private ArrayList<UserNotification> notifications;
     private ArrayList<Interest> interests;
@@ -53,11 +54,11 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public byte[] getPicture() {
+    public Blob getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(Blob picture) {
         this.picture = picture;
     }
 

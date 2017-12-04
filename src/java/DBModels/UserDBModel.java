@@ -3,7 +3,7 @@ package DBModels;
 import java.util.*;
 import Models.*;
 import config.DBConfig;
-<<<<<<< HEAD
+
 import java.io.InputStream;
 import java.sql.Connection;
 import static java.sql.JDBCType.NULL;
@@ -11,12 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-=======
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
->>>>>>> master
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +57,7 @@ public class UserDBModel {
         }
          
     }
-<<<<<<< HEAD
+
      public boolean authenticateUser(String name,String password)
     {
         boolean valid=false;
@@ -171,7 +171,7 @@ public class UserDBModel {
             user.setUsername(name);
             user.setID(result.getInt("ID"));
             user.setPhone(result.getString("Phone"));
-            user.setPicture(result.getBlob("Picture").getBytes(1,(int)result.getBlob("Picture").length()));
+            user.setPicture(result.getBlob("Picture"));
         }
         return user;
 
@@ -179,27 +179,19 @@ public class UserDBModel {
 
 
    
-=======
+
     
     public User validateUser(String name, String password) {
         // TODO implement here
         return null;
     }
-
-    public boolean addNewUser(User user) {
-        // TODO implement here
-        return false;
-    }
+    
 
     public boolean savePicture(String name, Byte picture) {
         // TODO implement here
         return false;
     }
 
-    public boolean savePhoneNumber(String name, String phoneNumber) {
-        // TODO implement here
-        return false;
-    }
 
     public boolean updateUsername(String oldName, String newName) {
         // TODO implement here
@@ -211,27 +203,14 @@ public class UserDBModel {
         return false;
     }
 
-    public boolean updatePassword(String name, String password) {
-        // TODO implement here
-        return false;
-    }
-
+   
     public boolean updatePhoneNumber(String name, String phoneNumber) {
         // TODO implement here
         return false;
     }
 
-    public boolean deletePicture(String name) {
-        // TODO implement here
-        return false;
-    }
 
-    public boolean deletePhoneNumber(String name) {
-        // TODO implement here
-        return false;
-    }
 
->>>>>>> master
     public boolean requestUserContact(int userID, int requestedContactUserID) {
         // TODO implement here
         return false;
