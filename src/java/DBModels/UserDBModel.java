@@ -163,7 +163,7 @@ public class UserDBModel {
             user.setUsername(name);
             user.setID(result.getInt("ID"));
             user.setPhone(result.getString("Phone"));
-        //    user.setPicture(result.getBlob("Picture"));
+            user.setPicture(result.getBlob("Picture").getBytes(1,(int)result.getBlob("Picture").length()));
         }
         return user;
 

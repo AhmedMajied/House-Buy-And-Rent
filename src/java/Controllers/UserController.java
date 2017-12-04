@@ -241,7 +241,6 @@ public class UserController extends HttpServlet {
             boolean res=userDBModel.savePicture(name, inputStream);
         }
     }
-
     public void deletePicture(HttpServletRequest request,HttpServletResponse response)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         UserDBModel userDBModel=new UserDBModel();

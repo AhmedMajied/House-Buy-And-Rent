@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import ="Models.User" %>
+<%@page import="com.sun.org.apache.xml.internal.security.utils.Base64"%>
 
 <!DOCTYPE html>
 <html>
@@ -41,21 +42,30 @@
             <br><br>
             <form action="/IA_Project/UserController?action=addPhoto" method="POST" enctype="mulipart/form-data">
                 <input type="hidden" value="<%=user.getUsername()%>" name="userName" id="userName">
+                <% if (user.getPicture()!=null)
+                {
+                  String url = "data:image/png;base64," + Base64.encode(user.getPicture()); %>
+                  <img src="<%=url%>"name="image"id="userImage">
+                <%} else{%>
                 <img src="../images/userImage.png" name="image" id="userImage">
+                <%}%>
                 <input type="file" accept="image/*" id="addPhoto" name="photo" onchange="loadFile(event)">
                 <input type="submit" value="Save Photo"id="savePhoto">
             </form>
-            
+                
+            <% if (user.getPicture()!=null)
+            {%>
             <form action="/UserController?action=deletePhoto"id="deleteImage">
               <input type="hidden"value="<%=user.getUsername()%>" name="userName" id="userName">
               <input type="submit"value="Delete Image"id="deletephoto">
             </form>
+              <%}%>
               
                 <br><br>
                 <label id="userName"><%=user.getUsername()%></label>
                 <br><br>
               
-              <button id="addPhone" onclick="displayPhone();">Add Phone</button>
+              <button id="addPhone" onclick="displayPhone();">Add/Change Phone</button>
               <fieldset id="Phone">
                   <form action="/IA_Project/UserController?action=addPhone" method="post">
                         <input type="hidden"name="userName"value="<%=user.getUsername()%>">
@@ -65,13 +75,14 @@
                         <input type="submit" id="submit" value="add phone Number"/> 
                     </form>
               </fieldset>              
-              
+                <%if(user.getPhone()!=null){%>
                 <form id="deletePhone" action="/IA_Project/UserController?action=deletePhone" method="post">
                     <input type="hidden"name="userName"value="<%=user.getUsername()%>">
                     <br>
                     <input type="submit" id="submit1" value="Delete Phone"/> 
                 </form>
               <br>
+              <%}%>
               
                <button id="changePassword" onclick="displayFields();">ChangePassword</button>
                 <fieldset id="password">
