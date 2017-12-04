@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function() {
     var frm = $('#formLogin');
     $('#warning').html("");
@@ -33,7 +32,6 @@ $(document).ready(function() {
         });
     });
 });
-=======
 
 function validateInputs()
     {
@@ -47,4 +45,3 @@ function validateInputs()
         }
         return valid;
     }
->>>>>>> master

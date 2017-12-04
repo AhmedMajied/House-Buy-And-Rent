@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function(){
     $("#signUpButton").attr('disabled', 'disabled');
     
@@ -45,7 +44,6 @@ $(document).ready(function() {
     }
   });
 });
-=======
 document.getElementById("signUpButton").disabled = true;
 
 function validateInputs()
@@ -69,7 +67,6 @@ function validateInputs()
         return valid ;
     }
 
->>>>>>> master
 function validateCaptcha(){
         document.getElementById("signUpButton").disabled = false;
     }
