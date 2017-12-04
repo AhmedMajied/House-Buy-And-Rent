@@ -20,8 +20,9 @@
     </head>
     <body>
         <%
+            HttpSession HSession=(HttpSession)application.getAttribute("Session");
             User user=new User();
-            user=(User)request.getAttribute("User");
+            user=(User)HSession.getAttribute("User");
         %>
         <header>
             <div id="navBar">

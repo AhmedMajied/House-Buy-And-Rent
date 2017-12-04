@@ -9,11 +9,13 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
@@ -41,7 +43,7 @@ public class UserController extends HttpServlet {
                     signUp(request, response);
                     break;
                case "DisplayHome":
-                    DisplayHome(response);
+                    DisplayHome(request,response);
                     break;
                case "addPhone":
                    addPhoneNumber(request,response);
@@ -54,6 +56,9 @@ public class UserController extends HttpServlet {
                     break;
                 case "addPhoto":
                     addPicture(request,response);
+                    break;
+                case "deletePhoto":
+                    deletePicture(request,response);
                     break;
         }
     }
@@ -153,8 +158,19 @@ public class UserController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(result);
     }
-    public void DisplayHome(HttpServletResponse response) throws IOException
+    public void DisplayHome(HttpServletRequest request,HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
+        String userName=request.getParameter("name");
+        ServletContext servletContext = request.getServletContext();
+        if(servletContext.getAttribute("User")==null)
+        {
+            User user=new User();
+            user=getUser(userName);
+            HttpSession currentSession=request.getSession(true);
+            currentSession.setAttribute("User", user);
+            currentSession.setMaxInactiveInterval(3*60);
+            servletContext.setAttribute("Session", currentSession);
+        }
         response.sendRedirect("jsp/Home.jsp");
     }
     public void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException
@@ -167,7 +183,7 @@ public class UserController extends HttpServlet {
     }
     public void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException
     {
-        String Username=request.getParameter("Username");
+        String Username=request.getParameter("name");
         String password=request.getParameter("password");
         String phone=request.getParameter("phone");
         User user=new User();
