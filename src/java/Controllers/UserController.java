@@ -22,7 +22,7 @@ import javax.servlet.http.Part;
 public class UserController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
+            throws ServletException, IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         String action = request.getParameter("action");
         
@@ -77,13 +77,13 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (InstantiationException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -101,13 +101,13 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (InstantiationException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -149,7 +149,7 @@ public class UserController extends HttpServlet {
         Vector<BuildingType> types = userDBModel.fetchBuildingTypes();
         request.setAttribute("Types", types);
     }
-    public void authenticateUser(HttpServletRequest request, HttpServletResponse response)throws IOException 
+      public void authenticateUser(HttpServletRequest request, HttpServletResponse response)throws IOException 
     {
         String name=request.getParameter("name");
         String password=request.getParameter("password");

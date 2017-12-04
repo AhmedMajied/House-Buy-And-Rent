@@ -50,7 +50,7 @@ public class UserDBModel {
         }
          
     }
-    public boolean authenticateUser(String name,String password)
+     public boolean authenticateUser(String name,String password)
     {
         boolean valid=false;
         try {
@@ -168,6 +168,9 @@ public class UserDBModel {
         return user;
 
     }
+
+
+   
     public boolean requestUserContact(int userID, int requestedContactUserID) {
         // TODO implement here
         return false;

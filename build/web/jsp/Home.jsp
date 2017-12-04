@@ -7,18 +7,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="../css/headerStyle.css">
-        <link rel="stylesheet" href="../css/homeStyle.css">
-        <title>Home</title>
     </head>
     <body>
         <%
             Vector<BuildingStatus> statuses = (Vector<BuildingStatus>)request.getAttribute("Statuses");
             Vector<BuildingType> types = (Vector<BuildingType>)request.getAttribute("Types");
         %>
+        
         <%
             HttpSession HSession=(HttpSession)application.getAttribute("Session");
             User user=new User();
