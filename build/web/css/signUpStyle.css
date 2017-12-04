@@ -85,7 +85,11 @@ input {
     text-align: center;
     color:aqua;
 }
+<<<<<<< HEAD
 #userWarn , #passWarn
+=======
+#userWarn
+>>>>>>> master
 {
     color: red;
 }

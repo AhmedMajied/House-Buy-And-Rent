@@ -3,6 +3,7 @@ package Controllers;
 import DBModels.UserDBModel;
 import Models.*;
 import java.io.IOException;
+<<<<<<< HEAD
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -10,19 +11,30 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
+=======
+import java.io.PrintWriter;
+import java.util.Vector;
+>>>>>>> master
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+=======
+>>>>>>> master
 
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+<<<<<<< HEAD
             throws ServletException, IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+=======
+            throws ServletException, IOException {
+>>>>>>> master
         
         String action = request.getParameter("action");
         
@@ -33,6 +45,7 @@ public class UserController extends HttpServlet {
                 getBuildingStatuses(request, response);
                 getBuildingTypes(request, response);
                 request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+<<<<<<< HEAD
             case "authenticateUser":
                    authenticateUser(request,response);
                    break;
@@ -60,6 +73,8 @@ public class UserController extends HttpServlet {
                 case "deletePhoto":
                     deletePicture(request,response);
                     break;
+=======
+>>>>>>> master
         }
     }
 
@@ -75,6 +90,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
@@ -86,6 +102,9 @@ public class UserController extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
+=======
+        processRequest(request, response);
+>>>>>>> master
     }
 
     /**
@@ -99,6 +118,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
@@ -110,6 +130,9 @@ public class UserController extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
+=======
+        processRequest(request, response);
+>>>>>>> master
     }
 
     /**
@@ -149,6 +172,7 @@ public class UserController extends HttpServlet {
         Vector<BuildingType> types = userDBModel.fetchBuildingTypes();
         request.setAttribute("Types", types);
     }
+<<<<<<< HEAD
       public void authenticateUser(HttpServletRequest request, HttpServletResponse response)throws IOException 
     {
         String name=request.getParameter("name");
@@ -254,5 +278,7 @@ public class UserController extends HttpServlet {
         return userDBModel.getUser(userName);
         
     }
+=======
+>>>>>>> master
     
 }

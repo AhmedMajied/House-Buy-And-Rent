@@ -18,6 +18,7 @@
             Vector<BuildingType> types = (Vector<BuildingType>)request.getAttribute("Types");
         %>
         
+<<<<<<< HEAD
         <%
             HttpSession HSession=(HttpSession)application.getAttribute("Session");
             User user=new User();
@@ -37,6 +38,12 @@
                 
             </div>
         </header>
+=======
+        <h1>Welcome in Home Page</h1>
+        <div class="div"style="background-color: aqua">
+            <a href="jsp/profile.jsp">Profile Page</a>
+        </div>
+>>>>>>> master
         
         <!-- add interest button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" 
