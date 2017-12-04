@@ -181,12 +181,6 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         Advertisement adv = advDB.retrieveAd(id);
         request.setAttribute("Advertisement", adv);
-        List<String> list = new ArrayList<String>();
-        for(Blob image : adv.getPhotos()) { 
-            byte[] imgData = image.getBytes(1, (int)image.length());
-            list.add(new String(imgData)); 
-        }
-        request.setAttribute("Photos", list);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
 
