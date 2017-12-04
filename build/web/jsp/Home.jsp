@@ -19,7 +19,11 @@
             Vector<BuildingStatus> statuses = (Vector<BuildingStatus>)request.getAttribute("Statuses");
             Vector<BuildingType> types = (Vector<BuildingType>)request.getAttribute("Types");
         %>
-        
+        <%
+            HttpSession HSession=(HttpSession)application.getAttribute("Session");
+            User user=new User();
+            user=(User)HSession.getAttribute("User");
+        %>
        <header>
             <div id="navBar">
                 <a id="active" href ="Home.jsp">Home</a>
@@ -28,6 +32,7 @@
                 <span id="search"></span>
                 <input type="text"name="search"id="searchText" placeholder="search field"/>
                 <a href="#"id="notification"></a>
+                <a href="#"><%=user.getUsername()%></a>
                 <a href="profile.jsp">MyProfile</a>
                 <a href="../index.html">LogOut</a>
                 

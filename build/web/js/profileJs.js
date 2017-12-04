@@ -32,7 +32,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/IAProject/UserController?action=authenticateUser",
+            url: "/IA_Project/UserController?action=authenticateUser",
             data:"name="+name+"&password="+password,
             success: function(data){
                 if(data==="true")

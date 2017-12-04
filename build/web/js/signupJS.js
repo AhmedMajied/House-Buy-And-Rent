@@ -24,7 +24,7 @@ $(document).ready(function() {
         else{
         $.ajax({
             type: "POST",
-            url: "/IAProject/UserController?action=validateUserName",
+            url: "/IA_Project/UserController?action=validateUserName",
             data:"name="+name,
             success: function(data){
                 if(data==="true")

@@ -9,7 +9,7 @@ and open the template in the editor.
         <title>Log In</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/indexStyle.css">
-        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/loginJS.js"></script>
     </head>
     
@@ -17,9 +17,9 @@ and open the template in the editor.
         <div id="login">
             <form name="form-login" id="formLogin" action="UserController?action=DisplayHome" method="post">
                 <span id="userIcon"></span>
-                <input id="user" placeholder="Username" type="text" required />
+                <input id="user" placeholder="Username" name="name" type="text" required />
                 <span id="lock"></span>
-                <input id="pass" placeholder="Password" type="password" required />
+                <input id="pass" placeholder="Password"name="password" type="password" required />
                 <br>
                 <div id="warning"></div>
                 <br>
