@@ -1,0 +1,13 @@
+hr{
+    height: 5px;
+    margin-left: 30px;
+    margin-right: 30px;
+    height:3px;
+    background-color:black;
+}
+.fa-star.checked{
+    color:orange;
+}
+.fa-star.shaded{
+    color:orange;
+}
