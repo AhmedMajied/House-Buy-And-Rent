@@ -1,0 +1,22 @@
+SMAP
+createAdvertisement_jsp.java
+JSP
+*S JSP
+*F
++ 0 createAdvertisement.jsp
+jsp/createAdvertisement.jsp
+*L
+2,35:46
+37,3:82
+39:85
+40:86,6
+41,2:92
+42,2:94
+43,8:96
+51,3:105
+53:108
+54:109,6
+55,2:115
+56,2:117
+57,23:119
+*E
