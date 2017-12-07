@@ -3,12 +3,16 @@ package DBModels;
 import java.util.*;
 import Models.*;
 import config.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
 
 public class AdvertisementDBModel {
 
@@ -54,7 +58,7 @@ public class AdvertisementDBModel {
         Statement stmt= conn.createStatement();
         stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisorID()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserID()+",'"
                             +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
         );
         stmt.close();
@@ -99,7 +103,7 @@ public class AdvertisementDBModel {
         ret.setBuildingFloor(rs.getInt("buildingFloor"));
         ret.setLatitude(rs.getDouble("Latitude"));
         ret.setLongitude(rs.getDouble("Longitude"));
-        ret.setAdvertisorID(rs.getInt("AdvertisorID"));
+        ret.setAdvertiserID(rs.getInt("AdvertisorID"));
         int buildingType=rs.getInt("buildingType");
         int buildingStatus=rs.getInt("buildingStatus");
         ret.setAdType(rs.getString("AdType"));
@@ -119,6 +123,17 @@ public class AdvertisementDBModel {
         stmt.close();
         conn.close();
         return ret;
+    }
+
+    public void addPhoto(File f,int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, FileNotFoundException {
+        Connection connection = DBConfig.getConnection();
+        PreparedStatement psmnt = connection.prepareStatement("INSERT INTO BuildingPhotos(AdID,Photo)VALUES(?,?)");
+        FileInputStream fis = new FileInputStream(f);
+        psmnt.setInt(1, adID);
+        psmnt.setBlob(2, (InputStream) fis, (int) (f.length()));
+        psmnt.executeUpdate();
+        psmnt.close();
+        connection.close();
     }
 
 }

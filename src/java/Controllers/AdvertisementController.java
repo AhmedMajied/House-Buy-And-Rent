@@ -5,6 +5,9 @@ import Models.Advertisement;
 import Models.BuildingStatus;
 import Models.BuildingType;
 import Models.User;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,6 +40,9 @@ public class AdvertisementController extends HttpServlet {
                     break;
                 case "Advertisement":
                     displayAdvertisement(request,response);
+                    break;
+                case "addPhoto":
+                    addPhoto(request,response);
                     break;
                 
         }
@@ -124,7 +130,7 @@ public class AdvertisementController extends HttpServlet {
         adv.setDescription(request.getParameter("Description"));
         adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
         adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
-        adv.setAdvertisorID(((User)request.getSession(false).getAttribute("User")).getID());
+        adv.setAdvertiserID(((User)request.getSession(false).getAttribute("User")).getID());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         
@@ -163,6 +169,43 @@ public class AdvertisementController extends HttpServlet {
         Advertisement adv = advDB.retrieveAd(id);
         request.setAttribute("Advertisement", adv);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
+    }
+
+    private void addPhoto(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        response.setContentType("text/html");
+        int adID=Integer.parseInt(request.getParameter("adID"));
+        PrintWriter out = response.getWriter();
+        String saveFile = "";
+        String contentType = request.getContentType();
+        if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)) {
+            DataInputStream in = new DataInputStream(request.getInputStream());
+            int formDataLength = request.getContentLength();
+            byte dataBytes[] = new byte[formDataLength];
+            in.read(dataBytes, 0, formDataLength);
+               
+            String file = new String(dataBytes);
+            saveFile = file.substring(file.indexOf("filename=\"") + 10);
+            saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
+            saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1, saveFile.indexOf("\""));
+            int lastIndex = contentType.lastIndexOf("=");
+            String boundary = contentType.substring(lastIndex + 1, contentType.length());
+            int pos;
+            pos = file.indexOf("filename=\"");
+            pos = file.indexOf("\n", pos) + 1;
+            int boundaryLocation = file.indexOf(boundary, pos)-4;
+            int startPos = ((file.substring(0, pos)).getBytes()).length;
+            int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
+            File ff = new File(saveFile);
+            FileOutputStream fileOut = new FileOutputStream(ff);
+            fileOut.write(dataBytes, startPos, (endPos - startPos));
+            fileOut.flush();
+            fileOut.close();
+            File f = new File(saveFile);
+            AdvertisementDBModel db = new AdvertisementDBModel();
+            db.addPhoto(f,adID); 
+            response.sendRedirect("AdvertisementController?action=Advertisement&id="+adID);
+           
+        }
     }
 
 }

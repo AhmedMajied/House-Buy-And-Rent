@@ -14,7 +14,7 @@ public class Advertisement {
     private Vector<Blob> photos;
     private double latitude;
     private double longitude;
-    private int advertisorID;
+    private int advertiserID;
     private BuildingType type;
     private BuildingStatus status;
     private ArrayList<Comment> comments;
@@ -92,12 +92,12 @@ public class Advertisement {
         this.longitude = longitude;
     }
 
-    public int getAdvertisorID() {
-        return advertisorID;
+    public int getAdvertiserID() {
+        return advertiserID;
     }
 
-    public void setAdvertisorID(int advertisorID) {
-        this.advertisorID = advertisorID;
+    public void setAdvertiserID(int advertisorID) {
+        this.advertiserID = advertisorID;
     }
 
     public BuildingType getType() {

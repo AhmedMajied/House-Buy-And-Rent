@@ -16,31 +16,60 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><%=ad.getTitle()%></title>
+        <link rel="stylesheet" href="css/headerStyle.css">
+        <link rel="stylesheet" href="css/advertisementStyle.css">
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/advertisementJs.js"></script>
     </head>
     <body>
+        
+            <div id="navBar">
+                <a id="active" href ="Home.jsp">Home</a>
+                <a href="#">My Advertisments</a>
+                <a href="#">About</a>
+                <span id="search"></span>
+                <input type="text"name="search"id="searchText" placeholder="search field"/>
+                <a href="#"id="notification"></a>
+                <a href="profile.jsp">MyProfile</a>
+                <a href="../index.html">LogOut</a>
+            </div>
+        <br>
+        <div id="title"><%=ad.getTitle()%></div>
+        <br/>
+        
+        <input type="hidden"id="hiddenId" value="<%=ad.getAdvertiserID()%>">
+        <input type="button" id="displayInfo"value="Request User Info"/>
+        <div id="result"></div>
+        <br>
+        
         <iframe id="map" src="https://www.google.com/maps/embed/v1/place?origin=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
         <br/>
-        <%=ad.getTitle()%>
+        <div id="type"><%=ad.getAdType()%></div>
         <br/>
-        <%=ad.getAdType()%>
+        <div id="type"><%=ad.getDescription()%></div>
         <br/>
-        <%=ad.getDescription()%>
+        <div id="type">Size: <%=ad.getBuildingSize()%></div>
         <br/>
-        Size: <%=ad.getBuildingSize()%>
+        <div id="type">Floor: <%=ad.getBuildingFloor()%></div>
         <br/>
-        Floor: <%=ad.getBuildingFloor()%>
+        <div id="type">Type: <%=ad.getType().getName()%></div>
         <br/>
-        Type: <%=ad.getType().getName()%>
+        <div id="type">Status: <%=ad.getStatus().getName()%></div>
         <br/>
-        Status: <%=ad.getStatus().getName()%>
-        <br/>
-        <% 
-          for(Blob image : ad.getPhotos()){
-            byte[] imgData = image.getBytes(1, (int)image.length());
-            String code = Base64.getEncoder().encodeToString(imgData); 
-        %>
-            <img src="data:image/jpg;base64,<%=code%>" style="width:50px;height:50px"/>
+        <fieldset id="Photo"> 
+            <legend>Photos</legend>
+            <%  for(Blob image : ad.getPhotos()){
+               byte[] imgData = image.getBytes(1, (int)image.length());
+               String code = Base64.getEncoder().encodeToString(imgData); 
+           %>
+            <img src="data:image/jpg;base64,<%=code%>" id="photos"/>
         <%}%>
-        
+            <br>
+            <form action="/IA_Project/AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
+                <input name="file" type="file" id="photo"/>
+                <br><br>
+                <input type="submit" id="add" value="Add Photo"/>
+            </form>
+        </fieldset>
     </body>
 </html>
