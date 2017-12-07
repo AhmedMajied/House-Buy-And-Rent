@@ -32,6 +32,9 @@
                 }
                 averageRate /= AllAds.get(i).getRatings().size();
                 %>
+                <form method="POST" action="../AdvertisementController?action=Advertisement,AdID=<%= AllAds.get(i).getID()%>">
+                    <input type="submit" value="see full details"/>
+                </form>
                 <label>
                     <b><%= AllAds.get(i).getTitle()%></b> <%= AllAds.get(i).getAdType()%>
                     <b>Advertised By</b> userName 
@@ -54,17 +57,16 @@
                 <!-- User Rating -->
                 <div>
                     <span class="heading"> Your Rating : </span>
-                    <span class="fa fa-star" id="<%= "star1"+AllAds.get(i).getID()%>" onclick="fillStars(1,<%= AllAds.get(i).getID()%>)" onmouseover="shadeStars(1,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(1,<%= AllAds.get(i).getID()%>)"></span>
-                    <span class="fa fa-star" id="<%= "star2"+AllAds.get(i).getID()%>" onclick="fillStars(2,<%= AllAds.get(i).getID()%>)" onmouseover="shadeStars(2,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(2,<%= AllAds.get(i).getID()%>)"></span>
-                    <span class="fa fa-star" id="<%= "star3"+AllAds.get(i).getID()%>" onclick="fillStars(3,<%= AllAds.get(i).getID()%>)" onmouseover="shadeStars(3,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(3,<%= AllAds.get(i).getID()%>)"></span>
-                    <span class="fa fa-star" id="<%= "star4"+AllAds.get(i).getID()%>" onclick="fillStars(4,<%= AllAds.get(i).getID()%>)" onmouseover="shadeStars(4,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(4,<%= AllAds.get(i).getID()%>)"></span>
-                    <span class="fa fa-star" id="<%= "star5"+AllAds.get(i).getID()%>" onclick="fillStars(5,<%= AllAds.get(i).getID()%>)" onmouseover="shadeStars(5,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(5,<%= AllAds.get(i).getID()%>)"></span>
+                    <span class="fa fa-star" id="<%= "star1"+AllAds.get(i).getID()%>" onclick="saveUserRate(<%= AllAds.get(i).getID()%>,1,<%= rateStatus%>)" onmouseover="shadeStars(1,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(1,<%= AllAds.get(i).getID()%>)"></span>
+                    <span class="fa fa-star" id="<%= "star2"+AllAds.get(i).getID()%>" onclick="saveUserRate(<%= AllAds.get(i).getID()%>,2,<%= rateStatus%>)" onmouseover="shadeStars(2,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(2,<%= AllAds.get(i).getID()%>)"></span>
+                    <span class="fa fa-star" id="<%= "star3"+AllAds.get(i).getID()%>" onclick="saveUserRate(<%= AllAds.get(i).getID()%>,3,<%= rateStatus%>)" onmouseover="shadeStars(3,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(3,<%= AllAds.get(i).getID()%>)"></span>
+                    <span class="fa fa-star" id="<%= "star4"+AllAds.get(i).getID()%>" onclick="saveUserRate(<%= AllAds.get(i).getID()%>,4,<%= rateStatus%>)" onmouseover="shadeStars(4,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(4,<%= AllAds.get(i).getID()%>)"></span>
+                    <span class="fa fa-star" id="<%= "star5"+AllAds.get(i).getID()%>" onclick="saveUserRate(<%= AllAds.get(i).getID()%>,5,<%= rateStatus%>)" onmouseover="shadeStars(5,<%= AllAds.get(i).getID()%>)" onmouseout="unShadeStars(5,<%= AllAds.get(i).getID()%>)"></span>
                 </div>
                 <hr>
                 <%
             }
         %>                
-        <script>saveUserRate(1,1,"new");</script>
     </body>
     
 </html>

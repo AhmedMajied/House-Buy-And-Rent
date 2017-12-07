@@ -64,7 +64,7 @@ public class AdvertisementDBModel {
             ad.setID(result.getInt("ID"));
             ad.setTitle(result.getString("Title"));
             ad.setAdType(result.getString("adType"));
-            ad.setAdvertisorID(result.getInt("AdvertisorID"));
+            ad.setAdvertiserName(result.getString("AdvertiserName"));
             ad.setDescription(result.getString("Description"));
             ad.setBuildingSize(result.getInt("BuildingSize"));
             ad.setBuildingFloor(result.getInt("BuildingFloor"));
@@ -83,7 +83,7 @@ public class AdvertisementDBModel {
             while(rs2.next()){
                 Rating AdRate = new Rating();
                 AdRate.setUserID(rs2.getInt("UserID"));
-                AdRate.setValue(rs2.getDouble("Value"));
+                AdRate.setValue(rs2.getInt("Value"));
                 AdRates.add(AdRate);
             }
 
@@ -93,7 +93,7 @@ public class AdvertisementDBModel {
             while(rs2.next()){
                 Comment AdComment = new Comment();
                 AdComment.setID(rs2.getInt("ID"));
-                AdComment.setUserID(rs2.getInt("UserID"));
+                AdComment.setUserID(rs2.getString("UserName"));
                 AdComment.setText(rs2.getString("Text"));
                 AdComments.add(AdComment);
             }
@@ -114,9 +114,9 @@ public class AdvertisementDBModel {
     public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
+        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisorID()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserName()+",'"
                             +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
         );
         stmt.close();
@@ -138,13 +138,21 @@ public class AdvertisementDBModel {
         return null;
     }
 
-    public boolean rateAd(int userID, int adID, double value) {
-        // TODO implement here
-        return false;
-    }
+    public boolean saveNewComment(int userID, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(?,?,?)");
 
-    public boolean commentOnAd(int userID, int adID, String commentText) {
-        // TODO implement here
+        prepStmt.setInt(1, userID);
+        prepStmt.setInt(2, adID);
+        prepStmt.setString(3, commentText);
+        int affectedRows = prepStmt.executeUpdate();
+
+        if(affectedRows > 0)
+            return true;
+        
+        prepStmt.close();
+        conn.close();
+        
         return false;
     }
     
@@ -192,7 +200,7 @@ public class AdvertisementDBModel {
         ret.setBuildingFloor(rs.getInt("buildingFloor"));
         ret.setLatitude(rs.getDouble("Latitude"));
         ret.setLongitude(rs.getDouble("Longitude"));
-        ret.setAdvertisorID(rs.getInt("AdvertisorID"));
+        ret.setAdvertiserName(rs.getString("AdvertiserName"));
         int buildingType=rs.getInt("buildingType");
         int buildingStatus=rs.getInt("buildingStatus");
         ret.setAdType(rs.getString("AdType"));

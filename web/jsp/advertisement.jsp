@@ -36,5 +36,41 @@
             <img src="data:image/jpg;base64,<%=code%>" style="width:50px;height:50px"/>
         <%}%>
         
+        <!-- add Comment button -->
+        <button type="button" class="btn" data-toggle="modal" 
+                data-target="#CommentsModal">Comments</button>
+
+        <!-- Interest Modal -->
+        <div id="CommentsModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <center><h4 class="modal-title">Comments</h4></center>
+              </div>
+                <div class="modal-body">
+
+                    <%
+                        for(int commentIndex=0;commentIndex<ad.getComments().size();commentIndex++){
+                            %>
+                            <label><b><%= ad.getComments().get(commentIndex).getUserID() %></b> <%= ad.getComments().get(commentIndex).getText() %></label><br>
+                            <%
+                        }
+                    %>
+                    <input type="text" id="newComment" /><br>
+                    <button class="btn btn-default" onclick="saveNewComment(<%= ad.getID()%>,<%= ad.getAdvertiserName()%>,<%= ((User)session.getAttribute("User")).getUsername()%>)">Add Comment</button>
+
+                </div>
+                <div class="modal-footer">
+                    <center>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </center>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        
     </body>
 </html>

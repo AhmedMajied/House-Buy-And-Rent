@@ -1,15 +1,8 @@
 var stars = ["star1","star2","star3","star4","star5"];
 
 function saveUserRate(AdID,rateValue,rateStatus){
-    
-    $.post("AdvertisementController",{action:'rateAd',rateStatus:rateStatus,AdID:AdID,rateValue:rateValue},function(result){
-       alert(result); 
-    });
-    
-}
-
-function saveUserComment(AdID,commentText){
-    //xmlHttp.open('POST', 'AdvertisementController?action=commentOnAd,AdID='+AdID+'commentText'+commentText, true);
+    $.post("/IA_Project/AdvertisementController",{action:'rateAd',rateStatus:rateStatus,AdID:AdID,rateValue:rateValue});
+    fillStars(rateValue,AdID);
 }
 
 function fillStaticStars(clickedStar,id){

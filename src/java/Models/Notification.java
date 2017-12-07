@@ -4,10 +4,13 @@ package Models;
 import java.util.Date;
 
 public class Notification {
+
     private int ID;
     private String text;
     private Date time;
     private String link;
+    private int userID;
+    private boolean isRead;
 
     public int getID() {
         return ID;
@@ -41,6 +44,20 @@ public class Notification {
         this.link = link;
     }
     
-    
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public boolean isIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
 
 }

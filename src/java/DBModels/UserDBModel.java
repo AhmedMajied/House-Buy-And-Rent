@@ -176,7 +176,7 @@ public class UserDBModel {
             Notification notification = new Notification();
             notification.setID(resultSet.getInt("ID"));
             notification.setText(resultSet.getString("Text"));
-            notification.setTime(resultSet.getDate("Time"));// ensure that it is correct
+            //notification.setTime(resultSet.getDate("Time"));// ensure that it is correct
             notification.setLink(resultSet.getString("Link"));
 
             allNotifications.add(notification);
@@ -187,5 +187,22 @@ public class UserDBModel {
 
         return allNotifications;
     }
+    
+    // need to be tested
+    public void addNotificationToUser(int userID,Notification notification) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{ 
+       
+        Connection conn = DBConfig.getConnection();
+
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?)");
+        prepStmt.setString(1, notification.getText());
+        //prepStmt.setDate(2, notification.getTime());
+        prepStmt.setString(3, notification.getLink());
+        prepStmt.setInt(4, userID);
+        prepStmt.executeUpdate();
+
+        prepStmt.close();
+        conn.close();
+    }
+
 
 }

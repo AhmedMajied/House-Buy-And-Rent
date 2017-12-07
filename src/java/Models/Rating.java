@@ -3,7 +3,7 @@ package Models;
 public class Rating {
     private int userID;
     private int advertisementID;
-    private double value;
+    private int value;
 
     public int getUserID() {
         return userID;
@@ -21,11 +21,11 @@ public class Rating {
         this.advertisementID = advertisementID;
     }
 
-    public double getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(int value) {
         this.value = value;
     }
     

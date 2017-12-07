@@ -10,7 +10,7 @@ public class User {
     private String phone;
     private boolean isAdmin;
     private Blob picture;
-    private ArrayList<UserNotification> notifications;
+    private ArrayList<Notification> notifications;
 
     public int getID() {
         return ID;
@@ -60,11 +60,11 @@ public class User {
         this.picture = picture;
     }
 
-    public ArrayList<UserNotification> getNotifications() {
+    public ArrayList<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<UserNotification> notifications) {
+    public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
 
