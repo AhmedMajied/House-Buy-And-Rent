@@ -1,9 +1,11 @@
 package Controllers;
 
 import DBModels.AdvertisementDBModel;
+import DBModels.UserDBModel;
 import Models.Advertisement;
 import Models.BuildingStatus;
 import Models.BuildingType;
+import Models.Notification;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -134,6 +136,11 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         
+        // save Ad as Notification to who interested in
+        String AdLink = "../AdvertisementController?action=Advertisement&AdID="+adv.getID();
+        UserDBModel userDBModel = new UserDBModel();
+        userDBModel.saveAdAsInterestNotification(adv,AdLink);
+        
         //TO BE IMPLEMENTED
         // GO TO HOME PAGE
     }
@@ -191,7 +198,6 @@ public class AdvertisementController extends HttpServlet {
     }
     
     public void commentOnAd(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException{
-        
         AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
         
         int AdID = Integer.parseInt(request.getParameter("AdID"));
@@ -202,7 +208,14 @@ public class AdvertisementController extends HttpServlet {
         boolean success = AdDBModel.saveNewComment(userID, AdID, commentText);
         
         // save Comment as Notification to advertiser
+        String userName = ((User)request.getSession().getAttribute("User")).getUsername();
+        String AdLink = "../AdvertisementController?action=Advertisement&AdID="+AdID;
+        String notificationText = userName+" commented on your Advertisement";
+        UserDBModel userDBModel = new UserDBModel();
         
+        // it must be advertiserID(advertiserName) not userID
+        Notification notification = new Notification(notificationText,AdLink,userID);
+        userDBModel.addNotificationToUser(notification);
         
         
     }

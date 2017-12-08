@@ -2,6 +2,7 @@ package Models;
 
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class User {
     private int ID;
@@ -10,7 +11,7 @@ public class User {
     private String phone;
     private boolean isAdmin;
     private Blob picture;
-    private ArrayList<Notification> notifications;
+    private Vector<Notification> notifications;
 
     public int getID() {
         return ID;
@@ -60,11 +61,11 @@ public class User {
         this.picture = picture;
     }
 
-    public ArrayList<Notification> getNotifications() {
+    public Vector<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<Notification> notifications) {
+    public void setNotifications(Vector<Notification> notifications) {
         this.notifications = notifications;
     }
 

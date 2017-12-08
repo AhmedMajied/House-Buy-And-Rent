@@ -40,7 +40,7 @@
         <button type="button" class="btn" data-toggle="modal" 
                 data-target="#CommentsModal">Comments</button>
 
-        <!-- Interest Modal -->
+        <!-- Comments Modal -->
         <div id="CommentsModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
 
@@ -54,7 +54,9 @@
                     <%
                         for(int commentIndex=0;commentIndex<ad.getComments().size();commentIndex++){
                             %>
-                            <label><b><%= ad.getComments().get(commentIndex).getUserID() %></b> <%= ad.getComments().get(commentIndex).getText() %></label><br>
+                            <label><b><%= ad.getComments().get(commentIndex).getUserID() %></b>
+                                <%= ad.getComments().get(commentIndex).getText() %>
+                            </label><br>
                             <%
                         }
                     %>

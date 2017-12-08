@@ -59,6 +59,9 @@ public class UserController extends HttpServlet {
             case "deletePhoto":
                 deletePicture(request, response);
                 break;
+            case "markNotificationsAsRead":
+                markNotificationsAsRead(request);
+                break;
         }
     }
 
@@ -285,6 +288,12 @@ public class UserController extends HttpServlet {
 
         return userDBModel.getUser(userName);
 
+    }
+    
+    private void markNotificationsAsRead(HttpServletRequest request)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+        int userID = ((User)request.getSession().getAttribute("User")).getID();
+        UserDBModel userDBModel = new UserDBModel();
+        userDBModel.markNotificationsAsRead(userID);
     }
 
 }

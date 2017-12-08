@@ -32,7 +32,7 @@
                 }
                 averageRate /= AllAds.get(i).getRatings().size();
                 %>
-                <form method="POST" action="../AdvertisementController?action=Advertisement,AdID=<%= AllAds.get(i).getID()%>">
+                <form method="POST" action="../AdvertisementController?action=Advertisement&AdID=<%= AllAds.get(i).getID()%>">
                     <input type="submit" value="see full details"/>
                 </form>
                 <label>

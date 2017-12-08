@@ -130,6 +130,13 @@ public class UserDBModel {
             user.setPhone(result.getString("Phone"));
             user.setPicture(result.getBlob("Picture"));
         }
+        
+        result.close();
+        stmt.close();
+        conn.close();
+        
+        user.setNotifications(getUserNotifications(user.getID()));
+        
         return user;
 
     }
@@ -189,20 +196,70 @@ public class UserDBModel {
     }
     
     // need to be tested
-    public void addNotificationToUser(int userID,Notification notification) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{ 
+    public void addNotificationToUser(Notification notification) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{ 
        
         Connection conn = DBConfig.getConnection();
 
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?)");
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?,default)");
         prepStmt.setString(1, notification.getText());
         //prepStmt.setDate(2, notification.getTime());
         prepStmt.setString(3, notification.getLink());
-        prepStmt.setInt(4, userID);
+        prepStmt.setInt(4, notification.getUserID());
         prepStmt.executeUpdate();
 
         prepStmt.close();
         conn.close();
     }
 
+    public void saveAdAsInterestNotification(Advertisement Ad,String AdLink) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+        Vector<String> interestedUsers = retrieveAllEquivalentInterests(Ad.getBuildingSize(),Ad.getStatus().getID(),Ad.getType().getID());
+        
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?,default)");
+        prepStmt.setString(1, "A new Advertisemnet that meets your interests was recently added");
+        //prepStmt.setTime(2, "");
+        prepStmt.setString(3, AdLink);
+        
+        for(int i=0;i<interestedUsers.size();i++){
+            prepStmt.setString(4, interestedUsers.get(i));
+            prepStmt.executeUpdate();
+        }
+        
+        prepStmt.close();
+        conn.close();
+    }
+    
+    private Vector<String> retrieveAllEquivalentInterests(int size,int statusID,int typeID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+        Vector<String> interestedUsers = new Vector<>();
+        Connection conn = DBConfig.getConnection();
+
+        PreparedStatement prepStmt = conn.prepareStatement("select Username from Users,Interests where "
+                                        + "Interests.UserID = Users.ID and Size=? and Status=? and Type=?");
+        prepStmt.setInt(1, size);
+        prepStmt.setInt(2, statusID);
+        prepStmt.setInt(3, typeID);
+        ResultSet result = prepStmt.executeQuery();
+        
+        while(result.next()){
+            interestedUsers.add(result.getString("Username"));
+        }
+
+        result.close();
+        prepStmt.close();
+        conn.close();
+        
+        return interestedUsers;
+    }
+    
+    public void markNotificationsAsRead(int userID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+        Connection conn = DBConfig.getConnection();
+
+        PreparedStatement prepStmt = conn.prepareStatement("update Notifications set isRead=1 where UserID=? and isRead=0");
+        prepStmt.setInt(1, userID);
+        prepStmt.executeUpdate();
+        
+        prepStmt.close();
+        conn.close();
+    }
 
 }

@@ -11,6 +11,14 @@ public class Notification {
     private String link;
     private int userID;
     private boolean isRead;
+    
+    public Notification(){}
+    public Notification(String text,String link,int userID){
+        this.text = text;
+        this.link = link;
+        this.userID = userID;
+        time = new Date();
+    }
 
     public int getID() {
         return ID;

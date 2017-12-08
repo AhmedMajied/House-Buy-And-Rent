@@ -50,6 +50,10 @@
         <!-- add interest button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" 
                 data-target="#InterestModal">Add Interest</button>
+        
+        <!-- show notifications button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" 
+                data-target="#NotificationsModal" onclick="markNotificationsAsRead()">Notifications</button>
 
         <!-- Interest Modal -->
         <div id="InterestModal" class="modal fade" role="dialog">
@@ -104,7 +108,32 @@
           </div>
         </div>
         
-        
+        <!-- Notifications Modal -->
+        <div id="NotificationsModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <center><h4 class="modal-title">Notifications</h4></center>
+              </div>
+                <div class="modal-body">
+                    <%
+                        Vector<Notification> notifications = ((User) request.getAttribute("User")).getNotifications();
+                        for(int i=0;i<notifications.size();i++){
+                            %>
+                            <a href="<%= notifications.get(i).getLink()%>" class="notifications">
+                                <b><%= notifications.get(i).getText()%></b>
+                                 <%= notifications.get(i).getTime()%>
+                            </a>
+                            <%
+                        }
+                    %>
+                </div>
+            </div>
+
+          </div>
+        </div>
         
         
     </body>
