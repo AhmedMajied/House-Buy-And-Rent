@@ -27,7 +27,7 @@
             }
         %>
         <div id="login">
-            <form name="form-login" id="formLogin" action="/IA_Project/UserController?action=logIn" method="post">
+            <form name="form-login" id="formLogin" action="/UserController?action=logIn" method="post">
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" name="name" type="text" required />
                 <span id="lock"></span>
@@ -45,11 +45,8 @@
         </div>
         
         <!-- for testing-->
-<<<<<<< HEAD:web/index.jsp
-        <form action="AdvertisementController?action=AllAds" method="POST">
-=======
-        <form action="/IA_Project/UserController?action=logIn" method="POST">
->>>>>>> AndrewEmad:web/index.jsp
+
+        <form action="/UserController?action=logIn" method="POST">
             <input type="submit"/>
         </form>
 

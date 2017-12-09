@@ -22,13 +22,7 @@
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/advertisementJs.js"></script>
     </head>
-    <body>
-<<<<<<< HEAD
-        <iframe id="map" src="https://www.google.com/maps/embed/v1/place?origin=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
-        <br/>
-        <%=ad.getTitle()%>
-=======
-        
+    <body>        
             <div id="navBar">
                 <a id="active" href ="Home.jsp">Home</a>
                 <a href="#">My Advertisments</a>
@@ -49,7 +43,6 @@
         <br>
         
         <iframe id="map" src="https://www.google.com/maps/embed/v1/place?q=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
->>>>>>> AndrewEmad
         <br/>
         <div id="type"><%=ad.getAdType()%></div>
         <br/>
@@ -71,13 +64,18 @@
                String code = Base64.getEncoder().encodeToString(imgData); 
            %>
             <img src="data:image/jpg;base64,<%=code%>" id="photos"/>
-        <%}%>
+        <%}
+        Object obj = request.getSession(true).getAttribute("User");
+        if(obj!=null && ((User)obj).getUsername().equals(ad.getAdvertiserName())){
+        %>
             <br>
+            
             <form action="AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
                 <input name="file" type="file" id="photo"/>
                 <br><br>
                 <input type="submit" id="add" value="Add Photo"/>
             </form>
+        <%}%>
         </fieldset>
     </body>
 </html>

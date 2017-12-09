@@ -35,8 +35,17 @@ public class AdvertisementController extends HttpServlet {
             case "createAdvertisementPage":
                 createAdvertisementPage(request,response);
                 break;
+            case "updateAdvertisementPage":
+                updateAdvertisementPage(request,response);
+                break;
             case "addAdvertisement":
                 createAdvertisement(request,response);
+                break;
+            case "updateAdvertisement":
+                updateAdvertisement(request,response);
+                break;
+            case "deleteAdvertisement":
+                deleteAdvertisement(request,response);
                 break;
             case "Advertisement":
                 displayAdvertisement(request,response);
@@ -146,20 +155,36 @@ public class AdvertisementController extends HttpServlet {
 
     /**
      * @param ID
-     * @return
+     * @param response the value of response
      */
-    public boolean updateAdvertisement(int ID) {
-        // TODO implement here
-        return false;
+    public void updateAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Advertisement adv = new Advertisement();
+        adv.setID(Integer.parseInt(request.getParameter("ID")));
+        adv.setTitle(request.getParameter("Title"));
+        adv.setBuildingSize(Integer.parseInt(request.getParameter("Size")));
+        adv.setBuildingFloor(Integer.parseInt(request.getParameter("Floor")));
+        adv.setStatus(new BuildingStatus(Integer.parseInt(request.getParameter("Status")), ""));
+        adv.setType(new BuildingType(Integer.parseInt(request.getParameter("Type")), ""));
+        adv.setAdType(request.getParameter("AdType"));
+        adv.setDescription(request.getParameter("Description"));
+        adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
+        adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
+        adv.setAdvertiserName(((User) request.getSession(false).getAttribute("User")).getUsername());
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        advDB.updateAd(adv);
+        
     }
 
     /**
-     * @param ID
-     * @return
+     * @param request
+     * @param response the value of response
      */
-    public boolean deleteAdvertisement(int ID) {
-        // TODO implement here
-        return false;
+    public void deleteAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        int adID = Integer.parseInt(request.getParameter("adID"));
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        advDB.deleteAd(adID);
+        request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+
     }
 
     private void createAdvertisementPage(HttpServletRequest request, HttpServletResponse response) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, ServletException, IOException {
@@ -242,6 +267,13 @@ public class AdvertisementController extends HttpServlet {
         Advertisement adv = advDB.retrieveAd(adID);
         request.setAttribute("Advertisement", adv);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);*/
+    }
+
+    private void updateAdvertisementPage(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        request.setAttribute("Statuses", advDB.retrieveAllStatuses());
+        request.setAttribute("Types", advDB.retrieveAllTypes());
+        request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);//To change body of generated methods, choose Tools | Templates.
     }
 
 }

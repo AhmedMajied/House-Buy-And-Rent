@@ -172,9 +172,10 @@ public class UserController extends HttpServlet {
         
     }
 
-    public void DisplayHome(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-
-        response.sendRedirect("jsp/Home.jsp");
+    public void DisplayHome(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, ServletException {
+        getBuildingStatuses(request, response);
+        getBuildingTypes(request, response);
+        request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
     }
 
     public void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
@@ -184,7 +185,7 @@ public class UserController extends HttpServlet {
         boolean result = userDBModel.validateUserName(name);
         out.print(result);
     }
-    public void logIn(HttpServletRequest request,HttpServletResponse response) throws SQLException, SQLException, InstantiationException, InstantiationException, IllegalAccessException, InstantiationException, InstantiationException, InstantiationException, InstantiationException, ClassNotFoundException, IOException
+    public void logIn(HttpServletRequest request,HttpServletResponse response) throws SQLException, SQLException, InstantiationException, InstantiationException, IllegalAccessException, InstantiationException, InstantiationException, InstantiationException, InstantiationException, ClassNotFoundException, IOException, ServletException
     {
 
         String name=request.getParameter("name");

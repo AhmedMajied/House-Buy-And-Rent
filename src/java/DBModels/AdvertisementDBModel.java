@@ -128,14 +128,32 @@ public class AdvertisementDBModel {
         conn.close();
     }
 
-    public boolean updateAd(Advertisement ad) {
-        // TODO implement here
-        return false;
+    public void updateAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("Update Advertisements SET Title = ? ,Size = ?,Floor = ?,Description = ? ,Latitude ? ,Longitude ? ,AdvertiserName = ? ,AdType = ? ,buildingStatus = ?,buildingType = ? WHERE ID = ?");
+        prepStmt.setString(1, ad.getTitle());
+        prepStmt.setInt(2, ad.getBuildingSize());
+        prepStmt.setInt(3, ad.getBuildingFloor());
+        prepStmt.setString(4, ad.getDescription());
+        prepStmt.setDouble(5, ad.getLatitude());
+        prepStmt.setDouble(6, ad.getLongitude());
+        prepStmt.setString(7, ad.getAdvertiserName());
+        prepStmt.setString(8, ad.getAdType());
+        prepStmt.setInt(9, ad.getStatus().getID());
+        prepStmt.setInt(10, ad.getType().getID());
+        prepStmt.setInt(11, ad.getID());
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
     }
 
-    public boolean deleteAd(int adID) {
-        // TODO implement here
-        return false;
+    public void deleteAd(int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM Advertisements WHERE ID = ? ");
+        prepStmt.setInt(1, adID);
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
     }
 
     public Vector<Advertisement> retrieveUserAds(int adID) {

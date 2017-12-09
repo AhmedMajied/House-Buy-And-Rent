@@ -24,7 +24,7 @@
             }
             else
             {
-                response.sendRedirect("/IA_Project/");
+                response.sendRedirect("/");
             }
         %>
         <%
@@ -60,7 +60,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><h4 class="modal-title">Add Interest</h4></center>
               </div>
-                <form action="../UserController?action=adInterest" method="POST">
+                <form action="/UserController?action=adInterest" method="POST">
                 <div class="modal-body">
 
                     <center>
