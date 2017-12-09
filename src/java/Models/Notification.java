@@ -8,7 +8,10 @@ public class Notification {
     private String text;
     private Date time;
     private String link;
-
+    private String username;
+    private boolean read;
+    
+    
     public int getID() {
         return ID;
     }
@@ -39,6 +42,34 @@ public class Notification {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    /**
+     * @return the read
+     */
+    public boolean isRead() {
+        return read;
+    }
+
+    /**
+     * @param read the read to set
+     */
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     

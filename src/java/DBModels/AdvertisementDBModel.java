@@ -56,9 +56,9 @@ public class AdvertisementDBModel {
     public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
+        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserID()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserName()+",'"
                             +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
         );
         stmt.close();
@@ -103,7 +103,7 @@ public class AdvertisementDBModel {
         ret.setBuildingFloor(rs.getInt("buildingFloor"));
         ret.setLatitude(rs.getDouble("Latitude"));
         ret.setLongitude(rs.getDouble("Longitude"));
-        ret.setAdvertiserID(rs.getInt("AdvertisorID"));
+        ret.setAdvertiserName(rs.getString("AdvertiserName"));
         int buildingType=rs.getInt("buildingType");
         int buildingStatus=rs.getInt("buildingStatus");
         ret.setAdType(rs.getString("AdType"));

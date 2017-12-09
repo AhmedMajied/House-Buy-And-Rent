@@ -4,23 +4,15 @@ import java.sql.Blob;
 import java.util.ArrayList;
 
 public class User {
-    private int ID;
     private String username;
     private String password;
     private String phone;
     private boolean isAdmin;
     private Blob picture;
     private ArrayList<Advertisement> advertisements;
-    private ArrayList<UserNotification> notifications;
+    private ArrayList<Notification> notifications;
     private ArrayList<Interest> interests;
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 
     public String getUsername() {
         return username;
@@ -70,11 +62,11 @@ public class User {
         this.advertisements = advertisements;
     }
 
-    public ArrayList<UserNotification> getNotifications() {
+    public ArrayList<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<UserNotification> notifications) {
+    public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
 

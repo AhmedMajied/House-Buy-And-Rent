@@ -130,7 +130,7 @@ public class AdvertisementController extends HttpServlet {
         adv.setDescription(request.getParameter("Description"));
         adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
         adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
-        adv.setAdvertiserID(((User)request.getSession(false).getAttribute("User")).getID());
+        adv.setAdvertiserName(((User)request.getSession(false).getAttribute("User")).getUsername());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         

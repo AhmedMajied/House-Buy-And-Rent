@@ -165,7 +165,6 @@ public class UserDBModel {
         if(result.next())
         {
             user.setUsername(name);
-            user.setID(result.getInt("ID"));
             user.setPhone(result.getString("Phone"));
             user.setPicture(result.getBlob("Picture"));
         }
