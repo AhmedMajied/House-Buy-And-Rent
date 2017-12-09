@@ -1,6 +1,8 @@
 package Models;
 
 import java.sql.Blob;
+
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Advertisement {
@@ -13,7 +15,7 @@ public class Advertisement {
     private Vector<Blob> photos;
     private double latitude;
     private double longitude;
-    private int advertisorID;
+    private String advertiserName;
     private BuildingType type;
     private BuildingStatus status;
     private Vector<Comment> comments;
@@ -91,12 +93,12 @@ public class Advertisement {
         this.longitude = longitude;
     }
 
-    public int getAdvertisorID() {
-        return advertisorID;
+    public String getAdvertiserName() {
+        return advertiserName;
     }
 
-    public void setAdvertisorID(int advertisorID) {
-        this.advertisorID = advertisorID;
+    public void setAdvertiserName(String advertiserName) {
+        this.advertiserName = advertiserName;
     }
 
     public BuildingType getType() {

@@ -1,17 +1,10 @@
 package Models;
 
 public class Rating {
-    private int userID;
+    private String username;
     private int advertisementID;
-    private double value;
+    private int value;
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
 
     public int getAdvertisementID() {
         return advertisementID;
@@ -25,8 +18,22 @@ public class Rating {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(int value) {
         this.value = value;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     

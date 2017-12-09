@@ -1,3 +1,10 @@
+
+<%-- 
+    Document   : index.jsp
+    Created on : Dec 5, 2017, 3:00:39 PM
+    Author     : MariamAshraf
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Models.*"%>
 
@@ -38,7 +45,11 @@
         </div>
         
         <!-- for testing-->
+<<<<<<< HEAD:web/index.jsp
         <form action="AdvertisementController?action=AllAds" method="POST">
+=======
+        <form action="/IA_Project/UserController?action=logIn" method="POST">
+>>>>>>> AndrewEmad:web/index.jsp
             <input type="submit"/>
         </form>
 

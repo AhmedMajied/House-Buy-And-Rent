@@ -3,6 +3,9 @@ package DBModels;
 import java.util.*;
 import Models.*;
 import config.DBConfig;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import static java.sql.JDBCType.NULL;
@@ -14,6 +17,44 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDBModel {
+
+    
+    public UserDBModel() {
+    }
+
+    public static void main(String [] args){
+        Vector<BuildingType> types = new Vector<>();
+        int ID;
+        String name;
+        
+        try{
+            Connection conn = DBConfig.getConnection();
+        
+            PreparedStatement prepStmt = conn.prepareStatement("select * from BuildingTypes");
+
+            ResultSet result = prepStmt.executeQuery();
+            while(result.next()){ 
+                ID = result.getInt("ID");
+                name = result.getString("Name");
+
+                types.add(new BuildingType(ID, name));
+            }
+            System.out.println(types.get(0).getName());
+            result.close();
+            prepStmt.close();
+            conn.close();
+        }catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
+
 
     public boolean authenticateUser(String name,String password)
     {
@@ -97,14 +138,15 @@ public class UserDBModel {
         stmt.close();
         return result>0;
     }
-    public boolean savePicture(String name, InputStream picture) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public boolean savePicture(File f,String name) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException {
         Connection conn=DBConfig.getConnection();
-        PreparedStatement prepatedStatment=conn.prepareStatement("INSERT INTO users (Picture) VALUES(?) WHRER Username='"+name+"'"+";");
-        prepatedStatment.setBlob(1,picture);
-        int rows=prepatedStatment.executeUpdate();
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET Picture = (?) WHERE Username = '"+name+"'"+";");
+        FileInputStream fis = new FileInputStream(f);
+        pstmt.setBlob(1, (InputStream) fis, (int) (f.length()));
+        int s = pstmt.executeUpdate();
+        pstmt.close();
         conn.close();
-        prepatedStatment.close();
-        return rows>0;
+        return s>0;
     }
 
  
@@ -126,7 +168,6 @@ public class UserDBModel {
         if(result.next())
         {
             user.setUsername(name);
-            user.setID(result.getInt("ID"));
             user.setPhone(result.getString("Phone"));
             user.setPicture(result.getBlob("Picture"));
         }
@@ -138,24 +179,34 @@ public class UserDBModel {
         return false;
     }
 
-    public boolean addInterest(int size,int statusID,int typeID,int userID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public boolean addInterest(int size,int statusID,int typeID,String username) {
         
-      
-        Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Interests values(null,?,?,?,?);");
-
-        prepStmt.setInt(1, size);
-        prepStmt.setInt(2, statusID);
-        prepStmt.setInt(3, typeID);
-        prepStmt.setInt(4, userID);
-
-        int affectedRows = prepStmt.executeUpdate();
-        prepStmt.close();
-        conn.close();
-
-        if(affectedRows > 0)
-            return true;
-
+        try {
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("insert into Interests values(null,?,?,?,?);");
+            
+            prepStmt.setInt(1, size);
+            prepStmt.setInt(2, statusID);
+            prepStmt.setInt(3, typeID);
+            prepStmt.setString(4, username);
+            
+            int affectedRows = prepStmt.executeUpdate();
+            prepStmt.close();
+            conn.close();
+            
+            if(affectedRows > 0)
+                return true;
+            
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return false;
     }
     
@@ -187,5 +238,19 @@ public class UserDBModel {
 
         return allNotifications;
     }
+
+    public void addNotificationToUser(int advertiserID, Notification notification) {
+    }
+
+    
+    public String getPhone(int advertiserID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn=DBConfig.getConnection();
+        Statement stmt=conn.createStatement();
+        ResultSet result=stmt.executeQuery("SELECT * FROM users WHERE ID = '"+advertiserID+"'"+";");
+        stmt.close();
+        conn.close();
+        return result.getString("Phone");
+    }
+
 
 }

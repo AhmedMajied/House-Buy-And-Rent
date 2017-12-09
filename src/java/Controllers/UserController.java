@@ -2,13 +2,20 @@ package Controllers;
 
 import DBModels.*;
 import Models.*;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +32,7 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
 
         String action = request.getParameter("action");
-        System.out.println(action);
+
         switch (action) {
             case "adInterest":
                 addInterest(request, response);
@@ -59,6 +66,8 @@ public class UserController extends HttpServlet {
             case "deletePhoto":
                 deletePicture(request, response);
                 break;
+           case "requestContact":
+                requestUserContactInformation(request,response);
         }
     }
 
@@ -122,29 +131,34 @@ public class UserController extends HttpServlet {
     }// </editor-fold>
 
     private void addInterest(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
-        int size, statusID, typeID, userID;
+   
+        int size, statusID, typeID;
+        String username;
         UserDBModel userDBModel = new UserDBModel();
 
         size = Integer.parseInt(request.getParameter("size"));
         statusID = Integer.parseInt(request.getParameter("status"));
         typeID = Integer.parseInt(request.getParameter("type"));
-        userID = ((User)request.getSession().getAttribute("User")).getID();
+        username = ((User)request.getSession().getAttribute("User")).getUsername();
 
-        boolean success = userDBModel.addInterest(size,statusID,typeID,userID);
+        boolean success = userDBModel.addInterest(size,statusID,typeID,username);
+
         //response.getWriter().print(size+" "+statusID+" "+typeID);
         //TODO handle if false
         response.sendRedirect("jsp/Home.jsp");
     }
 
+
+    
     private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-        AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
-        Vector<BuildingStatus> statuses = AdDBModel.retrieveAllStatuses();
+        AdvertisementDBModel adDBModel = new AdvertisementDBModel();
+        Vector<BuildingStatus> statuses = adDBModel.retrieveAllStatuses();
         request.setAttribute("Statuses", statuses);
     }
 
-    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
-        AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
-        Vector<BuildingType> types = AdDBModel.retrieveAllTypes();
+    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        AdvertisementDBModel adDBModel = new AdvertisementDBModel();
+        Vector<BuildingType> types = adDBModel.retrieveAllTypes();
         request.setAttribute("Types", types);
     }
 
@@ -159,7 +173,7 @@ public class UserController extends HttpServlet {
     }
 
     public void DisplayHome(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        System.out.print("khgfkjhgjshfdjkhsjdhgas");
+
         response.sendRedirect("jsp/Home.jsp");
     }
 
@@ -172,7 +186,7 @@ public class UserController extends HttpServlet {
     }
     public void logIn(HttpServletRequest request,HttpServletResponse response) throws SQLException, SQLException, InstantiationException, InstantiationException, IllegalAccessException, InstantiationException, InstantiationException, InstantiationException, InstantiationException, ClassNotFoundException, IOException
     {
-        System.out.println("Controllers.UserController.logIn()");
+
         String name=request.getParameter("name");
         HttpSession currentSession=request.getSession(true);
         User user=new User();
@@ -247,26 +261,54 @@ public class UserController extends HttpServlet {
     }
 
     public void addPicture(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException {
+
         String name = getNameFromSession(request);
         if(name==null){
             response.sendRedirect("index.jsp");
             return;
         }
-        System.out.println("name " + name);
-        Part filePart = request.getPart("photo");
-        System.out.println(filePart.toString());
-        UserDBModel userDBModel = new UserDBModel();
-        InputStream inputStream = null;
-        inputStream = filePart.getInputStream();
-        if (inputStream != null) {
-            boolean res = userDBModel.savePicture(name, inputStream);
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        String saveFile = "";
+        String contentType = request.getContentType();
+        if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0))
+        {
+            DataInputStream in = new DataInputStream(request.getInputStream());
+            int formDataLength = request.getContentLength();
+            byte dataBytes[] = new byte[formDataLength];
+            in.read(dataBytes, 0, formDataLength);
+               
+            String file = new String(dataBytes);
+            saveFile = file.substring(file.indexOf("filename=\"") + 10);
+            saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
+            saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1, saveFile.indexOf("\""));
+            int lastIndex = contentType.lastIndexOf("=");
+            String boundary = contentType.substring(lastIndex + 1, contentType.length());
+            int pos;
+            pos = file.indexOf("filename=\"");
+            pos = file.indexOf("\n", pos) + 1;
+            int boundaryLocation = file.indexOf(boundary, pos)-4;
+            int startPos = ((file.substring(0, pos)).getBytes()).length;
+            int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
+            File ff = new File(saveFile);
+            FileOutputStream fileOut = new FileOutputStream(ff);
+            fileOut.write(dataBytes, startPos, (endPos - startPos));
+            fileOut.flush();
+            fileOut.close();
+            File f = new File(saveFile);
+            System.out.println("\n\n"+f.getName()+"  "+f.getAbsolutePath()+" lll "+f.length());
+            UserDBModel dbModel=new UserDBModel();
+            dbModel.savePicture(f,name); 
+            response.sendRedirect("jsp/profile.jsp");
         }
     }
 
-    public void deletePicture(HttpServletRequest request, HttpServletResponse response) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public void deletePicture(HttpServletRequest request, HttpServletResponse response) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
         UserDBModel userDBModel = new UserDBModel();
         String name = getNameFromSession(request);
         userDBModel.deletePicture(name);
+        response.sendRedirect("jsp/profile.jsp");
     }
     public String getNameFromSession(HttpServletRequest request)
     {
@@ -285,6 +327,22 @@ public class UserController extends HttpServlet {
 
         return userDBModel.getUser(userName);
 
+    }
+
+    public void requestUserContactInformation(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException
+    {
+        int advertiserID=Integer.parseInt(request.getParameter("advertiserID"));
+        Notification notification=new Notification();
+        PrintWriter out= response.getWriter();
+        notification.setID(advertiserID);
+        notification.setLink("#");
+        notification.setText("there are user requested your phone number");
+        Calendar cal = Calendar.getInstance();
+        Date currentTime = (Date) cal.getTime();
+        notification.setTime(currentTime);
+        UserDBModel dbModel=new UserDBModel();
+        dbModel.addNotificationToUser(advertiserID,notification);
+        out.print(dbModel.getPhone(advertiserID));
     }
 
 }

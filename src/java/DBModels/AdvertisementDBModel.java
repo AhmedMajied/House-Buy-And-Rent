@@ -3,6 +3,11 @@ package DBModels;
 import java.util.*;
 import Models.*;
 import config.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
+
 
 public class AdvertisementDBModel {
 
@@ -64,7 +69,7 @@ public class AdvertisementDBModel {
             ad.setID(result.getInt("ID"));
             ad.setTitle(result.getString("Title"));
             ad.setAdType(result.getString("adType"));
-            ad.setAdvertisorID(result.getInt("AdvertisorID"));
+            ad.setAdvertiserName(result.getString("AdvertiserName"));
             ad.setDescription(result.getString("Description"));
             ad.setBuildingSize(result.getInt("BuildingSize"));
             ad.setBuildingFloor(result.getInt("BuildingFloor"));
@@ -82,8 +87,8 @@ public class AdvertisementDBModel {
             rs2 = prepStmt2.executeQuery("select UserID,Value from Ratings where AdvertisementID = "+ad.getID());
             while(rs2.next()){
                 Rating AdRate = new Rating();
-                AdRate.setUserID(rs2.getInt("UserID"));
-                AdRate.setValue(rs2.getDouble("Value"));
+                AdRate.setUsername(rs2.getString("Username"));
+                AdRate.setValue(rs2.getInt("Value"));
                 AdRates.add(AdRate);
             }
 
@@ -93,7 +98,7 @@ public class AdvertisementDBModel {
             while(rs2.next()){
                 Comment AdComment = new Comment();
                 AdComment.setID(rs2.getInt("ID"));
-                AdComment.setUserID(rs2.getInt("UserID"));
+                AdComment.setUserName(rs2.getString("Username"));
                 AdComment.setText(rs2.getString("Text"));
                 AdComments.add(AdComment);
             }
@@ -114,9 +119,9 @@ public class AdvertisementDBModel {
     public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertisorID,AdType,buildingStatus,buildingType) VALUES('"
+        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertisorID()+",'"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserName()+",'"
                             +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
         );
         stmt.close();
@@ -192,7 +197,8 @@ public class AdvertisementDBModel {
         ret.setBuildingFloor(rs.getInt("buildingFloor"));
         ret.setLatitude(rs.getDouble("Latitude"));
         ret.setLongitude(rs.getDouble("Longitude"));
-        ret.setAdvertisorID(rs.getInt("AdvertisorID"));
+
+        ret.setAdvertiserName(rs.getString("AdvertiserName"));
         int buildingType=rs.getInt("buildingType");
         int buildingStatus=rs.getInt("buildingStatus");
         ret.setAdType(rs.getString("AdType"));
@@ -212,6 +218,17 @@ public class AdvertisementDBModel {
         stmt.close();
         conn.close();
         return ret;
+    }
+
+    public void addPhoto(File f,int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, FileNotFoundException {
+        Connection connection = DBConfig.getConnection();
+        PreparedStatement psmnt = connection.prepareStatement("INSERT INTO BuildingPhotos(AdID,Photo)VALUES(?,?)");
+        FileInputStream fis = new FileInputStream(f);
+        psmnt.setInt(1, adID);
+        psmnt.setBlob(2, (InputStream) fis, (int) (f.length()));
+        psmnt.executeUpdate();
+        psmnt.close();
+        connection.close();
     }
 
 }
