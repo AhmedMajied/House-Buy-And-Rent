@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : advertisement
     Created on : Dec 2, 2017, 7:56:38 PM
@@ -21,17 +22,16 @@
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/advertisementJs.js"></script>
     </head>
-    <body>
-        
+    <body>        
             <div id="navBar">
-                <a id="active" href ="Home.jsp">Home</a>
+                <a id="active" href ="/UserController?action=displayHome">Home</a>
                 <a href="#">My Advertisments</a>
                 <a href="#">About</a>
                 <span id="search"></span>
                 <input type="text"name="search"id="searchText" placeholder="search field"/>
                 <a href="#"id="notification"></a>
-                <a href="profile.jsp">MyProfile</a>
-                <a href="../index.html">LogOut</a>
+                <a href="jsp/profile.jsp">MyProfile</a>
+                <a href="/UserController?action=logOut">LogOut</a>
             </div>
         <br>
         <div id="title"><%=ad.getTitle()%></div>
@@ -56,6 +56,7 @@
         <br/>
         <div id="type">Status: <%=ad.getStatus().getName()%></div>
         <br/>
+
         <fieldset id="Photo"> 
             <legend>Photos</legend>
             <%  for(Blob image : ad.getPhotos()){
@@ -63,13 +64,18 @@
                String code = Base64.getEncoder().encodeToString(imgData); 
            %>
             <img src="data:image/jpg;base64,<%=code%>" id="photos"/>
-        <%}%>
+        <%}
+        Object obj = request.getSession(true).getAttribute("User");
+        if(obj!=null && ((User)obj).getUsername().equals(ad.getAdvertiserName())){
+        %>
             <br>
+            
             <form action="AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
                 <input name="file" type="file" id="photo"/>
                 <br><br>
                 <input type="submit" id="add" value="Add Photo"/>
             </form>
+        <%}%>
         </fieldset>
     </body>
 </html>

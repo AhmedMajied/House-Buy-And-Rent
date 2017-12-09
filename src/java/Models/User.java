@@ -9,6 +9,7 @@ public class User {
     private String phone;
     private boolean isAdmin;
     private Blob picture;
+
     private ArrayList<Advertisement> advertisements;
     private ArrayList<Notification> notifications;
     private ArrayList<Interest> interests;
@@ -70,13 +71,5 @@ public class User {
         this.notifications = notifications;
     }
 
-    public ArrayList<Interest> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(ArrayList<Interest> interests) {
-        this.interests = interests;
-    }
-    
     
 }

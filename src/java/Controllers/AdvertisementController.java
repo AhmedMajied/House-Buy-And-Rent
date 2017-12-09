@@ -28,22 +28,37 @@ public class AdvertisementController extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
 
-        /* TODO output your page here. You may use following sample code. */
+    
+            /* TODO output your page here. You may use following sample code. */
         String action = request.getParameter("action");
-
-        switch (action) {
+        switch(action){
             case "createAdvertisementPage":
-                createAdvertisementPage(request, response);
+                createAdvertisementPage(request,response);
+                break;
+            case "updateAdvertisementPage":
+                updateAdvertisementPage(request,response);
                 break;
             case "addAdvertisement":
-                createAdvertisement(request, response);
+                createAdvertisement(request,response);
+                break;
+            case "updateAdvertisement":
+                updateAdvertisement(request,response);
+                break;
+            case "deleteAdvertisement":
+                deleteAdvertisement(request,response);
                 break;
             case "Advertisement":
-                displayAdvertisement(request, response);
+                displayAdvertisement(request,response);
+                break;
+            case "AllAds":
+                getAllAdvertisements(request,response);
+            case "rateAd":
+                rateAd(request,response);
                 break;
             case "addPhoto":
                 addPhoto(request, response);
-                break;
+            break;
+                
 
         }
     }
@@ -106,15 +121,19 @@ public class AdvertisementController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+  
+    
+    
+    
+    
+    public void getAllAdvertisements(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException, ServletException {
+        AdvertisementDBModel adDBModel = new AdvertisementDBModel();
+        Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();
+        request.setAttribute("AllAds", AllAds);
+        request.getRequestDispatcher("jsp/AllAds.jsp").forward(request, response);
 
-    public Vector<Advertisement> getAllAdvertisements() {
-        // TODO implement here
-        return null;
     }
-
-    /**
-     * @return
-     */
+    
     public void createAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Advertisement adv = new Advertisement();
         adv.setTitle(request.getParameter("Title"));
@@ -129,27 +148,43 @@ public class AdvertisementController extends HttpServlet {
         adv.setAdvertiserName(((User) request.getSession(false).getAttribute("User")).getUsername());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
-
+        
         //TO BE IMPLEMENTED
         // GO TO HOME PAGE
     }
 
     /**
      * @param ID
-     * @return
+     * @param response the value of response
      */
-    public boolean updateAdvertisement(int ID) {
-        // TODO implement here
-        return false;
+    public void updateAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Advertisement adv = new Advertisement();
+        adv.setID(Integer.parseInt(request.getParameter("ID")));
+        adv.setTitle(request.getParameter("Title"));
+        adv.setBuildingSize(Integer.parseInt(request.getParameter("Size")));
+        adv.setBuildingFloor(Integer.parseInt(request.getParameter("Floor")));
+        adv.setStatus(new BuildingStatus(Integer.parseInt(request.getParameter("Status")), ""));
+        adv.setType(new BuildingType(Integer.parseInt(request.getParameter("Type")), ""));
+        adv.setAdType(request.getParameter("AdType"));
+        adv.setDescription(request.getParameter("Description"));
+        adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
+        adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
+        adv.setAdvertiserName(((User) request.getSession(false).getAttribute("User")).getUsername());
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        advDB.updateAd(adv);
+        
     }
 
     /**
-     * @param ID
-     * @return
+     * @param request
+     * @param response the value of response
      */
-    public boolean deleteAdvertisement(int ID) {
-        // TODO implement here
-        return false;
+    public void deleteAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        int adID = Integer.parseInt(request.getParameter("adID"));
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        advDB.deleteAd(adID);
+        request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+
     }
 
     private void createAdvertisementPage(HttpServletRequest request, HttpServletResponse response) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, ServletException, IOException {
@@ -166,7 +201,26 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("Advertisement", adv);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
-
+    
+    public void rateAd(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException{
+        
+        AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
+        
+        String rateStatus = (String) request.getParameter("rateStatus");
+        int AdID = Integer.parseInt(request.getParameter("AdID"));
+        double value = Double.parseDouble(request.getParameter("value"));
+        //int userID = ((User)request.getSession().getAttribute("User")).getID();
+        
+        if(rateStatus.equals("new")){
+          //  AdDBModel.saveNewRating(userID, AdID, value);
+        }
+        else{
+            //AdDBModel.updateExistingRating(userID, AdID, value);
+        }
+        
+        //response.getWriter().print(AdID+" "+value+" "+rateStatus);
+    }
+    
     private void addPhoto(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException {
         response.setContentType("text/html");
         int adID = Integer.parseInt(request.getParameter("adID"));
@@ -213,6 +267,13 @@ public class AdvertisementController extends HttpServlet {
         Advertisement adv = advDB.retrieveAd(adID);
         request.setAttribute("Advertisement", adv);
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);*/
+    }
+
+    private void updateAdvertisementPage(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+        AdvertisementDBModel advDB = new AdvertisementDBModel();
+        request.setAttribute("Statuses", advDB.retrieveAllStatuses());
+        request.setAttribute("Types", advDB.retrieveAllTypes());
+        request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);//To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -1,7 +1,6 @@
 package Controllers;
 
-import DBModels.AdvertisementDBModel;
-import DBModels.UserDBModel;
+import DBModels.*;
 import Models.*;
 import java.io.DataInputStream;
 import java.io.File;
@@ -33,6 +32,7 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
 
         String action = request.getParameter("action");
+
         switch (action) {
             case "adInterest":
                 addInterest(request, response);
@@ -47,6 +47,8 @@ public class UserController extends HttpServlet {
                 signUp(request, response);
                 break;
             case "logIn":
+                getBuildingStatuses(request, response);
+                getBuildingTypes(request, response);
                 logIn(request, response);
                 break;
             case "addPhone":
@@ -64,8 +66,15 @@ public class UserController extends HttpServlet {
             case "deletePhoto":
                 deletePicture(request, response);
                 break;
-            case "requestContact":
+           case "requestContact":
                 requestUserContactInformation(request,response);
+                break;
+           case "displayHome":
+               DisplayHome(request, response);
+               break;
+           case "logOut":
+               LogOut(request,response);
+               break;
         }
     }
 
@@ -128,30 +137,35 @@ public class UserController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void addInterest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int size, statusID, typeID, userID;
+    private void addInterest(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
+   
+        int size, statusID, typeID;
+        String username;
         UserDBModel userDBModel = new UserDBModel();
 
         size = Integer.parseInt(request.getParameter("size"));
         statusID = Integer.parseInt(request.getParameter("status"));
         typeID = Integer.parseInt(request.getParameter("type"));
-        //userID = ((User)request.getSession().getAttribute("User")).getID();
+        username = ((User)request.getSession().getAttribute("User")).getUsername();
 
-        //boolean success = userDBModel.addInterest(size,statusID,typeID,userID);
+        boolean success = userDBModel.addInterest(size,statusID,typeID,username);
+
         //response.getWriter().print(size+" "+statusID+" "+typeID);
         //TODO handle if false
         response.sendRedirect("jsp/Home.jsp");
     }
 
-    private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response) {
-        UserDBModel userDBModel = new UserDBModel();
-        Vector<BuildingStatus> statuses = userDBModel.fetchBuildingStatuses();
+
+    
+    private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        AdvertisementDBModel adDBModel = new AdvertisementDBModel();
+        Vector<BuildingStatus> statuses = adDBModel.retrieveAllStatuses();
         request.setAttribute("Statuses", statuses);
     }
 
-    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response) {
-        UserDBModel userDBModel = new UserDBModel();
-        Vector<BuildingType> types = userDBModel.fetchBuildingTypes();
+    private void getBuildingTypes(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        AdvertisementDBModel adDBModel = new AdvertisementDBModel();
+        Vector<BuildingType> types = adDBModel.retrieveAllTypes();
         request.setAttribute("Types", types);
     }
 
@@ -165,8 +179,10 @@ public class UserController extends HttpServlet {
         
     }
 
-    public void DisplayHome(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        response.sendRedirect("jsp/Home.jsp");
+    public void DisplayHome(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, ServletException {
+        getBuildingStatuses(request, response);
+        getBuildingTypes(request, response);
+        request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
     }
 
     public void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
@@ -176,8 +192,9 @@ public class UserController extends HttpServlet {
         boolean result = userDBModel.validateUserName(name);
         out.print(result);
     }
-    public void logIn(HttpServletRequest request,HttpServletResponse response) throws SQLException, SQLException, InstantiationException, InstantiationException, IllegalAccessException, InstantiationException, InstantiationException, InstantiationException, InstantiationException, ClassNotFoundException, IOException
+    public void logIn(HttpServletRequest request,HttpServletResponse response) throws SQLException, SQLException, InstantiationException, InstantiationException, IllegalAccessException, InstantiationException, InstantiationException, InstantiationException, InstantiationException, ClassNotFoundException, IOException, ServletException
     {
+
         String name=request.getParameter("name");
         HttpSession currentSession=request.getSession(true);
         User user=new User();
@@ -251,13 +268,14 @@ public class UserController extends HttpServlet {
         response.sendRedirect("jsp/profile.jsp");
     }
 
-    public void addPicture(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException
-    {
+    public void addPicture(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException {
+
         String name = getNameFromSession(request);
         if(name==null){
             response.sendRedirect("index.jsp");
             return;
         }
+
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String saveFile = "";
@@ -318,6 +336,7 @@ public class UserController extends HttpServlet {
         return userDBModel.getUser(userName);
 
     }
+
     public void requestUserContactInformation(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException
     {
         int advertiserID=Integer.parseInt(request.getParameter("advertiserID"));
@@ -332,6 +351,17 @@ public class UserController extends HttpServlet {
         UserDBModel dbModel=new UserDBModel();
         dbModel.addNotificationToUser(advertiserID,notification);
         out.print(dbModel.getPhone(advertiserID));
+    }
+    public void LogOut(HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+        HttpSession currentSession=request.getSession(true);
+        String name=null;
+        if(currentSession!=null)
+        {
+            currentSession.invalidate();
+        }
+        response.sendRedirect("index.jsp");
+        
     }
 
 }

@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.Blob;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -17,8 +18,8 @@ public class Advertisement {
     private String advertiserName;
     private BuildingType type;
     private BuildingStatus status;
-    private ArrayList<Comment> comments;
-    private ArrayList<Rating> ratings;
+    private Vector<Comment> comments;
+    private Vector<Rating> ratings;
 
     public int getID() {
         return ID;
@@ -116,19 +117,19 @@ public class Advertisement {
         this.status = status;
     }
 
-    public ArrayList<Comment> getComments() {
+    public Vector<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setComments(Vector<Comment> comments) {
         this.comments = comments;
     }
 
-    public ArrayList<Rating> getRatings() {
+    public Vector<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(ArrayList<Rating> ratings) {
+    public void setRatings(Vector<Rating> ratings) {
         this.ratings = ratings;
     }
     

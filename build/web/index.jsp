@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : index.jsp
     Created on : Dec 5, 2017, 3:00:39 PM
@@ -26,7 +27,7 @@
             }
         %>
         <div id="login">
-            <form name="form-login" id="formLogin" action="/IA_Project/UserController?action=logIn" method="post">
+            <form name="form-login" id="formLogin" action="/UserController?action=logIn" method="post">
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" name="name" type="text" required />
                 <span id="lock"></span>
@@ -44,9 +45,11 @@
         </div>
         
         <!-- for testing-->
-        <form action="/IA_Project/UserController?action=logIn" method="POST">
+
+        <form action="/UserController?action=logIn" method="POST">
             <input type="submit"/>
         </form>
+
     </body>
 </html>
 
