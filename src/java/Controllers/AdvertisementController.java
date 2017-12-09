@@ -28,23 +28,23 @@ public class AdvertisementController extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
 
-      
-            /* TODO output your page here. You may use following sample code. */
-            String action = request.getParameter("action");
-            switch(action){
-                case "createAdvertisementPage":
-                    createAdvertisementPage(request,response);
-                    break;
-                case "addAdvertisement":
-                    createAdvertisement(request,response);
-                    break;
-                case "Advertisement":
-                    displayAdvertisement(request,response);
-                    break;
-                case "addPhoto":
-                    addPhoto(request,response);
-                    break;
-                
+        /* TODO output your page here. You may use following sample code. */
+        String action = request.getParameter("action");
+
+        switch (action) {
+            case "createAdvertisementPage":
+                createAdvertisementPage(request, response);
+                break;
+            case "addAdvertisement":
+                createAdvertisement(request, response);
+                break;
+            case "Advertisement":
+                displayAdvertisement(request, response);
+                break;
+            case "addPhoto":
+                addPhoto(request, response);
+                break;
+
         }
     }
 
@@ -106,11 +106,7 @@ public class AdvertisementController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
-    
-    
-    
+
     public Vector<Advertisement> getAllAdvertisements() {
         // TODO implement here
         return null;
@@ -124,22 +120,22 @@ public class AdvertisementController extends HttpServlet {
         adv.setTitle(request.getParameter("Title"));
         adv.setBuildingSize(Integer.parseInt(request.getParameter("Size")));
         adv.setBuildingFloor(Integer.parseInt(request.getParameter("Floor")));
-        adv.setStatus(new BuildingStatus(Integer.parseInt(request.getParameter("Status")),""));
-        adv.setType(new BuildingType(Integer.parseInt(request.getParameter("Type")),""));
+        adv.setStatus(new BuildingStatus(Integer.parseInt(request.getParameter("Status")), ""));
+        adv.setType(new BuildingType(Integer.parseInt(request.getParameter("Type")), ""));
         adv.setAdType(request.getParameter("AdType"));
         adv.setDescription(request.getParameter("Description"));
         adv.setLatitude(Double.parseDouble(request.getParameter("Latitude")));
         adv.setLongitude(Double.parseDouble(request.getParameter("Longitude")));
-        adv.setAdvertiserName(((User)request.getSession(false).getAttribute("User")).getUsername());
+        adv.setAdvertiserName(((User) request.getSession(false).getAttribute("User")).getUsername());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
-        
+
         //TO BE IMPLEMENTED
         // GO TO HOME PAGE
     }
 
     /**
-     * @param ID 
+     * @param ID
      * @return
      */
     public boolean updateAdvertisement(int ID) {
@@ -148,7 +144,7 @@ public class AdvertisementController extends HttpServlet {
     }
 
     /**
-     * @param ID 
+     * @param ID
      * @return
      */
     public boolean deleteAdvertisement(int ID) {
@@ -171,9 +167,9 @@ public class AdvertisementController extends HttpServlet {
         request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
     }
 
-    private void addPhoto(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    private void addPhoto(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException {
         response.setContentType("text/html");
-        int adID=Integer.parseInt(request.getParameter("adID"));
+        int adID = Integer.parseInt(request.getParameter("adID"));
         PrintWriter out = response.getWriter();
         String saveFile = "";
         String contentType = request.getContentType();
@@ -181,8 +177,12 @@ public class AdvertisementController extends HttpServlet {
             DataInputStream in = new DataInputStream(request.getInputStream());
             int formDataLength = request.getContentLength();
             byte dataBytes[] = new byte[formDataLength];
-            in.read(dataBytes, 0, formDataLength);
-               
+            int byteRead = 0;
+            int totalBytesRead = 0;
+            while (totalBytesRead < formDataLength) {
+                byteRead = in.read(dataBytes, totalBytesRead, formDataLength);
+                totalBytesRead += byteRead;
+            }
             String file = new String(dataBytes);
             saveFile = file.substring(file.indexOf("filename=\"") + 10);
             saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
@@ -192,7 +192,9 @@ public class AdvertisementController extends HttpServlet {
             int pos;
             pos = file.indexOf("filename=\"");
             pos = file.indexOf("\n", pos) + 1;
-            int boundaryLocation = file.indexOf(boundary, pos)-4;
+            pos = file.indexOf("\n", pos) + 1;
+            pos = file.indexOf("\n", pos) + 1;
+            int boundaryLocation = file.indexOf(boundary, pos) - 4;
             int startPos = ((file.substring(0, pos)).getBytes()).length;
             int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
             File ff = new File(saveFile);
@@ -200,12 +202,17 @@ public class AdvertisementController extends HttpServlet {
             fileOut.write(dataBytes, startPos, (endPos - startPos));
             fileOut.flush();
             fileOut.close();
+            out.println("You have successfully upload the file by the name of: " + saveFile);
             File f = new File(saveFile);
             AdvertisementDBModel db = new AdvertisementDBModel();
-            db.addPhoto(f,adID); 
+            db.addPhoto(f, adID);
             response.sendRedirect("AdvertisementController?action=Advertisement&id="+adID);
-           
+            
         }
+        /*AdvertisementDBModel advDB = new AdvertisementDBModel();
+        Advertisement adv = advDB.retrieveAd(adID);
+        request.setAttribute("Advertisement", adv);
+        request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);*/
     }
 
 }

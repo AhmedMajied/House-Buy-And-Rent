@@ -37,12 +37,12 @@
         <div id="title"><%=ad.getTitle()%></div>
         <br/>
         
-        <input type="hidden"id="hiddenId" value="<%=ad.getAdvertiserID()%>">
+        <input type="hidden"id="hiddenId" value="<%=ad.getAdvertiserName()%>">
         <input type="button" id="displayInfo"value="Request User Info"/>
         <div id="result"></div>
         <br>
         
-        <iframe id="map" src="https://www.google.com/maps/embed/v1/place?origin=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
+        <iframe id="map" src="https://www.google.com/maps/embed/v1/place?q=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
         <br/>
         <div id="type"><%=ad.getAdType()%></div>
         <br/>
@@ -65,7 +65,7 @@
             <img src="data:image/jpg;base64,<%=code%>" id="photos"/>
         <%}%>
             <br>
-            <form action="/IA_Project/AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
+            <form action="AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
                 <input name="file" type="file" id="photo"/>
                 <br><br>
                 <input type="submit" id="add" value="Add Photo"/>
