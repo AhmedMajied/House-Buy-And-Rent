@@ -79,21 +79,21 @@ public class AdvertisementDBModel {
 
             // get Ad ratings
             Vector<Rating> AdRates = new Vector<>();
-            rs2 = prepStmt2.executeQuery("select UserID,Value from Ratings where AdvertisementID = "+ad.getID());
+            rs2 = prepStmt2.executeQuery("select Username,Value from Ratings where AdvertisementID = "+ad.getID());
             while(rs2.next()){
                 Rating AdRate = new Rating();
-                AdRate.setUserID(rs2.getInt("UserID"));
+                AdRate.setUserName(rs2.getString("Username"));
                 AdRate.setValue(rs2.getInt("Value"));
                 AdRates.add(AdRate);
             }
 
             // get Ad Comments
             Vector<Comment> AdComments = new Vector<>();
-            rs2 = prepStmt2.executeQuery("select ID,UserID,Text from Comments where AdvertisementID = "+ad.getID());
+            rs2 = prepStmt2.executeQuery("select ID,Username,Text from Comments where AdvertisementID = "+ad.getID());
             while(rs2.next()){
                 Comment AdComment = new Comment();
                 AdComment.setID(rs2.getInt("ID"));
-                AdComment.setUserID(rs2.getString("UserName"));
+                AdComment.setUserName(rs2.getString("Username"));
                 AdComment.setText(rs2.getString("Text"));
                 AdComments.add(AdComment);
             }
@@ -123,26 +123,11 @@ public class AdvertisementDBModel {
         conn.close();
     }
 
-    public boolean updateAd(Advertisement ad) {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean deleteAd(int adID) {
-        // TODO implement here
-        return false;
-    }
-
-    public Vector<Advertisement> retrieveUserAds(int adID) {
-        // TODO implement here
-        return null;
-    }
-
-    public boolean saveNewComment(int userID, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public boolean saveNewComment(String UserName, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(?,?,?)");
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(null,?,?,?)");
 
-        prepStmt.setInt(1, userID);
+        prepStmt.setString(1, UserName);
         prepStmt.setInt(2, adID);
         prepStmt.setString(3, commentText);
         int affectedRows = prepStmt.executeUpdate();
@@ -156,14 +141,14 @@ public class AdvertisementDBModel {
         return false;
     }
     
-    public void saveNewRating(int userID, int adID, double value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public void saveNewRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
      
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("insert into Ratings values(?,?,?)");
 
-        prepStmt.setInt(1, userID);
+        prepStmt.setString(1, UserName);
         prepStmt.setInt(2, adID);
-        prepStmt.setDouble(3, value);
+        prepStmt.setInt(3, value);
         prepStmt.executeUpdate();
 
         prepStmt.close();
@@ -172,14 +157,14 @@ public class AdvertisementDBModel {
     }
     
     
-    public void updateExistingRating(int userID, int adID, double value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public void updateExistingRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where UserID = ? and AdvertismentID = ?");
+        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where Username = ? and AdvertismentID = ?");
 
-        prepStmt.setDouble(1, value);
-        prepStmt.setInt(2, userID);
-        prepStmt.setDouble(3, adID);
+        prepStmt.setInt(1, value);
+        prepStmt.setString(2, UserName);
+        prepStmt.setInt(3, adID);
         prepStmt.executeUpdate();
 
         prepStmt.close();

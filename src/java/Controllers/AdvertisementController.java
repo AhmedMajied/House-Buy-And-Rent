@@ -184,14 +184,14 @@ public class AdvertisementController extends HttpServlet {
         
         String rateStatus = (String) request.getParameter("rateStatus");
         int AdID = Integer.parseInt(request.getParameter("AdID"));
-        double value = Double.parseDouble(request.getParameter("value"));
-        int userID = ((User)request.getSession().getAttribute("User")).getID();
+        int value = Integer.parseInt(request.getParameter("value"));
+        String UserName = ((User)request.getSession().getAttribute("User")).getUsername();
         
         if(rateStatus.equals("new")){
-            AdDBModel.saveNewRating(userID, AdID, value);
+            AdDBModel.saveNewRating(UserName, AdID, value);
         }
         else{
-            AdDBModel.updateExistingRating(userID, AdID, value);
+            AdDBModel.updateExistingRating(UserName, AdID, value);
         }
         
         //response.getWriter().print(AdID+" "+value+" "+rateStatus);
@@ -203,9 +203,9 @@ public class AdvertisementController extends HttpServlet {
         int AdID = Integer.parseInt(request.getParameter("AdID"));
         String commentText = request.getParameter("commentText");
         String advertiserName = request.getParameter("AdvertiserName");
-        int userID = ((User)request.getSession().getAttribute("User")).getID();
+        String UserName = ((User)request.getSession().getAttribute("User")).getUsername();
         
-        boolean success = AdDBModel.saveNewComment(userID, AdID, commentText);
+        boolean success = AdDBModel.saveNewComment(UserName, AdID, commentText);
         
         // save Comment as Notification to advertiser
         String userName = ((User)request.getSession().getAttribute("User")).getUsername();
@@ -214,7 +214,7 @@ public class AdvertisementController extends HttpServlet {
         UserDBModel userDBModel = new UserDBModel();
         
         // it must be advertiserID(advertiserName) not userID
-        Notification notification = new Notification(notificationText,AdLink,userID);
+        Notification notification = new Notification(notificationText,AdLink,UserName);
         userDBModel.addNotificationToUser(notification);
         
         

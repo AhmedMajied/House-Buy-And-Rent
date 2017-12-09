@@ -1,25 +1,15 @@
 package Models;
 
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class User {
-    private int ID;
     private String username;
     private String password;
     private String phone;
     private boolean isAdmin;
     private Blob picture;
     private Vector<Notification> notifications;
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 
     public String getUsername() {
         return username;

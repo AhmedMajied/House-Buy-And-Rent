@@ -125,15 +125,16 @@ public class UserController extends HttpServlet {
     }// </editor-fold>
 
     private void addInterest(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
-        int size, statusID, typeID, userID;
+        int size, statusID, typeID;
+        String UserName;
         UserDBModel userDBModel = new UserDBModel();
 
         size = Integer.parseInt(request.getParameter("size"));
         statusID = Integer.parseInt(request.getParameter("status"));
         typeID = Integer.parseInt(request.getParameter("type"));
-        userID = ((User)request.getSession().getAttribute("User")).getID();
+        UserName = ((User)request.getSession().getAttribute("User")).getUsername();
 
-        boolean success = userDBModel.addInterest(size,statusID,typeID,userID);
+        boolean success = userDBModel.addInterest(size,statusID,typeID,UserName);
         //response.getWriter().print(size+" "+statusID+" "+typeID);
         //TODO handle if false
         response.sendRedirect("jsp/Home.jsp");
@@ -291,9 +292,9 @@ public class UserController extends HttpServlet {
     }
     
     private void markNotificationsAsRead(HttpServletRequest request)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-        int userID = ((User)request.getSession().getAttribute("User")).getID();
+        String UserName = ((User)request.getSession().getAttribute("User")).getUsername();
         UserDBModel userDBModel = new UserDBModel();
-        userDBModel.markNotificationsAsRead(userID);
+        userDBModel.markNotificationsAsRead(UserName);
     }
 
 }

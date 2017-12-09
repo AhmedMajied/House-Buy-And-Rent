@@ -9,14 +9,14 @@ public class Notification {
     private String text;
     private Date time;
     private String link;
-    private int userID;
+    private String userName;
     private boolean isRead;
     
     public Notification(){}
-    public Notification(String text,String link,int userID){
+    public Notification(String text,String link,String userName){
         this.text = text;
         this.link = link;
-        this.userID = userID;
+        this.userName = userName;
         time = new Date();
     }
 
@@ -52,12 +52,12 @@ public class Notification {
         this.link = link;
     }
     
-    public int getUserID() {
-        return userID;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public boolean isIsRead() {

@@ -4,15 +4,15 @@ package Models;
 public class Interest {
     private int ID;
     private int size;
-    private int userID;
+    private String userName;
     private BuildingType buildingType;
     private BuildingStatus buildingStatus;
     
-    public Interest(int size,BuildingStatus status,BuildingType type,int userID){
+    public Interest(int size,BuildingStatus status,BuildingType type,String userName){
         this.size = size;
         buildingStatus = status;
         buildingType = type;
-        this.userID = userID;
+        this.userName = userName;
     }
 
     public int getID() {
@@ -31,12 +31,12 @@ public class Interest {
         this.size = size;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public BuildingType getBuildingType() {

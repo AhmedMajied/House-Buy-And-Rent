@@ -14,11 +14,11 @@ public class Comment {
         this.ID = ID;
     }
 
-    public String getUserID() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserID(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
