@@ -64,9 +64,6 @@ public class AdvertisementController extends HttpServlet {
             case "searchAdvertisements":
                 searchAdvertisements(request,response);
                 break;
-            
-                
-
         }
     }
 
@@ -130,7 +127,6 @@ public class AdvertisementController extends HttpServlet {
     }// </editor-fold>
   
     
-    
     public void searchPage(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException
     {
         AdvertisementDBModel dbModel=new AdvertisementDBModel();
@@ -150,6 +146,7 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("searchResult", result);
         request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
     }
+    
     public void getAllAdvertisements(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException, ServletException {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
         Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();

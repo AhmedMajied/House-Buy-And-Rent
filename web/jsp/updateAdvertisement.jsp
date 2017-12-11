@@ -17,6 +17,7 @@
     <body>
     <header>
         <div id="navBar">
+
             <a id="active" href ="/UserController?action=displayHome">Home</a>
             <a href="#">My Advertisments</a>
             <a href="#">About</a>
@@ -24,7 +25,6 @@
             <a href="#"id="notification"></a>
             <a href="jsp/profile.jsp">MyProfile</a>
             <a href="/UserController?action=logOut">LogOut</a>
-
         </div>
     </header>
     <div id="updateForm">
