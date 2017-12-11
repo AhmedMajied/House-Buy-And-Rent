@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/HouseBuyAndRent/web/js/homeJS.js</file>
-            <file>file:/E:/HouseBuyAndRent/web/jsp/Home.jsp</file>
+            <file>file:/E:/HouseBuyAndRent/src/java/Controllers/UserController.java</file>
+            <file>file:/E:/HouseBuyAndRent/src/java/Controllers/AdvertisementController.java</file>
+            <file>file:/E:/HouseBuyAndRent/src/java/Config/DBConfig.java</file>
+            <file>file:/E:/HouseBuyAndRent/web/js/loginJS.js</file>
             <file>file:/E:/HouseBuyAndRent/web/index.jsp</file>
-            <file>file:/E:/HouseBuyAndRent/src/java/Models/Advertisement.java</file>
-            <file>file:/E:/HouseBuyAndRent/web/jsp/createAdvertisement.jsp</file>
         </group>
     </open-files>
 </project-private>
