@@ -11,7 +11,14 @@ public class Notification {
     private String username;
     private boolean read;
     
-    
+    public Notification(){}
+    public Notification(String text,String link,String userName){
+        this.text = text;
+        this.link = link;
+        this.username = userName;
+        time = new Date();
+    }
+
     public int getID() {
         return ID;
     }
@@ -43,35 +50,22 @@ public class Notification {
     public void setLink(String link) {
         this.link = link;
     }
+    
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    /**
-     * @return the read
-     */
     public boolean isRead() {
         return read;
     }
 
-    /**
-     * @param read the read to set
-     */
     public void setRead(boolean read) {
         this.read = read;
-    }
 
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
     }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    
 
 }
