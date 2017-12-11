@@ -16,3 +16,13 @@ html
     background-color: #E0E0E0;
     font-weight: bold;
 }
+hr{
+    height: 5px;
+    margin-left: 30px;
+    margin-right: 30px;
+    height:3px;
+    background-color:black;
+}
+.fa-star.checked{
+    color:orange;
+}

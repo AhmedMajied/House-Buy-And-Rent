@@ -1,16 +1,17 @@
 package Models;
 
 public class Rating {
-    private String userName;
+    
+    private String username;
     private int advertisementID;
     private int value;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public int getAdvertisementID() {
@@ -28,6 +29,5 @@ public class Rating {
     public void setValue(int value) {
         this.value = value;
     }
-    
     
 }

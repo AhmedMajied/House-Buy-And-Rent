@@ -8,6 +8,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../css/headerStyle.css">
@@ -21,10 +22,15 @@
             if(currentSession.getAttribute("User")!=null)
             {
                 user=(User)currentSession.getAttribute("User");
+                if(user.getUsername().equals("Admin")){
+                    %>
+                    <script>showAdminAuthority();</script>
+                    <%
+                }
             }
             else
             {
-                response.sendRedirect("/IA_Project/");
+                response.sendRedirect("/");
             }
         %>
         <%
@@ -40,12 +46,56 @@
                 <span id="search"></span>
                 <input type="text"name="search"id="searchText" placeholder="search field"/>
                 <a href="#"id="notification"></a>
-                <a href="#"><%=user.getUsername()%></a>
                 <a href="profile.jsp">MyProfile</a>
                 <a href="../index.html">LogOut</a>
                 
             </div>
         </header>
+        
+        <%
+            Vector<Advertisement> AllAds = (Vector<Advertisement>) request.getAttribute("AllAds");
+            int averageRate;
+            
+            String currentUsername = user.getUsername();
+            
+            for(int i=0;i<AllAds.size();i++){
+                averageRate = 0;
+                for(int rateIndex=0;rateIndex<AllAds.get(i).getRatings().size();rateIndex++){
+                    averageRate += AllAds.get(i).getRatings().get(rateIndex).getValue();
+                }
+                averageRate /= AllAds.get(i).getRatings().size();
+                %>
+                
+                <form method="POST" id="<%= AllAds.get(i).getID()%>" action="../AdvertisementController?action=Advertisement&AdID=<%= AllAds.get(i).getID()%>">
+                    <label>
+                        <b><%= AllAds.get(i).getTitle()%></b> <%= AllAds.get(i).getAdType()%>
+                        <b>Advertised By</b> <%= AllAds.get(i).getAdvertiserName() %>
+                        
+                        <!-- Users Ratings-->
+                        <span class="fa fa-star" id="<%= "star1"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star2"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star3"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star4"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star5"+"0"+AllAds.get(i).getID()%>"></span>
+                        <script>fillStaticStars(<%= averageRate%>,<%= AllAds.get(i).getID()%>);</script>
+                    </label><br>
+
+                    <b>Size :</b> <%= AllAds.get(i).getBuildingSize()%><br>
+                    <b>Status :</b> <%= AllAds.get(i).getStatus().getName()%><br>
+                    <b>Type :</b> <%= AllAds.get(i).getType().getName()%><br>
+                    
+                    <div class="AdminAuthority">
+                        <button id="<%= "closeOpen"+AllAds.get(i).getID()%>" onclick="closeOpenAd(<%= AllAds.get(i).getID()%>)"><% if(AllAds.get(i).isOpen()){out.print("Close");}else{out.print("Open");} %></button>
+                        <button onclick="deleteAd(<%= AllAds.get(i).getID()%>)">Delete</button>
+                    </div>
+
+                    <input type="submit" value="see full details"/>
+                    
+                    <br><hr>
+                </form>
+                <%
+            }
+        %>
         
         <!-- add interest button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" 
@@ -65,7 +115,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <center><h4 class="modal-title">Add Interest</h4></center>
               </div>
-                <form action="../UserController?action=adInterest" method="POST">
+                <form action="/UserController?action=adInterest" method="POST">
                 <div class="modal-body">
 
                     <center>
@@ -134,7 +184,6 @@
 
           </div>
         </div>
-        
-        
+                
     </body>
 </html>

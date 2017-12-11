@@ -2,7 +2,7 @@ package Models;
 
 public class Comment {
     private int ID;
-    private String userName;
+    private String username;
     private int advertisementID;
     private String text;
 
@@ -14,12 +14,12 @@ public class Comment {
         this.ID = ID;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public int getAdvertisementID() {

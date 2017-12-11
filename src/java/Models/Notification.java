@@ -4,19 +4,18 @@ package Models;
 import java.util.Date;
 
 public class Notification {
-
     private int ID;
     private String text;
     private Date time;
     private String link;
-    private String userName;
-    private boolean isRead;
+    private String username;
+    private boolean read;
     
     public Notification(){}
     public Notification(String text,String link,String userName){
         this.text = text;
         this.link = link;
-        this.userName = userName;
+        this.username = userName;
         time = new Date();
     }
 
@@ -52,20 +51,21 @@ public class Notification {
         this.link = link;
     }
     
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public boolean isRead() {
+        return read;
     }
 
-    public boolean isIsRead() {
-        return isRead;
-    }
+    public void setRead(boolean read) {
+        this.read = read;
 
-    public void setIsRead(boolean isRead) {
-        this.isRead = isRead;
     }
 
 }

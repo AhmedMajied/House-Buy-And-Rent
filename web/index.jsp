@@ -1,3 +1,10 @@
+
+<%-- 
+    Document   : index.jsp
+    Created on : Dec 5, 2017, 3:00:39 PM
+    Author     : MariamAshraf
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Models.*"%>
 
@@ -20,7 +27,7 @@
             }
         %>
         <div id="login">
-            <form name="form-login" id="formLogin" action="/IA_Project/UserController?action=logIn" method="post">
+            <form name="form-login" id="formLogin" action="/UserController?action=logIn" method="post">
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" name="name" type="text" required />
                 <span id="lock"></span>
@@ -38,7 +45,7 @@
         </div>
         
         <!-- for testing-->
-        <form action="AdvertisementController?action=AllAds" method="POST">
+        <form action="AdvertisementController?action=createAdvertisementPage" method="POST">
             <input type="submit"/>
         </form>
 

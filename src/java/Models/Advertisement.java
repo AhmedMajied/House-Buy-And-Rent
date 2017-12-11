@@ -1,6 +1,8 @@
 package Models;
 
 import java.sql.Blob;
+
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Advertisement {
@@ -18,6 +20,15 @@ public class Advertisement {
     private BuildingStatus status;
     private Vector<Comment> comments;
     private Vector<Rating> ratings;
+    private boolean open;
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
 
     public int getID() {
         return ID;

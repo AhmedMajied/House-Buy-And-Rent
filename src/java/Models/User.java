@@ -58,6 +58,5 @@ public class User {
     public void setNotifications(Vector<Notification> notifications) {
         this.notifications = notifications;
     }
-
     
 }
