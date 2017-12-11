@@ -28,6 +28,7 @@
         %>
         <div id="login">
             <form name="form-login" id="formLogin" action="/UserController?action=logIn" method="post">
+                <div id="title">LogIn</div><br><br>
                 <span id="userIcon"></span>
                 <input id="user" placeholder="Username" name="name" type="text" required />
                 <span id="lock"></span>
@@ -39,7 +40,7 @@
                 
                 <center>
                     <label id="account">do not have an account ?</label>
-                        <a href="signup.html" id="link">create one</a>
+                        <a href="jsp/signup.jsp" id="link">create one</a>
                 </center>
             </form>
         </div>

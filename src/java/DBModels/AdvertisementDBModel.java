@@ -293,5 +293,25 @@ public class AdvertisementDBModel {
         psmnt.close();
         connection.close();
     }
+    public Vector<Advertisement> searchAdvertisements(String buyOrRent,int status,int type,int size) throws IllegalAccessException, InstantiationException, ClassNotFoundException, SQLException
+    {
+        Vector<Advertisement> ads=new Vector<Advertisement>();
+        Connection conn=DBConfig.getConnection();
+        String sql="select * from Advertisements where AdType = ' "+buyOrRent+" ' or BuildingStatus = ' "+status+" ' or BuildingType = ' "+type+" ' "+"or BuildingSize = ' "+size+" ' ";
+        Statement statment=conn.createStatement();
+        ResultSet result=statment.executeQuery(sql);
+        while(result.next())
+        {
+            Advertisement a=new Advertisement();
+            a.setAdType(result.getString("AdType"));
+            //a.setBuildingFloor(result.getInt("BuildingFloor"));
+            a.setID(result.getInt("ID"));
+            a.setBuildingSize(result.getInt("BuildingSize"));
+            a.setTitle(result.getString("Title"));
+            a.setDescription(result.getString("Description"));
+            ads.add(a);
+        }
+        return ads;
+    }
 
 }

@@ -26,11 +26,11 @@
             }
             else
             {
-                response.sendRedirect("Home.jsp");
+                response.sendRedirect("jsp/Home.jsp");
             }
         %>
         <div id="signUp">
-            <form name="form-signUp" id="formSignup" action="UserController?action=addNewUser" method="post">
+            <form name="form-signUp" id="formSignup" action="/UserController?action=addNewUser" method="post">
                 <div class="message">Sign Up</div>
                 <br>
                 <span id="userIcon"></span>

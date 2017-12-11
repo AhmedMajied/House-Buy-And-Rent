@@ -23,8 +23,6 @@ body
 {
     background-color: #402B40;
     overflow: hidden;
-    margin-left:-6px;
-    margin-top: -8px;
 }
 #navBar a
 {
@@ -32,8 +30,10 @@ body
     color:#ffffff;
     text-align: center;
     text-decoration: none;
-    padding: 20px 30px ;
+    padding: 15px 65px ;
     font-size: 18px;
+    margin: 0px;
+    height: 25px;
 }
 #navBar a:hover
 {
@@ -45,16 +45,7 @@ body
     background-color: #D1B4D1;
     color: #000;
 }
-#searchText
+body
 {
-    background-image: url("../images/search.png");
-    background-repeat: no-repeat;
-    background-position: left;
-    border: 3px solid black;
-    float: left;
-    text-align: center;
-    background-color: #ffffff;
-    margin:5px 200px 5px 100px;
-    width: 260px;
-    height: 40px;
+    margin:0px;
 }

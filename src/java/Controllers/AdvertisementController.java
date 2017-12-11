@@ -68,7 +68,12 @@ public class AdvertisementController extends HttpServlet {
                 boolean success = deleteAdvertisement(request, response);
                 response.getWriter().print(success);
                 break;
-
+            case "searchPage":
+                searchPage(request,response);
+                break;
+            case "searchAdvertisements":
+                searchAdvertisements(request,response);
+                break;
         }
     }
 
@@ -130,7 +135,27 @@ public class AdvertisementController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-  
+    
+    public void searchPage(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException
+    {
+        AdvertisementDBModel dbModel=new AdvertisementDBModel();
+        request.setAttribute("Statuses", dbModel.retrieveAllStatuses());
+        request.setAttribute("Types",dbModel.retrieveAllTypes());
+        request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
+    }
+    public void searchAdvertisements(HttpServletRequest request,HttpServletResponse response) throws IllegalAccessException, InstantiationException, ClassNotFoundException, SQLException, ServletException, IOException
+    {
+        String buyOrRent=request.getParameter("buyOrRent");
+        int status=Integer.parseInt(request.getParameter("status"));
+        int type=Integer.parseInt(request.getParameter("type"));
+        int size=Integer.parseInt(request.getParameter("size"));
+        AdvertisementDBModel advetisements=new AdvertisementDBModel();
+        Vector<Advertisement>result=new Vector<Advertisement>();
+        result=advetisements.searchAdvertisements(buyOrRent,status,type,size);
+        request.setAttribute("searchResult", result);
+        request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
+    }
+    
     public void getAllAdvertisements(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException, ServletException {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
         Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();
@@ -212,7 +237,7 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         Advertisement adv = advDB.retrieveAd(id);
         request.setAttribute("Advertisement", adv);
-        request.getRequestDispatcher("jsp/advertisement.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/advertisement.jsp").forward(request, response);
     }
     
     

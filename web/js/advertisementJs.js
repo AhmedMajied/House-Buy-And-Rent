@@ -6,7 +6,7 @@ $(document).ready(function() {
         var advertiserID=$("#hiddenId").val();
         $.ajax({
             type: "POST",
-            url: "/IA_Project/UserController?action=requestContact",
+            url: "/UserController?action=requestContact",
             data:"advertiserID="+advertiserID,
             success: function(data){
                btn.hide();

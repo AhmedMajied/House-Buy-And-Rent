@@ -26,3 +26,8 @@ hr{
 .fa-star.checked{
     color:orange;
 }
+#navBar a
+{
+    margin: 0px;
+    height: 55px;
+}
