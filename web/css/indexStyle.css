@@ -82,3 +82,11 @@ input {
 {
     color: red;
 }
+#title
+{
+    font-size: 25px;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    color:aqua;
+}

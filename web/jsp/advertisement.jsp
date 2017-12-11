@@ -24,14 +24,13 @@
     </head>
     <body>        
             <div id="navBar">
-                <a id="active" href ="Home.jsp">Home</a>
+                <a id="active" href ="/UserController?action=displayHome">Home</a>
                 <a href="#">My Advertisments</a>
                 <a href="#">About</a>
-                <span id="search"></span>
-                <input type="text"name="search"id="searchText" placeholder="search field"/>
+                <a href="/AdvertisementController?action=searchPage">Search</a>
                 <a href="#"id="notification"></a>
-                <a href="profile.jsp">MyProfile</a>
-                <a href="../index.html">LogOut</a>
+                <a href="jsp/profile.jsp">MyProfile</a>
+                <a href="/UserController?action=logOut">LogOut</a>
             </div>
         <br>
         <div id="title"><%=ad.getTitle()%></div>

@@ -68,6 +68,13 @@ public class UserController extends HttpServlet {
                 break;
            case "requestContact":
                 requestUserContactInformation(request,response);
+                break;
+           case "displayHome":
+               DisplayHome(request, response);
+               break;
+           case "logOut":
+               LogOut(request,response);
+               break;
         }
     }
 
@@ -344,6 +351,17 @@ public class UserController extends HttpServlet {
         UserDBModel dbModel=new UserDBModel();
         dbModel.addNotificationToUser(advertiserID,notification);
         out.print(dbModel.getPhone(advertiserID));
+    }
+    public void LogOut(HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+        HttpSession currentSession=request.getSession(true);
+        String name=null;
+        if(currentSession!=null)
+        {
+            currentSession.invalidate();
+        }
+        response.sendRedirect("index.jsp");
+        
     }
 
 }

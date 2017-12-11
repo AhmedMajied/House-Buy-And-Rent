@@ -8,6 +8,5 @@ public class DBConfig {
 	public static Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 	    return DriverManager.getConnection("jdbc:mysql://localhost:3306/housebuyandrent?user=root&password=123456");
-
 	}
 }
