@@ -23,10 +23,7 @@
             if(currentSession.getAttribute("User")!=null)
             {
                 user=(User)currentSession.getAttribute("User");
-            }
-            else
-            {
-                response.sendRedirect("jsp/Home.jsp");
+                response.sendRedirect("/UserController?action=displayHome");
             }
         %>
         <div id="signUp">

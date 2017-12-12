@@ -10,6 +10,7 @@ and open the template in the editor.
 body
 {
     background-color: rgba(246,101,224,0.07);
+    font-family: cursive;
 }
 
 #notification

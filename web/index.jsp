@@ -23,7 +23,7 @@
             HttpSession currentSession=request.getSession(true);
             if(currentSession.getAttribute("User")!=null)
             {
-                response.sendRedirect("jsp/Home.jsp");
+                response.sendRedirect("/UserController?action=displayHome");
             }
         %>
         <div id="login">

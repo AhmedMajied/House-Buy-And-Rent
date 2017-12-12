@@ -7,7 +7,10 @@ and open the template in the editor.
     Created on : Dec 2, 2017, 8:55:58 AM
     Author     : andre
 */
-
+body
+{
+    font-family: cursive;
+}
 #addForm {
     margin-top:5%;
     margin-left:28%;
@@ -77,9 +80,8 @@ and open the template in the editor.
 }
 #Title
 {
-    font-family: cursive;
     font-weight: bold;
     font-size: 25px;
-    color: #cd54a9;
+    color:white; 
     text-align: center;
 }

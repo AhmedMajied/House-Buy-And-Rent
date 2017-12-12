@@ -35,20 +35,17 @@
        <header>
             <div id="navBar">
                 <a id="active" href ="/UserController?action=displayHome">Home</a>
-                <a href="#">My Advertisments</a>
-                <a href="#">About</a>
-                
+                <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a> 
+                <a data-toggle="modal" data-target="#InterestModal">Add Interest</a>
                 <a href="/AdvertisementController?action=searchPage">Search</a>
                 <a href="#"id="notification"></a>
                 <a href="jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>
-                
             </div>
         </header>
         
         <!-- add interest button -->
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" 
-                data-target="#InterestModal">Add Interest</button>
+        
 
         <!-- Interest Modal -->
         <div id="InterestModal" class="modal fade" role="dialog">
