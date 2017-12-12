@@ -14,12 +14,12 @@ public class Comment {
         this.ID = ID;
     }
 
-    public String getUsername() {
+    public String getUserName() {
         return username;
     }
 
-    public void setUsername(String userName) {
-        this.username = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public int getAdvertisementID() {

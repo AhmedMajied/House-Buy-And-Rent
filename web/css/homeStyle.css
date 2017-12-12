@@ -10,26 +10,6 @@ body
 {
     font-family: cursive;
 }
-.notifications{
-    text-decoration: none;
-    color: black;
-    cursor: default;
-    font-size: 18px;
-}
-.notifications:hover {
-    background-color: #E0E0E0;
-    font-weight: bold;
-}
-hr{
-    height: 5px;
-    margin-left: 30px;
-    margin-right: 30px;
-    height:3px;
-    background-color:black;
-}
-.fa-star.checked{
-    color:orange;
-}
 #navBar a
 {
     height: 55px;

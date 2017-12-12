@@ -1,7 +1,7 @@
 package Models;
 
 import java.sql.Blob;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class User {
     private String username;
@@ -9,7 +9,11 @@ public class User {
     private String phone;
     private boolean isAdmin;
     private Blob picture;
-    private Vector<Notification> notifications;
+
+    private ArrayList<Advertisement> advertisements;
+    private ArrayList<Notification> notifications;
+    private ArrayList<Interest> interests;
+
 
     public String getUsername() {
         return username;
@@ -51,12 +55,21 @@ public class User {
         this.picture = picture;
     }
 
-    public Vector<Notification> getNotifications() {
+    public ArrayList<Advertisement> getAdvertisements() {
+        return advertisements;
+    }
+
+    public void setAdvertisements(ArrayList<Advertisement> advertisements) {
+        this.advertisements = advertisements;
+    }
+
+    public ArrayList<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(Vector<Notification> notifications) {
+    public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
+
     
 }

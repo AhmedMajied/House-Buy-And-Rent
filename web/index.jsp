@@ -46,7 +46,8 @@
         </div>
         
         <!-- for testing-->
-        <form action="AdvertisementController?action=createAdvertisementPage" method="POST">
+
+        <form action="/UserController?action=logIn" method="POST">
             <input type="submit"/>
         </form>
 

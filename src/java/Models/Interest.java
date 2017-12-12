@@ -8,11 +8,11 @@ public class Interest {
     private BuildingType buildingType;
     private BuildingStatus buildingStatus;
     
-    public Interest(int size,BuildingStatus status,BuildingType type,String userName){
+    public Interest(int size,BuildingStatus status,BuildingType type,String username){
         this.size = size;
         buildingStatus = status;
         buildingType = type;
-        this.username = userName;
+        this.username = username;
     }
 
     public int getID() {
@@ -31,12 +31,12 @@ public class Interest {
         this.size = size;
     }
 
-    public String getUsername() {
+    public String getUserName() {
         return username;
     }
 
-    public void setUsername(String userName) {
-        this.username = userName;
+    public void setUserID(String username) {
+        this.username = username;
     }
 
     public BuildingType getBuildingType() {

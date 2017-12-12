@@ -20,15 +20,6 @@ public class Advertisement {
     private BuildingStatus status;
     private Vector<Comment> comments;
     private Vector<Rating> ratings;
-    private boolean open;
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
 
     public int getID() {
         return ID;

@@ -18,6 +18,44 @@ import java.util.logging.Logger;
 
 public class UserDBModel {
 
+    
+    public UserDBModel() {
+    }
+
+    public static void main(String [] args){
+        Vector<BuildingType> types = new Vector<>();
+        int ID;
+        String name;
+        
+        try{
+            Connection conn = DBConfig.getConnection();
+        
+            PreparedStatement prepStmt = conn.prepareStatement("select * from BuildingTypes");
+
+            ResultSet result = prepStmt.executeQuery();
+            while(result.next()){ 
+                ID = result.getInt("ID");
+                name = result.getString("Name");
+
+                types.add(new BuildingType(ID, name));
+            }
+            System.out.println(types.get(0).getName());
+            result.close();
+            prepStmt.close();
+            conn.close();
+        }catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
+
+
     public boolean authenticateUser(String name,String password)
     {
         boolean valid=false;
@@ -133,13 +171,6 @@ public class UserDBModel {
             user.setPhone(result.getString("Phone"));
             user.setPicture(result.getBlob("Picture"));
         }
-        
-        result.close();
-        stmt.close();
-        conn.close();
-        
-        user.setNotifications(getUserNotifications(user.getUsername()));
-        
         return user;
 
     }
@@ -147,34 +178,48 @@ public class UserDBModel {
         // TODO implement here
         return false;
     }
-    
-    public boolean addInterest(int size,int statusID,int typeID,String UserName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {    
-        Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Interests values(null,?,?,?,?);");
 
-        prepStmt.setInt(1, size);
-        prepStmt.setInt(2, statusID);
-        prepStmt.setInt(3, typeID);
-        prepStmt.setString(4, UserName);
-
-        int affectedRows = prepStmt.executeUpdate();
-        prepStmt.close();
-        conn.close();
-
-        if(affectedRows > 0)
-            return true;
-
+    public boolean addInterest(int size,int statusID,int typeID,String username) {
+        
+        try {
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement prepStmt = conn.prepareStatement("insert into Interests values(null,?,?,?,?);");
+            
+            prepStmt.setInt(1, size);
+            prepStmt.setInt(2, statusID);
+            prepStmt.setInt(3, typeID);
+            prepStmt.setString(4, username);
+            
+            int affectedRows = prepStmt.executeUpdate();
+            prepStmt.close();
+            conn.close();
+            
+            if(affectedRows > 0)
+                return true;
+            
+        } catch (InstantiationException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return false;
     }
+    
    
-    public Vector<Notification> getUserNotifications(String UserName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public Vector<Notification> getUserNotifications(int userID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Vector<Notification> allNotifications = null;
    
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("select ID,Text,Time,Link"
-                                    + " from Notifications"
-                                    +" where Username = ? and isRead = 0");
-        prepStmt.setString(1, UserName);
+        PreparedStatement prepStmt = conn.prepareStatement("select Notifications.ID,Notifications.Text,Notifications.Time,Notifications.Link"
+                                    + " from Notifications,UserNotifications"
+                                    +" where UserNotifications.UserID = ? and isRead = 0"
+                                    + " and UserNotifications.NotificationID = Notifications.ID");
+        prepStmt.setInt(1, userID);
         ResultSet resultSet = prepStmt.executeQuery();
         allNotifications = new Vector<>();
 
@@ -193,21 +238,10 @@ public class UserDBModel {
 
         return allNotifications;
     }
-    
-    public void addNotificationToUser(Notification notification) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{ 
-       
-        Connection conn = DBConfig.getConnection();
 
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?,default)");
-        prepStmt.setString(1, notification.getText());
-        //prepStmt.setDate(2, notification.getTime());
-        prepStmt.setString(3, notification.getLink());
-        prepStmt.setString(4, notification.getUsername());
-        prepStmt.executeUpdate();
-
-        prepStmt.close();
-        conn.close();
+    public void addNotificationToUser(int advertiserID, Notification notification) {
     }
+
     
     public String getPhone(int advertiserID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn=DBConfig.getConnection();
@@ -218,55 +252,5 @@ public class UserDBModel {
         return result.getString("Phone");
     }
 
-    public void saveAdAsInterestNotification(Advertisement Ad,String AdLink) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
-        Vector<String> interestedUsers = retrieveAllEquivalentInterests(Ad.getBuildingSize(),Ad.getStatus().getID(),Ad.getType().getID());
-        
-        Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?,default)");
-        prepStmt.setString(1, "A new Advertisemnet that meets your interests was recently added");
-        //prepStmt.setTime(2, "");
-        prepStmt.setString(3, AdLink);
-        
-        for(int i=0;i<interestedUsers.size();i++){
-            prepStmt.setString(4, interestedUsers.get(i));
-            prepStmt.executeUpdate();
-        }
-        
-        prepStmt.close();
-        conn.close();
-    }
-    
-    private Vector<String> retrieveAllEquivalentInterests(int size,int statusID,int typeID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
-        Vector<String> interestedUsers = new Vector<>();
-        Connection conn = DBConfig.getConnection();
-
-        PreparedStatement prepStmt = conn.prepareStatement("select Username from Users,Interests where "
-                                        + "Interests.UserID = Users.ID and Size=? and Status=? and Type=?");
-        prepStmt.setInt(1, size);
-        prepStmt.setInt(2, statusID);
-        prepStmt.setInt(3, typeID);
-        ResultSet result = prepStmt.executeQuery();
-        
-        while(result.next()){
-            interestedUsers.add(result.getString("Username"));
-        }
-
-        result.close();
-        prepStmt.close();
-        conn.close();
-        
-        return interestedUsers;
-    }
-    
-    public void markNotificationsAsRead(String UserName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
-        Connection conn = DBConfig.getConnection();
-
-        PreparedStatement prepStmt = conn.prepareStatement("update Notifications set isRead=1 where Username=? and isRead=0");
-        prepStmt.setString(1, UserName);
-        prepStmt.executeUpdate();
-        
-        prepStmt.close();
-        conn.close();
-    }
 
 }
