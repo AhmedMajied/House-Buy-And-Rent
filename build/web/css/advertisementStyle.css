@@ -68,3 +68,9 @@ body
 {
     margin-left: 43%;
 }
+.fa-star.checked{
+    color:orange;
+}
+.fa-star.shaded{
+    color:orange;
+}
