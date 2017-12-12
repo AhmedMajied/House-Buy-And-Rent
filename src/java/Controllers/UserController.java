@@ -66,6 +66,9 @@ public class UserController extends HttpServlet {
             case "deletePhoto":
                 deletePicture(request, response);
                 break;
+            case "markNotificationsAsRead":
+                markNotificationsAsRead(request);
+                break;
            case "requestContact":
                 requestUserContactInformation(request,response);
                 break;
@@ -77,8 +80,7 @@ public class UserController extends HttpServlet {
                break;
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -137,25 +139,22 @@ public class UserController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
     private void addInterest(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
-   
         int size, statusID, typeID;
-        String username;
+        String UserName;
         UserDBModel userDBModel = new UserDBModel();
 
         size = Integer.parseInt(request.getParameter("size"));
         statusID = Integer.parseInt(request.getParameter("status"));
         typeID = Integer.parseInt(request.getParameter("type"));
-        username = ((User)request.getSession().getAttribute("User")).getUsername();
+        UserName = ((User)request.getSession().getAttribute("User")).getUsername();
 
-        boolean success = userDBModel.addInterest(size,statusID,typeID,username);
-
+        boolean success = userDBModel.addInterest(size,statusID,typeID,UserName);
         //response.getWriter().print(size+" "+statusID+" "+typeID);
         //TODO handle if false
         response.sendRedirect("jsp/Home.jsp");
     }
-
-
     
     private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
@@ -201,6 +200,12 @@ public class UserController extends HttpServlet {
         user = getUser(name);
         currentSession.setAttribute("User", user);
         currentSession.setMaxInactiveInterval(3 * 60);
+        
+        // get All Ads
+        AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
+        Vector<Advertisement> allAds = AdDBModel.retrieveAllAds();
+        request.setAttribute("AllAds", allAds);
+        
         DisplayHome(request, response);
     }
     public void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException {
@@ -336,6 +341,12 @@ public class UserController extends HttpServlet {
         return userDBModel.getUser(userName);
 
     }
+    
+    private void markNotificationsAsRead(HttpServletRequest request)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+        String UserName = ((User)request.getSession().getAttribute("User")).getUsername();
+        UserDBModel userDBModel = new UserDBModel();
+        userDBModel.markNotificationsAsRead(UserName);
+    }
 
     public void requestUserContactInformation(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException
     {
@@ -349,7 +360,7 @@ public class UserController extends HttpServlet {
         Date currentTime = (Date) cal.getTime();
         notification.setTime(currentTime);
         UserDBModel dbModel=new UserDBModel();
-        dbModel.addNotificationToUser(advertiserID,notification);
+        dbModel.addNotificationToUser(notification);
         out.print(dbModel.getPhone(advertiserID));
     }
     public void LogOut(HttpServletRequest request,HttpServletResponse response) throws IOException
