@@ -20,8 +20,9 @@ import java.util.logging.Logger;
 
 public class AdvertisementDBModel {
 
-    public AdvertisementDBModel() {
-    }
+    /*public static void main(String [] args) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException{
+        openAd(1);
+    }*/
     
     public Vector<BuildingStatus> retrieveAllStatuses() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
@@ -56,60 +57,44 @@ public class AdvertisementDBModel {
         Vector<Advertisement> AllAds = new Vector<>();
         
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("select * from Advertisements,BuildingStatuses,BuildingTypes"
-                + " where Advertisements.BuildingStatus = BuildingStatuses.ID and "
-                + "Advertisements.BuildingType = BuildingTypes.ID;");        
         PreparedStatement prepStmt2 = null;
-        ResultSet result = prepStmt.executeQuery() , rs2 =null;
-        int typeID,statusID;
-
+        PreparedStatement prepStmt = conn.prepareStatement("select Advertisements.ID,Title,AdType,AdvertiserName,"
+                                                    + "isOpen,BuildingSize,BuildingStatuses.ID,BuildingStatuses.Name,"
+                                                    + "BuildingTypes.ID,BuildingTypes.Name "
+                                                    + "from Advertisements,BuildingStatuses,BuildingTypes"
+                                                    + " where Advertisements.BuildingStatus = BuildingStatuses.ID and "
+                                                    + "Advertisements.BuildingType = BuildingTypes.ID;");        
+        ResultSet result = prepStmt.executeQuery(),rs2 = null;
 
         while(result.next()){
             Advertisement ad = new Advertisement();
-            ad.setID(result.getInt("ID"));
+            ad.setID(result.getInt("Advertisements.ID"));
             ad.setTitle(result.getString("Title"));
             ad.setAdType(result.getString("adType"));
             ad.setAdvertiserName(result.getString("AdvertiserName"));
-            ad.setDescription(result.getString("Description"));
             ad.setBuildingSize(result.getInt("BuildingSize"));
-            ad.setBuildingFloor(result.getInt("BuildingFloor"));
-            ad.setLatitude(result.getDouble("Latitude"));
-            ad.setLongitude(result.getDouble("Longitude"));
             ad.setStatus(new BuildingStatus(result.getInt("BuildingStatuses.ID"),result.getString("BuildingStatuses.Name")));
             ad.setType(new BuildingType(result.getInt("BuildingTypes.ID"),result.getString("BuildingTypes.Name")));
-
-            prepStmt2 = conn.prepareStatement("select ID,Photo from BuildingPhotos where AdID = "+ad.getID());
-            rs2 = prepStmt2.executeQuery();
-            //TODO get photos from rs2
+            ad.setOpen(result.getBoolean("isOpen"));
 
             // get Ad ratings
             Vector<Rating> AdRates = new Vector<>();
-            rs2 = prepStmt2.executeQuery("select UserID,Value from Ratings where AdvertisementID = "+ad.getID());
+            prepStmt2 = conn.prepareStatement("select Username,Value from Ratings where AdvertisementID = "+ad.getID());
+            rs2 = prepStmt2.executeQuery(); 
             while(rs2.next()){
                 Rating AdRate = new Rating();
                 AdRate.setUsername(rs2.getString("Username"));
                 AdRate.setValue(rs2.getInt("Value"));
                 AdRates.add(AdRate);
             }
-
-            // get Ad Comments
-            Vector<Comment> AdComments = new Vector<>();
-            rs2 = prepStmt2.executeQuery("select ID,UserID,Text from Comments where AdvertisementID = "+ad.getID());
-            while(rs2.next()){
-                Comment AdComment = new Comment();
-                AdComment.setID(rs2.getInt("ID"));
-                AdComment.setUsername(rs2.getString("Username"));
-                AdComment.setText(rs2.getString("Text"));
-                AdComments.add(AdComment);
-            }
-
+            
             ad.setRatings(AdRates);
-            ad.setComments(AdComments);
             AllAds.add(ad);
         }
 
         result.close();
         rs2.close();
+        prepStmt2.close();
         prepStmt.close();
         conn.close();
         
@@ -147,59 +132,94 @@ public class AdvertisementDBModel {
         conn.close();
     }
 
-    public void deleteAd(int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public boolean openAd(int AdID)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM Advertisements WHERE ID = ? ");
-        prepStmt.setInt(1, adID);
-        prepStmt.executeUpdate();
+        PreparedStatement prepStmt = conn.prepareStatement("update Advertisements set isOpen = true where ID = ? ");
+        prepStmt.setInt(1, AdID);
+        int affectedRows = prepStmt.executeUpdate();
         prepStmt.close();
         conn.close();
-    }
-
-    public Vector<Advertisement> retrieveUserAds(int adID) {
-        // TODO implement here
-        return null;
-    }
-
-    public boolean rateAd(int userID, int adID, double value) {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean commentOnAd(int userID, int adID, String commentText) {
-        // TODO implement here
+        
+        if(affectedRows > 0)
+            return true;
+        
         return false;
     }
     
-    public void saveNewRating(int userID, int adID, double value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public boolean closeAd(int AdID)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("update Advertisements set isOpen = false where ID = ? ");
+        prepStmt.setInt(1, AdID);
+        int affectedRows = prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
+        
+        if(affectedRows > 0)
+            return true;
+        
+        return false;
+    }
+
+    public static boolean deleteAd(int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM Advertisements WHERE ID = ? ");
+        prepStmt.setInt(1, adID);
+        int affectedRows = prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
+        
+        if(affectedRows > 0)
+            return true;
+        
+        return false;
+    }
+    
+    public void saveNewRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
      
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("insert into Ratings values(?,?,?)");
 
-        prepStmt.setInt(1, userID);
+        prepStmt.setString(1, UserName);
         prepStmt.setInt(2, adID);
-        prepStmt.setDouble(3, value);
+        prepStmt.setInt(3, value);
         prepStmt.executeUpdate();
 
         prepStmt.close();
         conn.close();
 
     }
-    
-    
-    public void updateExistingRating(int userID, int adID, double value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        
+    public void updateExistingRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where UserID = ? and AdvertismentID = ?");
+        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where Username = ? and AdvertismentID = ?");
 
-        prepStmt.setDouble(1, value);
-        prepStmt.setInt(2, userID);
-        prepStmt.setDouble(3, adID);
+        prepStmt.setInt(1, value);
+        prepStmt.setString(2, UserName);
+        prepStmt.setInt(3, adID);
         prepStmt.executeUpdate();
 
         prepStmt.close();
         conn.close();
          
+    }
+    
+    public boolean saveNewComment(String UserName, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(null,?,?,?)");
+
+        prepStmt.setString(1, UserName);
+        prepStmt.setInt(2, adID);
+        prepStmt.setString(3, commentText);
+        int affectedRows = prepStmt.executeUpdate();
+
+        if(affectedRows > 0)
+            return true;
+        
+        prepStmt.close();
+        conn.close();
+        
+        return false;
     }
 
     public Advertisement retrieveAd(int id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {

@@ -153,8 +153,6 @@ public class UserController extends HttpServlet {
         
         response.getWriter().print(success);
     }
-
-
     
     private void getBuildingStatuses(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
@@ -167,6 +165,7 @@ public class UserController extends HttpServlet {
         Vector<BuildingType> types = adDBModel.retrieveAllTypes();
         request.setAttribute("Types", types);
     }
+    
 
     public void authenticateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
@@ -199,6 +198,9 @@ public class UserController extends HttpServlet {
         getBuildingStatuses(request, response);
         getBuildingTypes(request, response);
         Vector<Notification> notifications = getUserNotifications(name);
+        AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
+        Vector<Advertisement> allAds = AdDBModel.retrieveAllAds();
+        request.setAttribute("AllAds", allAds);
         
         HttpSession currentSession=request.getSession(true);
         User user=new User();
@@ -377,8 +379,9 @@ public class UserController extends HttpServlet {
     
     private void markNotificationsAsRead(HttpServletRequest request)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
         String UserName = ((User)request.getSession().getAttribute("User")).getUsername();
+        int notificationID = Integer.parseInt(request.getParameter("notificationID"));
         UserDBModel userDBModel = new UserDBModel();
-        userDBModel.markNotificationsAsRead(UserName);
+        userDBModel.markNotificationsAsRead(UserName,notificationID);
     }
 
 }

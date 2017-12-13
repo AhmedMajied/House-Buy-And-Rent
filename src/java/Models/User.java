@@ -7,7 +7,7 @@ public class User {
     private String username;
     private String password;
     private String phone;
-    private boolean isAdmin;
+    private boolean admin;
     private Blob picture;
     private Vector<Notification> notifications;
 
@@ -35,12 +35,12 @@ public class User {
         this.phone = phone;
     }
 
-    public boolean isIsAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return admin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public Blob getPicture() {

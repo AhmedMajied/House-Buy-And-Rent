@@ -27,11 +27,8 @@ public class UserDBModel {
     /*public static void main(String [] args){
         
         try{
-            //Notification n = new Notification("t1","l1","user2");
-            //addNotificationToUser(n);
-            
-            Vector<Notification> ns = getUserNotifications("user2");
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Connection conn = DBConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("select * from ")
             System.out.println(dateFormat.format(ns.get(0).getTime()));
         }catch (InstantiationException ex) {
             Logger.getLogger(UserDBModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,6 +157,7 @@ public class UserDBModel {
             user.setUsername(name);
             user.setPhone(result.getString("Phone"));
             user.setPicture(result.getBlob("Picture"));
+            user.setAdmin(result.getBoolean("isAdmin"));
         }
         return user;
 
@@ -279,11 +277,13 @@ public class UserDBModel {
         return interestedUsers;
     }
     
-    public void markNotificationsAsRead(String UserName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+    public void markNotificationsAsRead(String UserName,int notificationID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Connection conn = DBConfig.getConnection();
 
-        PreparedStatement prepStmt = conn.prepareStatement("update Notifications set isRead=1 where Username=? and isRead=0");
+        PreparedStatement prepStmt = conn.prepareStatement("update Notifications set isRead = true "
+                                    + "where Username=? and ID = ? and isRead = false");
         prepStmt.setString(1, UserName);
+        prepStmt.setInt(2,notificationID);
         prepStmt.executeUpdate();
         
         prepStmt.close();
