@@ -208,7 +208,7 @@ public class UserController extends HttpServlet {
         
         DisplayHome(request, response);
     }
-    public void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException {
+    public void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ServletException {
         String Username = request.getParameter("name");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
@@ -227,7 +227,7 @@ public class UserController extends HttpServlet {
                 currentSession.setAttribute("User", user);
                 currentSession.setMaxInactiveInterval(3 * 60);
             }
-            response.sendRedirect("jsp/Home.jsp");
+            DisplayHome(request, response);
 
         } catch (IllegalAccessException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
