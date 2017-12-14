@@ -68,7 +68,7 @@
         <form method="POST" id="<%= AllAds.get(i).getID()%>" action="../AdvertisementController?action=Advertisement&AdID=<%= AllAds.get(i).getID()%>">
             <label>
                 <span><%= AllAds.get(i).getTitle()%></span> (<%= AllAds.get(i).getAdType()%>)
-                Advertised By <a href="/UserController?action=displayProfile&name=<%= AllAds.get(i).getAdvertiserName()%>"><%= AllAds.get(i).getAdvertiserName()%></a>
+                Advertised By <span><%= AllAds.get(i).getAdvertiserName()%></span>
 
                 <!-- Users Ratings-->
                 <span class="fa fa-star" id="<%= "star1" + "0" + AllAds.get(i).getID()%>"></span>
