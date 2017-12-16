@@ -226,6 +226,7 @@ public class UserController extends HttpServlet {
             HttpSession currentSession = request.getSession(true);
             if (currentSession.getAttribute("User") == null) {
                 user = getUser(Username);
+                user.setNotifications(new Vector<Notification>());
                 currentSession.setAttribute("User", user);
                 currentSession.setMaxInactiveInterval(3 * 60);
             }
