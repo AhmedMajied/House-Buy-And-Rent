@@ -119,6 +119,11 @@
 
             <script>fillStars(<%= userRate%>,<%= ad.getID()%>);</script>
         <%}%>
+        <%if(user.getUsername().equals(ad.getAdvertiserName())){%>
+        <form action="/AdvertisementController?action=updateAdvertisementPage&adID=<%=ad.getID()%>" method="post">
+            <input type="submit" class="btn btn-default" value="Update"/>
+        </form>
+        <%}%>
         
         <!-- add Comment button -->
         <button type="button" class="btn btn-default" data-toggle="modal" 

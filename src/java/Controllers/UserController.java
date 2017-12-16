@@ -207,7 +207,7 @@ public class UserController extends HttpServlet {
         Vector<Notification> notifications = getUserNotifications(name);
         user.setNotifications(notifications);
         currentSession.setAttribute("User", user);
-        currentSession.setMaxInactiveInterval(3 * 60);
+        currentSession.setMaxInactiveInterval(30 * 60);
         
         DisplayHome(request, response);
     }
@@ -229,7 +229,7 @@ public class UserController extends HttpServlet {
                 user = getUser(Username);
                 user.setNotifications(new Vector<Notification>());
                 currentSession.setAttribute("User", user);
-                currentSession.setMaxInactiveInterval(3 * 60);
+                currentSession.setMaxInactiveInterval(30 * 60);
             }
             DisplayHome(request,response);
 

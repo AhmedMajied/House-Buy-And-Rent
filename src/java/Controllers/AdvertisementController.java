@@ -194,7 +194,7 @@ public class AdvertisementController extends HttpServlet {
         request.getRequestDispatcher("/UserController?action=displayHome").forward(request, response);
     }
 
-    public void updateAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public void updateAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
         Advertisement adv = new Advertisement();
         adv.setID(Integer.parseInt(request.getParameter("ID")));
         adv.setTitle(request.getParameter("Title"));
@@ -209,7 +209,7 @@ public class AdvertisementController extends HttpServlet {
         adv.setAdvertiserName(((User) request.getSession(false).getAttribute("User")).getUsername());
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.updateAd(adv);
-        
+        request.getRequestDispatcher("/UserController?action=displayHome").forward(request, response);
     }
     
     private void closeAd(HttpServletRequest request, HttpServletResponse response) throws IOException,InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException{
@@ -341,6 +341,9 @@ public class AdvertisementController extends HttpServlet {
 
     private void updateAdvertisementPage(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
+        int adID = Integer.parseInt(request.getParameter("adID"));
+        Advertisement ad = advDB.retrieveAd(adID);
+        request.setAttribute("Advertisement", ad);
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
         request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);//To change body of generated methods, choose Tools | Templates.

@@ -64,7 +64,7 @@ public class AdvertisementDBModel {
                                                     + "from Advertisements,BuildingStatuses,BuildingTypes"
                                                     + " where Advertisements.BuildingStatus = BuildingStatuses.ID and "
                                                     + "Advertisements.BuildingType = BuildingTypes.ID;");        
-        ResultSet result = prepStmt.executeQuery(),rs2 = null;
+        ResultSet result = prepStmt.executeQuery();
 
         while(result.next()){
             Advertisement ad = new Advertisement();
@@ -80,7 +80,8 @@ public class AdvertisementDBModel {
             // get Ad ratings
             Vector<Rating> AdRates = new Vector<>();
             prepStmt2 = conn.prepareStatement("select Username,Value from Ratings where AdvertisementID = "+ad.getID());
-            rs2 = prepStmt2.executeQuery(); 
+            ResultSet rs2 = prepStmt2.executeQuery(); 
+
             while(rs2.next()){
                 Rating AdRate = new Rating();
                 AdRate.setUsername(rs2.getString("Username"));
@@ -90,11 +91,10 @@ public class AdvertisementDBModel {
             
             ad.setRatings(AdRates);
             AllAds.add(ad);
+
         }
 
         result.close();
-        rs2.close();
-        prepStmt2.close();
         prepStmt.close();
         conn.close();
         
@@ -104,10 +104,10 @@ public class AdvertisementDBModel {
     public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Advertisement(Title,Size,Floor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
+        stmt.executeUpdate("INSERT INTO Advertisements(Title,BuildingSize,BuildingFloor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
-                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+","+ad.getAdvertiserName()+",'"
-                            +ad.getAdType()+"',"+ad.getStatus()+","+ad.getType()+")"
+                            +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+",'"+ad.getAdvertiserName()+"','"
+                            +ad.getAdType()+"',"+ad.getStatus().getID()+","+ad.getType().getID()+")"
         );
         stmt.close();
         conn.close();
@@ -115,7 +115,7 @@ public class AdvertisementDBModel {
 
     public void updateAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("Update Advertisements SET Title = ? ,Size = ?,Floor = ?,Description = ? ,Latitude ? ,Longitude ? ,AdvertiserName = ? ,AdType = ? ,buildingStatus = ?,buildingType = ? WHERE ID = ?");
+        PreparedStatement prepStmt = conn.prepareStatement("Update Advertisements SET Title = ? ,BuildingSize = ?,BuildingFloor = ?,Description = ? ,Latitude = ? ,Longitude = ? ,AdvertiserName = ? ,AdType = ? ,buildingStatus = ?,buildingType = ? WHERE ID = ?");
         prepStmt.setString(1, ad.getTitle());
         prepStmt.setInt(2, ad.getBuildingSize());
         prepStmt.setInt(3, ad.getBuildingFloor());
