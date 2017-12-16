@@ -174,7 +174,7 @@ public class AdvertisementDBModel {
         return false;
     }
     
-    public void saveNewRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public static boolean saveNewRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
      
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("insert into Ratings values(?,?,?)");
@@ -182,26 +182,34 @@ public class AdvertisementDBModel {
         prepStmt.setString(1, UserName);
         prepStmt.setInt(2, adID);
         prepStmt.setInt(3, value);
-        prepStmt.executeUpdate();
-
+        int affectedRows = prepStmt.executeUpdate();
+        
+        if(affectedRows > 0)
+            return true;
+        
         prepStmt.close();
         conn.close();
-
+        
+        return false;
     }
         
-    public void updateExistingRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public static boolean updateExistingRating(String UserName, int adID, int value) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where Username = ? and AdvertismentID = ?");
+        PreparedStatement prepStmt = conn.prepareStatement("update Ratings set value = ? where Username = ? and AdvertisementID = ?");
 
         prepStmt.setInt(1, value);
         prepStmt.setString(2, UserName);
         prepStmt.setInt(3, adID);
-        prepStmt.executeUpdate();
+        int affectedRows = prepStmt.executeUpdate();
 
+        if(affectedRows > 0)
+            return true;
+        
         prepStmt.close();
         conn.close();
          
+        return false;
     }
     
     public boolean saveNewComment(String UserName, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -252,6 +260,33 @@ public class AdvertisementDBModel {
             pics.add(rs4.getBlob("Photo"));
         }
         ret.setPhotos(pics);
+        
+        // get Ad ratings
+        Vector<Rating> AdRates = new Vector<>();
+        ResultSet rs5 = stmt.executeQuery("select Username,Value from Ratings where AdvertisementID = "+ret.getID());
+        while(rs5.next()){
+            Rating AdRate = new Rating();
+            AdRate.setUsername(rs5.getString("Username"));
+            AdRate.setValue(rs5.getInt("Value"));
+            AdRates.add(AdRate);
+        }
+        
+        // get Ad Comments
+        Vector<Comment> AdComments = new Vector<>();
+        ResultSet rs6 = stmt.executeQuery("select ID,Username,Text from Comments where AdvertisementID = "+ret.getID());
+        while(rs6.next()){
+            Comment AdComment = new Comment();
+            AdComment.setID(rs6.getInt("ID"));
+            AdComment.setUsername(rs6.getString("Username"));
+            AdComment.setText(rs6.getString("Text"));
+            AdComments.add(AdComment);
+        }
+        
+        ret.setRatings(AdRates);
+        ret.setComments(AdComments);
+       
+        rs5.close();
+        rs6.close();
         rs.close();
         stmt.close();
         conn.close();

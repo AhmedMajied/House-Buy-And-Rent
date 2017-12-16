@@ -226,13 +226,14 @@ public class UserDBModel {
         return phone;
     }
     
-    public void saveAdAsInterestNotification(Advertisement Ad,String AdLink) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+    
+    public static void saveAdAsInterestNotification(Advertisement Ad,String AdLink) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Vector<String> interestedUsers = retrieveAllEquivalentInterests(Ad.getBuildingSize(),Ad.getStatus().getID(),Ad.getType().getID());
         
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("insert into Notifications values(null,?,?,?,?,default)");
         prepStmt.setString(1, "A new Advertisemnet that meets your interests was recently added");
-        //prepStmt.setTime(2, "");
+        prepStmt.setTimestamp(2, new java.sql.Timestamp(new Date().getTime()));
         prepStmt.setString(3, AdLink);
         
         for(int i=0;i<interestedUsers.size();i++){
@@ -244,12 +245,13 @@ public class UserDBModel {
         conn.close();
     }
     
-    private Vector<String> retrieveAllEquivalentInterests(int size,int statusID,int typeID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+    
+    private static Vector<String> retrieveAllEquivalentInterests(int size,int statusID,int typeID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Vector<String> interestedUsers = new Vector<>();
         Connection conn = DBConfig.getConnection();
 
-        PreparedStatement prepStmt = conn.prepareStatement("select Username from Users,Interests where "
-                                        + "Interests.UserID = Users.ID and Size=? and Status=? and Type=?");
+        PreparedStatement prepStmt = conn.prepareStatement("select Users.Username from Users,Interests where "
+                                        + "Interests.Username = Users.username and Size=? and Status=? and Type=?");
         prepStmt.setInt(1, size);
         prepStmt.setInt(2, statusID);
         prepStmt.setInt(3, typeID);

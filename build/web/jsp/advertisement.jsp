@@ -18,8 +18,11 @@
         <title><%=ad.getTitle()%></title>
         <link rel="stylesheet" href="css/headerStyle.css">
         <link rel="stylesheet" href="css/advertisementStyle.css">
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/advertisementJs.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="../js/advertisementJs.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
         <%
@@ -47,10 +50,10 @@
         <div id="title"><%=ad.getTitle()%></div>
         <br/>
         <%if(!(user.getUsername().equals(ad.getAdvertiserName()))){%>
-        <input type="hidden"id="hiddenName" value="<%=ad.getAdvertiserName()%>">
-        <input type="button" id="displayInfo"value="Request User Info"/>
-        <div id="result"></div>
-        <br>
+            <input type="hidden"id="hiddenName" value="<%=ad.getAdvertiserName()%>">
+            <input type="button" id="displayInfo"value="Request User Info"/>
+            <div id="result"></div>
+            <br>
         <%}%>
         
         <iframe id="map" src="https://www.google.com/maps/embed/v1/place?q=<%=ad.getLatitude() %>, <%=ad.getLongitude() %>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
@@ -88,5 +91,65 @@
             </form>
         <%}%>
         </fieldset>
+        
+        <%
+            String rateStatus = "new";
+            int userRate = 0;
+            
+            for(int i=0;i<ad.getRatings().size();i++){
+                if(ad.getRatings().get(i).getUsername().equals(((User)obj).getUsername())){
+                    rateStatus = "existing";
+                    userRate = ad.getRatings().get(i).getValue();
+                    break;
+                }
+            }
+        %>
+        
+        
+        <!-- User Rating -->
+        <%if(!(user.getUsername().equals(ad.getAdvertiserName()))){%>
+            <div>
+                <span class="heading"> Your Rating : </span>
+                <span class="fa fa-star" id="<%= "star1"+ad.getID()%>" onclick="saveUserRate(1,<%= ad.getID()%>,'<%= rateStatus%>')" onmouseover="shadeStars(1,<%= ad.getID()%>)" onmouseout="unShadeStars(1,<%= ad.getID()%>)"></span>
+                <span class="fa fa-star" id="<%= "star2"+ad.getID()%>" onclick="saveUserRate(2,<%= ad.getID()%>,'<%= rateStatus%>')" onmouseover="shadeStars(2,<%= ad.getID()%>)" onmouseout="unShadeStars(2,<%= ad.getID()%>)"></span>
+                <span class="fa fa-star" id="<%= "star3"+ad.getID()%>" onclick="saveUserRate(3,<%= ad.getID()%>,'<%= rateStatus%>')" onmouseover="shadeStars(3,<%= ad.getID()%>)" onmouseout="unShadeStars(3,<%= ad.getID()%>)"></span>
+                <span class="fa fa-star" id="<%= "star4"+ad.getID()%>" onclick="saveUserRate(4,<%= ad.getID()%>,'<%= rateStatus%>')" onmouseover="shadeStars(4,<%= ad.getID()%>)" onmouseout="unShadeStars(4,<%= ad.getID()%>)"></span>
+                <span class="fa fa-star" id="<%= "star5"+ad.getID()%>" onclick="saveUserRate(5,<%= ad.getID()%>,'<%= rateStatus%>')" onmouseover="shadeStars(5,<%= ad.getID()%>)" onmouseout="unShadeStars(5,<%= ad.getID()%>)"></span>
+            </div>
+
+            <script>fillStars(<%= userRate%>,<%= ad.getID()%>);</script>
+        <%}%>
+        
+        <!-- add Comment button -->
+        <button type="button" class="btn btn-default" data-toggle="modal" 
+                data-target="#CommentsModal">Comments</button>
+
+        <!-- Comments Modal -->
+        <div id="CommentsModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <%
+                        for(int commentIndex=0;commentIndex<ad.getComments().size();commentIndex++){
+                            %>
+                            <label><span><%= ad.getComments().get(commentIndex).getUsername() %></span>
+                                    <%= ad.getComments().get(commentIndex).getText() %>
+                            </label><br>
+                            <%
+                        }
+                    %>
+                    <input type="text" id="newComment" /><br>
+                    <button class="btn btn-default" onclick="saveNewComment('<%= ad.getID()%>','<%= ad.getAdvertiserName()%>','<%= ((User)session.getAttribute("User")).getUsername()%>')">Add Comment</button>
+
+                </div>
+            </div>
+
+          </div>
+        </div>
+       
+        
     </body>
 </html>

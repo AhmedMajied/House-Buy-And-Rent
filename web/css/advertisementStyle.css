@@ -78,3 +78,13 @@ body
 {
     padding:15px 90px;
 }
+.fa-star.checked{
+    color:orange;
+}
+.fa-star.shaded{
+    color:orange;
+}
+.modal-body{
+    height: 250px;
+    overflow-y: auto;
+}

@@ -35,3 +35,7 @@ hr{
 .fa-star.checked{
     color:orange;
 }
+.modal-body{
+    height: 300px;
+    overflow-y: auto;
+}
