@@ -38,16 +38,11 @@ label
     background-image: url("../images/phone.png");
 
 }
-#email
-{
-    background-image: url("../images/email.png");
-
-}
 #iPass
 {
     background-image: url("../images/lock.png");
 }
-#phone , #email , #iPass
+#phone , #iPass
 {
     background-repeat: no-repeat;
     background-position: center;
@@ -63,7 +58,7 @@ label
     height: 50px;
 }
 
-#phoneNumber , #userEmail , #oPassword , #nPassword
+#phoneNumber , #oPassword , #nPassword
 {
     background-color: #3b4148;
     border-radius: 0px 3px 3px 0px;
@@ -76,7 +71,7 @@ label
     font-size: 16px;
     line-height: 22px;
 }
-#Phone , #Email , #password
+#Phone , #password
 {
     margin-left: 40%;
     width:350px;
@@ -102,9 +97,9 @@ label
 {
     margin-left: 0px;
 }
-#userName
+#data
 {
-    margin-left: 48%;
+    margin-left: 43%;
 }
 #addPhone
 {
@@ -131,4 +126,8 @@ label
 {
     width:300px;
     margin-left: 40%;
+}
+#navBar a
+{
+    padding:15px 90px;
 }

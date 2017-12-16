@@ -33,7 +33,6 @@
                 <a id="active" href ="/UserController?action=displayHome">Home</a>
                 <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a>
                 <a href="/AdvertisementController?action=searchPage">Search</a>
-                <a href="#"id="notification"></a>
                 <a href="/jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>       
             </div>
@@ -44,7 +43,7 @@
         %>
         <br><br>
         <fieldset>
-            <a id="title" href="/AdvertisementController?action=Advertisement&id=<%=ads.get(i).getID()%>"><%=ads.get(i).getTitle()%></a>
+            <a id="title" href="/AdvertisementController?action=Advertisement&AdID=<%=ads.get(i).getID()%>"><%=ads.get(i).getTitle()%></a>
             <div id="res">AdvertisementType : <%=ads.get(i).getAdType()%></div>
             <div id="res">BuildingSize : <%=ads.get(i).getBuildingSize()%></div>
         </fieldset>

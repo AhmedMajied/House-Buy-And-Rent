@@ -15,13 +15,21 @@
         <script src="js/Map.js"></script>
     </head>
     <body>
+        <%
+            HttpSession currentSession = request.getSession(true);
+            User user = new User();
+            if (currentSession.getAttribute("User") != null) {
+                user = (User) (currentSession.getAttribute("User"));
+            } else {
+                response.sendRedirect("/");
+            }
+        %>
     <header>
         <div id="navBar">
             <a id="active" href ="/UserController?action=displayHome">Home</a>
             <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a>
             <a href="/AdvertisementController?action=searchPage">Search</a>
-            <a href="#"id="notification"></a>
-            <a href="jsp/profile.jsp">MyProfile</a>
+                <a href="/jsp/profile.jsp">MyProfile</a>
             <a href="/UserController?action=logOut">LogOut</a>
 
         </div>

@@ -44,13 +44,6 @@
                 </center>
             </form>
         </div>
-        
-        <!-- for testing-->
-
-        <form action="/UserController?action=logIn" method="POST">
-            <input type="submit"/>
-        </form>
-
     </body>
 </html>
 

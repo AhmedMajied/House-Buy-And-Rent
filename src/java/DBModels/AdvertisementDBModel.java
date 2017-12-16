@@ -20,8 +20,9 @@ import java.util.logging.Logger;
 
 public class AdvertisementDBModel {
 
-    public AdvertisementDBModel() {
-    }
+    /*public static void main(String [] args) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException{
+        openAd(1);
+    }*/
     
     public Vector<BuildingStatus> retrieveAllStatuses() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
@@ -57,28 +58,29 @@ public class AdvertisementDBModel {
         
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt2 = null;
-        PreparedStatement prepStmt = conn.prepareStatement("select Advertisement.ID,Title,AdType,AdvertiserName,"
-                                                    + "BuildingSize,BuildingStatuses.ID,BuildingStatuses.Name,"
+        PreparedStatement prepStmt = conn.prepareStatement("select Advertisements.ID,Title,AdType,AdvertiserName,"
+                                                    + "isOpen,BuildingSize,BuildingStatuses.ID,BuildingStatuses.Name,"
                                                     + "BuildingTypes.ID,BuildingTypes.Name "
                                                     + "from Advertisements,BuildingStatuses,BuildingTypes"
                                                     + " where Advertisements.BuildingStatus = BuildingStatuses.ID and "
                                                     + "Advertisements.BuildingType = BuildingTypes.ID;");        
         ResultSet result = prepStmt.executeQuery(),rs2 = null;
-        
 
         while(result.next()){
             Advertisement ad = new Advertisement();
-            ad.setID(result.getInt("Advertisement.ID"));
+            ad.setID(result.getInt("Advertisements.ID"));
             ad.setTitle(result.getString("Title"));
             ad.setAdType(result.getString("adType"));
             ad.setAdvertiserName(result.getString("AdvertiserName"));
             ad.setBuildingSize(result.getInt("BuildingSize"));
             ad.setStatus(new BuildingStatus(result.getInt("BuildingStatuses.ID"),result.getString("BuildingStatuses.Name")));
             ad.setType(new BuildingType(result.getInt("BuildingTypes.ID"),result.getString("BuildingTypes.Name")));
+            ad.setOpen(result.getBoolean("isOpen"));
 
             // get Ad ratings
             Vector<Rating> AdRates = new Vector<>();
-            rs2 = prepStmt2.executeQuery("select Username,Value from Ratings where AdvertisementID = "+ad.getID());
+            prepStmt2 = conn.prepareStatement("select Username,Value from Ratings where AdvertisementID = "+ad.getID());
+            rs2 = prepStmt2.executeQuery(); 
             while(rs2.next()){
                 Rating AdRate = new Rating();
                 AdRate.setUsername(rs2.getString("Username"));
@@ -110,25 +112,7 @@ public class AdvertisementDBModel {
         stmt.close();
         conn.close();
     }
-    
-    public boolean saveNewComment(String UserName, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-        Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(null,?,?,?)");
 
-        prepStmt.setString(1, UserName);
-        prepStmt.setInt(2, adID);
-        prepStmt.setString(3, commentText);
-        int affectedRows = prepStmt.executeUpdate();
-
-        if(affectedRows > 0)
-            return true;
-        
-        prepStmt.close();
-        conn.close();
-        
-        return false;
-    }
-    
     public void updateAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("Update Advertisements SET Title = ? ,Size = ?,Floor = ?,Description = ? ,Latitude ? ,Longitude ? ,AdvertiserName = ? ,AdType = ? ,buildingStatus = ?,buildingType = ? WHERE ID = ?");
@@ -147,10 +131,10 @@ public class AdvertisementDBModel {
         prepStmt.close();
         conn.close();
     }
-    
+
     public boolean openAd(int AdID)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("update Advertisement set isOpen = 1 WHERE ID = ? ");
+        PreparedStatement prepStmt = conn.prepareStatement("update Advertisements set isOpen = true where ID = ? ");
         prepStmt.setInt(1, AdID);
         int affectedRows = prepStmt.executeUpdate();
         prepStmt.close();
@@ -164,7 +148,7 @@ public class AdvertisementDBModel {
     
     public boolean closeAd(int AdID)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
         Connection conn = DBConfig.getConnection();
-        PreparedStatement prepStmt = conn.prepareStatement("update Advertisement set isOpen = 0 WHERE ID = ? ");
+        PreparedStatement prepStmt = conn.prepareStatement("update Advertisements set isOpen = false where ID = ? ");
         prepStmt.setInt(1, AdID);
         int affectedRows = prepStmt.executeUpdate();
         prepStmt.close();
@@ -176,7 +160,7 @@ public class AdvertisementDBModel {
         return false;
     }
 
-    public boolean deleteAd(int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public static boolean deleteAd(int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM Advertisements WHERE ID = ? ");
         prepStmt.setInt(1, adID);
@@ -219,6 +203,24 @@ public class AdvertisementDBModel {
         conn.close();
          
     }
+    
+    public boolean saveNewComment(String UserName, int adID, String commentText) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Connection conn = DBConfig.getConnection();
+        PreparedStatement prepStmt = conn.prepareStatement("insert into Comments values(null,?,?,?)");
+
+        prepStmt.setString(1, UserName);
+        prepStmt.setInt(2, adID);
+        prepStmt.setString(3, commentText);
+        int affectedRows = prepStmt.executeUpdate();
+
+        if(affectedRows > 0)
+            return true;
+        
+        prepStmt.close();
+        conn.close();
+        
+        return false;
+    }
 
     public Advertisement retrieveAd(int id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
@@ -250,39 +252,12 @@ public class AdvertisementDBModel {
             pics.add(rs4.getBlob("Photo"));
         }
         ret.setPhotos(pics);
-        
-        // get Ad ratings
-        Vector<Rating> AdRates = new Vector<>();
-        ResultSet rs5 = stmt.executeQuery("select Username,Value from Ratings where AdvertisementID = "+ret.getID());
-        while(rs5.next()){
-            Rating AdRate = new Rating();
-            AdRate.setUsername(rs5.getString("Username"));
-            AdRate.setValue(rs5.getInt("Value"));
-            AdRates.add(AdRate);
-        }
-        
-        // get Ad Comments
-        Vector<Comment> AdComments = new Vector<>();
-        ResultSet rs6 = stmt.executeQuery("select ID,Username,Text from Comments where AdvertisementID = "+ret.getID());
-        while(rs6.next()){
-            Comment AdComment = new Comment();
-            AdComment.setID(rs6.getInt("ID"));
-            AdComment.setUsername(rs6.getString("Username"));
-            AdComment.setText(rs2.getString("Text"));
-            AdComments.add(AdComment);
-        }
-        
-        ret.setRatings(AdRates);
-        ret.setComments(AdComments);
-       
-        rs5.close();
-        rs6.close();
         rs.close();
         stmt.close();
         conn.close();
         return ret;
     }
-        
+
     public void addPhoto(File f,int adID) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, FileNotFoundException {
         Connection connection = DBConfig.getConnection();
         PreparedStatement psmnt = connection.prepareStatement("INSERT INTO BuildingPhotos(AdID,Photo)VALUES(?,?)");

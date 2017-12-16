@@ -33,7 +33,6 @@ public class AdvertisementController extends HttpServlet {
     
             /* TODO output your page here. You may use following sample code. */
         String action = request.getParameter("action");
-        response.getWriter().print(action);
         switch(action){
             case "createAdvertisementPage":
                 createAdvertisementPage(request,response);
@@ -50,29 +49,31 @@ public class AdvertisementController extends HttpServlet {
             case "deleteAdvertisement":
                 deleteAdvertisement(request,response);
                 request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+                break;
             case "Advertisement":
                 displayAdvertisement(request,response);
                 break;
-            case "AllAds":
-                getAllAdvertisements(request,response);
             case "rateAd":
                 rateAd(request,response);
                 break;
             case "addPhoto":
                 addPhoto(request, response);
                 break;
-            case "closeAd":
-                closeAd(request,response);
-                break;
-            case "deleteAdAjax":
-                boolean success = deleteAdvertisement(request, response);
-                response.getWriter().print(success);
-                break;
             case "searchPage":
                 searchPage(request,response);
                 break;
             case "searchAdvertisements":
                 searchAdvertisements(request,response);
+                break;
+            case "closeAd":
+                closeAd(request,response);
+                break;
+            case "openAd":
+                openAd(request,response);
+                break;
+            case "deleteByAdmin":
+                boolean success = deleteAdvertisement(request, response);
+                response.getWriter().print(success);
                 break;
         }
     }
@@ -135,6 +136,7 @@ public class AdvertisementController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+  
     
     public void searchPage(HttpServletRequest request,HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException
     {
@@ -160,9 +162,11 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
         Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();
         request.setAttribute("AllAds", AllAds);
+        request.getRequestDispatcher("jsp/AllAds.jsp").forward(request, response);
+
     }
     
-    public void createAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public void createAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, ServletException, IOException {
         Advertisement adv = new Advertisement();
         adv.setTitle(request.getParameter("Title"));
         adv.setBuildingSize(Integer.parseInt(request.getParameter("Size")));
@@ -177,13 +181,9 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         advDB.saveNewAd(adv);
         
-        // save Ad as Notification to who interested in
-        String AdLink = "../AdvertisementController?action=Advertisement&AdID="+adv.getID();
-        UserDBModel userDBModel = new UserDBModel();
-        userDBModel.saveAdAsInterestNotification(adv,AdLink);
-        
         //TO BE IMPLEMENTED
         // GO TO HOME PAGE
+        request.getRequestDispatcher("/UserController?action=displayHome").forward(request, response);
     }
 
     public void updateAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -233,13 +233,12 @@ public class AdvertisementController extends HttpServlet {
     }
 
     private void displayAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int  AdID= Integer.parseInt(request.getParameter("AdID"));
         AdvertisementDBModel advDB = new AdvertisementDBModel();
-        Advertisement adv = advDB.retrieveAd(id);
+        Advertisement adv = advDB.retrieveAd(AdID);
         request.setAttribute("Advertisement", adv);
         request.getRequestDispatcher("/jsp/advertisement.jsp").forward(request, response);
     }
-    
     
     public void rateAd(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException{
         
@@ -322,7 +321,7 @@ public class AdvertisementController extends HttpServlet {
             File f = new File(saveFile);
             AdvertisementDBModel db = new AdvertisementDBModel();
             db.addPhoto(f, adID);
-            response.sendRedirect("AdvertisementController?action=Advertisement&id="+adID);
+            response.sendRedirect("AdvertisementController?action=Advertisement&AdID="+adID);
             
         }
         /*AdvertisementDBModel advDB = new AdvertisementDBModel();

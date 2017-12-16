@@ -33,7 +33,6 @@
                 <a id="active" href ="/UserController?action=displayHome">Home</a>
                 <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a>
                 <a href="/AdvertisementController?action=searchPage">Search</a>
-                <a href="#"id="notification"></a>
                 <a href="/jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>       
             </div>

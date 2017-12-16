@@ -68,3 +68,7 @@ body
     width: 191px;
     height: 45px;
 }
+#navBar a
+{
+    padding:15px 90px;
+}

@@ -85,3 +85,7 @@ body
     color:white; 
     text-align: center;
 }
+#navBar a
+{
+    padding:15px 90px;
+}

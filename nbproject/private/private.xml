@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/MariamAshraf/Desktop/House-Buy-And-Rent/web/jsp/Home.jsp</file>
-            <file>file:/C:/Users/MariamAshraf/Desktop/House-Buy-And-Rent/web/jsp/advertisement.jsp</file>
-            <file>file:/C:/Users/MariamAshraf/Desktop/House-Buy-And-Rent/src/java/Controllers/UserController.java</file>
+            <file>file:/C:/Users/MariamAshraf/Desktop/SearchAds/src/java/Controllers/UserController.java</file>
+            <file>file:/C:/Users/MariamAshraf/Desktop/SearchAds/web/jsp/createAdvertisement.jsp</file>
+            <file>file:/C:/Users/MariamAshraf/Desktop/SearchAds/web/jsp/Home.jsp</file>
+            <file>file:/C:/Users/MariamAshraf/Desktop/SearchAds/src/java/DBModels/UserDBModel.java</file>
         </group>
     </open-files>
 </project-private>

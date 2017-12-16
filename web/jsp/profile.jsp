@@ -35,45 +35,35 @@
         <header>
             <div id="navBar">
                 <a id="active" href ="/UserController?action=displayHome">Home</a>
-                <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a>
+                <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a> 
                 <a href="/AdvertisementController?action=searchPage">Search</a>
-                <a href="#"id="notification"></a>
-                <a href="jsp/profile.jsp">MyProfile</a>
+                <a href="/jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>
             </div>
         </header>
         <section>
             <br><br>
 
-            <label id="userName"><%=user.getUsername()%></label>
+            <label id="data">User Name : <%=user.getUsername()%></label>
+            <%if (user.getPhone() != null) {%>
+            <label id="data">Phone Number : <%=user.getPhone()%></label>
+            <%}%>
             <br><br>
             <fieldset id="fieldSet">
-                <legend>Your Photo</legend>
-                 <%  if (user.getPicture()!=null)
-                    {
-                      String url = "data:image/png;base64," + Base64.getEncoder().encodeToString(user.getPicture().getBytes(1,(int)user.getPicture().length()));
-                 %>
-                      <img src="<%=url%>"name="image"id="userImage">
-                    <%} else 
-                    {%>
-                         <img src="../images/userImage.png" name="image" id="userImage">
-                    <%}%>
+                <legend>Picture</legend>
+                <%  if (user.getPicture() != null) {
+                        String url = "data:image/png;base64," + Base64.getEncoder().encodeToString(user.getPicture().getBytes(1, (int) user.getPicture().length()));
+                %>
+                <img src="<%=url%>"name="image"id="userImage">
+                <%} else {%>
+                <img src="../images/userImage.png" name="image" id="userImage">
+                <%}%>
                 <form action="/UserController?action=addPhoto" method="POST" enctype="multipart/form-data">
                     <input type="file" accept="image/*" id="addPhoto" name="file" onchange="loadFile(event)">
                     <input type="submit" value="Save Photo"id="savePhoto">
                 </form>
             </fieldset>
             <br><br>
-            <% if (user.getPicture()!=null)
-            {%>
-            
-                <form action="/UserController?action=deletePhoto"id="deleteImage">
-                  <input type="submit"value="Delete Image"id="deletephoto">
-                </form>
-              <%}%>
-              
-                <br><br>
-              
               <button id="addPhone" onclick="displayPhone();">Change Phone</button>
               <fieldset id="Phone">
                   <form action="/UserController?action=addPhone" method="post">
@@ -84,16 +74,18 @@
                     </form>
               </fieldset>              
                 <%if(user.getPhone()!=null){%>
-                <form id="deletePhone" action="/IA_Project/UserController?action=deletePhone" method="post">
+                <br>
+                <form id="deletePhone" action="/UserController?action=deletePhone" method="post">
                     <br>
                     <input type="submit" id="submit1" value="Delete Phone"/> 
                 </form>
               <br>
               <%}%>
-              <br><br>
+              <br>
                <button id="changePassword" onclick="displayFields();">ChangePassword</button>
                 <fieldset id="password">
                     <form action="/UserController?action=changePassword" method="post"id="passwordForm">
+                        <input type="hidden"name="userName"value="<%=user.getUsername()%>"/>
                           <span id='iPass'></span>
                           <input type="password" required placeholder='old Password'name="oldPassword" id="oPassword"><br><br>
                           <span id='iPass'></span>
@@ -101,8 +93,7 @@
                           <div id="valid"></div>
                           <input type="submit" id="submit" value="change Password"/> 
                       </form>
-                 </fieldset> 
-              
+                 </fieldset>     
         </section>
     </body>
 </html>

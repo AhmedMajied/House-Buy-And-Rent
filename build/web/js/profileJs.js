@@ -9,7 +9,7 @@
   
   function displayPhone()
   {
-       	document.getElementById("displayPhone").style.display = (document.getElementById("displayPhone").style.display === 'block') ? 'none' :"";
+       	document.getElementById("addPhone").style.display = (document.getElementById("addPhone").style.display === 'block') ? 'none' :"";
         document.getElementById("Phone").style.display = (document.getElementById("Phone").style.display === 'block') ? 'none' : 'block';
   }
   function displayFields()

@@ -22,3 +22,7 @@ body
     font-size: 14px;
     margin-left: 10px;
 }
+#navBar a
+{
+    padding:15px 90px;
+}
