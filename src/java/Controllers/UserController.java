@@ -71,6 +71,10 @@ public class UserController extends HttpServlet {
             case "markNotificationsAsRead":
                 markNotificationsAsRead(request);
                 break;
+
+            case "changeUserPassword":
+                changeUserPassword(request,response);
+                break;
         }
     }
 
@@ -223,6 +227,7 @@ public class UserController extends HttpServlet {
             HttpSession currentSession = request.getSession(true);
             if (currentSession.getAttribute("User") == null) {
                 user = getUser(Username);
+                user.setNotifications(new Vector<Notification>());
                 currentSession.setAttribute("User", user);
                 currentSession.setMaxInactiveInterval(3 * 60);
             }
@@ -390,6 +395,25 @@ public class UserController extends HttpServlet {
             return;
         }
         
+    }
+
+
+    private void changeUserPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, IllegalAccessException, ClassNotFoundException, InstantiationException, ServletException {
+        String name=request.getParameter("userName");
+        String password=request.getParameter("newPassword");
+        System.out.println(name+"   "+password);
+        String adminName=getNameFromSession(request);
+        if(adminName==null)
+        {
+            response.sendRedirect("index.jsp");
+            return;
+        }
+        UserDBModel userDBModel=new UserDBModel();
+        userDBModel.updatePassword(name, password);
+        User user=getUser(adminName);
+       // DisplayHome(request,response);
+        response.sendRedirect("/UserController?action=displayHome");
+
     }
 
 }

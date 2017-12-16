@@ -28,7 +28,8 @@
         %>
         <script>showAdminAuthority();</script>
         <%
-                    } else {%>
+
+        } else {%>
         <script>hideAdminAuthority();</script>
         <%}
             } else {
@@ -51,6 +52,9 @@
                 <a href="#"id="notification" data-toggle="modal" data-target="#NotificationsModal" onclick="markNotificationsAsRead()"></a>
                 <a href="/jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>
+                <%if (user.isAdmin()) {%>
+                <a href="#"data-toggle="modal" data-target="#changePasswordModal">Change User Password</a>
+                <%}%>
             </div>
         </header>
         <!-- All Ads-->
@@ -87,10 +91,11 @@
                 <button class="btn btn-default" value="<%= AllAds.get(i).isOpen()%>" id="<%= "closeOpen" + AllAds.get(i).getID()%>"
                         onclick="closeOpenAd(<%= AllAds.get(i).getID()%>); return false;">
                     <%if (AllAds.get(i).isOpen()) {
-                                    out.print("Close");
-                                } else {
-                                    out.print("Open");
-                                }%>
+
+                            out.print("Close");
+                        } else {
+                            out.print("Open");
+                        }%>
                 </button>
                 <button class="btn btn-default" onclick="deleteAd(<%= AllAds.get(i).getID()%>); return false;">Delete</button>
             </div>
@@ -187,5 +192,32 @@
 
         </div>
     </div>
+<<<<<<< HEAD
+=======
+
+    <div class="modal fade" id="changePasswordModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/UserController?action=changeUserPassword"method="post">
+                    <div class="modal-header">
+                        <h5>Change User Password</h5>
+                    </div>
+                    <div class="modal-body">
+                        User Name
+                        <input type="text"name="userName" required/>
+                        New Password
+                        <input type="password"name="newPassword" required/>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Change Password" class="btn btn-default"/>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+>>>>>>> SearchAds
 </body>
 </html>
