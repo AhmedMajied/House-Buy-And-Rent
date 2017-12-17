@@ -16,7 +16,7 @@
         <title>Search Results</title>
     </head>
     <body>
-              <%
+        <%
             HttpSession currentSession=request.getSession(true);
             User user=new User();
             if(currentSession.getAttribute("User")!=null)
@@ -39,13 +39,21 @@
         </header>
        
         <% Vector<Advertisement> ads=(Vector<Advertisement>)(request.getAttribute("searchResult"));
+        if(ads.size()==0)
+        {%>
+        <div id="noResult">Sorry ! there are no Results </div>
+        <%}else
             for(int i=0 ;i <ads.size();i++){
         %>
         <br><br>
         <fieldset>
-            <a id="title" href="/AdvertisementController?action=Advertisement&AdID=<%=ads.get(i).getID()%>"><%=ads.get(i).getTitle()%></a>
+            <legend>
+                <a id="title" href="/AdvertisementController?action=Advertisement&AdID=<%=ads.get(i).getID()%>"><%=ads.get(i).getTitle()%></a>
+            </legend>
+
             <div id="res">AdvertisementType : <%=ads.get(i).getAdType()%></div>
             <div id="res">BuildingSize : <%=ads.get(i).getBuildingSize()%></div>
+            <div id="res">BuildingFloor : <%=ads.get(i).getBuildingFloor()%></div>
         </fieldset>
         <%}%>
     </body>

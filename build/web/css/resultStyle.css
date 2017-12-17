@@ -22,3 +22,10 @@ and open the template in the editor.
 {
     padding:15px 90px;
 }
+#noResult
+{
+    margin-top:20%;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+}
