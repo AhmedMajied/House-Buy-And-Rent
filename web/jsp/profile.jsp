@@ -21,14 +21,11 @@
     </head>
     <body>
         <%
-            HttpSession currentSession=request.getSession(true);
-            User user=new User();
-            if(currentSession.getAttribute("User")!=null)
-            {
-                user=(User)currentSession.getAttribute("User");
-            }
-            else
-            {
+            HttpSession currentSession = request.getSession(true);
+            User user = new User();
+            if (currentSession.getAttribute("User") != null) {
+                user = (User) currentSession.getAttribute("User");
+            } else {
                 response.sendRedirect("/");
             }
         %>
@@ -64,36 +61,37 @@
                 </form>
             </fieldset>
             <br><br>
-              <button id="addPhone" onclick="displayPhone();">Change Phone</button>
-              <fieldset id="Phone">
-                  <form action="/UserController?action=addPhone" method="post">
-                        <span id="phone"></span>
-                        <input type="text" pattern="^[0-9]+" placeholder="Add Your Phone" name="phoneNumber" id="phoneNumber">
-                        <br><br>
-                        <input type="submit" id="submit" value="add phone Number"/> 
-                    </form>
-              </fieldset>              
-                <%if(user.getPhone()!=null){%>
-                <br>
-                <form id="deletePhone" action="/UserController?action=deletePhone" method="post">
-                    <br>
-                    <input type="submit" id="submit1" value="Delete Phone"/> 
+            <button id="addPhone" onclick="displayPhone();">Change Phone</button>
+            <fieldset id="Phone">
+                <form action="/UserController?action=addPhone" method="post">
+                    <span id="phone"></span>
+                    <input type="text" pattern="^[0-9]+" placeholder="Add Your Phone" name="phoneNumber" id="phoneNumber">
+                    <br><br>
+                    <input type="submit" id="submit" value="add phone Number"/> 
                 </form>
-              <br>
-              <%}%>
-              <br>
-               <button id="changePassword" onclick="displayFields();">ChangePassword</button>
-                <fieldset id="password">
-                    <form action="/UserController?action=changePassword" method="post"id="passwordForm">
-                        <input type="hidden"name="userName"value="<%=user.getUsername()%>"/>
-                          <span id='iPass'></span>
-                          <input type="password" required placeholder='old Password'name="oldPassword" id="oPassword"><br><br>
-                          <span id='iPass'></span>
-                          <input type="password" required placeholder='new Password'name="newPassword" id="nPassword"><br><br>
-                          <div id="valid"></div>
-                          <input type="submit" id="submit" value="change Password"/> 
-                      </form>
-                 </fieldset>     
+            </fieldset>              
+            <%if (user.getPhone() != null) {%>
+            <br>
+            <form id="deletePhone" action="/UserController?action=deletePhone" method="post">
+                <br>
+                <input type="submit" id="submit1" value="Delete Phone"/> 
+            </form>
+            <br>
+            <%}%>
+            <br>
+            <button id="changePassword" onclick="displayFields();">ChangePassword</button>
+            <fieldset id="password">
+                <form action="/UserController?action=changePassword" method="post"id="passwordForm">
+                    <input type="hidden"name="userName"value="<%=user.getUsername()%>"/>
+                    <span id='iPass'></span>
+                    <input type="password" required placeholder='old Password'name="oldPassword" id="oPassword"><br><br>
+                    <span id='iPass'></span>
+                    <input type="password" required placeholder='new Password'name="newPassword" id="nPassword"><br><br>
+                    <div id="valid"></div>
+                    <input type="submit" id="submit" value="change Password"/> 
+                </form>
+            </fieldset>     
+            <br><br>
         </section>
     </body>
 </html>

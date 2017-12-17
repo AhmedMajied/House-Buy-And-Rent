@@ -37,22 +37,15 @@ function closeOpenAd(AdID){
 }
 
 function deleteAd(AdID){
-    $.post("/AdvertisementController",{action:'deleteAdvertisement',adID:AdID},function(result){
+    $.post("/AdvertisementController",{action:'deleteByAdmin',adID:AdID},function(result){
         if(result === "true"){
             $("#"+AdID).hide();
         }
     });
 }
 
-function showAdminAuthority(){
-    $(".AdminAuthority").show();
-}
-
-function hideAdminAuthority(){
-    $(".AdminAuthority").hide();
-}
-
-function markNotificationsAsRead(notificationID){ // not tested yet
+// start changes
+function markNotificationAsRead(notificationID){
     $.post("/UserController",{action:'markNotificationsAsRead',notificationID:notificationID});
 }
 

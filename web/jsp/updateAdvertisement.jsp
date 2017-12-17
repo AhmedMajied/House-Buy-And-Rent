@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Create Advertisement</title>
+        <title>Update Advertisement</title>
         <link rel="stylesheet" href="css/headerStyle.css"/>
         <link rel="stylesheet" href="css/createAdvertisement.css"/>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></script>
@@ -25,9 +25,9 @@
             <a href="/UserController?action=logOut">LogOut</a>
         </div>
     </header>
-    <div id="updateForm">
+    <div id="addForm">
         <% Advertisement ad = (Advertisement) request.getAttribute("Advertisement");%>
-        <form action="/AdvertisementController?action=updateAdvertisement" method="POST">
+        <form action="/AdvertisementController?action=updateAdvertisement&ID=<%=ad.getID()%>" method="POST">
             <div id="Title">Update Advertisement</div>
             <br>
             <span id="title">Title</span>
@@ -74,7 +74,7 @@
             </select>
             <br/>
             <span id="title">Description</span>
-            <textarea name="Description"id="field1" required  value="<%=ad.getDescription()%>"></textarea>
+            <textarea name="Description"id="field1" required ><%=ad.getDescription()%></textarea>
             <br/>
             <span id="title1">Location</span>
             <br/>
@@ -86,11 +86,7 @@
 
             </div>
             <br/>
-            <input type="submit" id="update" value="Update"/>
-        </form>
-        <form action="/AdvertisementController?action=deleteAdvertisement" method="post">
-            <input type="hidden" name="adID" value="<%=ad.getID()%>"/>
-            <input type="submit" id="delete" value="Delete Advertisement"/>
+            <input type="submit" id="add" value="Update"/>
         </form>
     </div>
 </body>

@@ -24,14 +24,9 @@
             User user = new User();
             if (currentSession.getAttribute("User") != null) {
                 user = (User) currentSession.getAttribute("User");
-                if (user.isAdmin()) {
-        %>
-        <script>showAdminAuthority();</script>
-        <%
-        } else {%>
-        <script>hideAdminAuthority();</script>
-        <%}
-            } else {
+            } 
+            else 
+            {
                 response.sendRedirect("/");
             }
 
@@ -48,7 +43,7 @@
                 <a href="/AdvertisementController?action=createAdvertisementPage">Create Advertisemenet</a> 
                 <a href="#"data-toggle="modal" data-target="#InterestModal">Add Interest</a>
                 <a href="/AdvertisementController?action=searchPage">Search</a>
-                <a href="#"id="notification" data-toggle="modal" data-target="#NotificationsModal" onclick="markNotificationsAsRead()"></a>
+                <a href="#"id="notification" data-toggle="modal" data-target="#NotificationsModal"></a>
                 <a href="/jsp/profile.jsp">MyProfile</a>
                 <a href="/UserController?action=logOut">LogOut</a>
                 <%if (user.isAdmin()) {%>
@@ -56,56 +51,61 @@
                 <%}%>
             </div>
         </header>
+            
+        
         <!-- All Ads-->
         <%
-            for (int i = 0; i < AllAds.size(); i++) {
+            for(int i=0;i<AllAds.size();i++){
                 averageRate = 0;
-                if (AllAds.get(i).getRatings().size() > 0) {
-                    for (int rateIndex = 0; rateIndex < AllAds.get(i).getRatings().size(); rateIndex++) {
+                if(!AllAds.get(i).isOpen() && !(user.isAdmin() || user.getUsername().equals(AllAds.get(i).getAdvertiserName()))){
+                    continue;
+                }
+                if(AllAds.get(i).getRatings().size() > 0){
+                    for(int rateIndex=0;rateIndex<AllAds.get(i).getRatings().size();rateIndex++){
                         averageRate += AllAds.get(i).getRatings().get(rateIndex).getValue();
                     }
                     averageRate /= AllAds.get(i).getRatings().size();
                 }
+                %>
+                <center>
+                <form method="POST" id="<%= AllAds.get(i).getID()%>" action="../AdvertisementController?action=Advertisement&AdID=<%= AllAds.get(i).getID()%>">
+                    <label>
+                        <span><%= AllAds.get(i).getTitle()%></span> (<%= AllAds.get(i).getAdType()%>)
+                        Advertised By <span><%= AllAds.get(i).getAdvertiserName() %></span>
+                        
+                        <!-- Users Ratings-->
+                        <span class="fa fa-star" id="<%= "star1"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star2"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star3"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star4"+"0"+AllAds.get(i).getID()%>"></span>
+                        <span class="fa fa-star" id="<%= "star5"+"0"+AllAds.get(i).getID()%>"></span>
+                        <script>fillStaticStars(<%= averageRate%>,<%= AllAds.get(i).getID()%>);</script>
+                    </label><br>
+
+                    <b>Size :</b> <%= AllAds.get(i).getBuildingSize()%><br>
+                    <b>Status :</b> <%= AllAds.get(i).getStatus().getName()%><br>
+                    <b>Type :</b> <%= AllAds.get(i).getType().getName()%><br>
+                    
+                    <%
+                        if(user.isAdmin()){
+                            %>
+                                <div class="AdminAuthority">
+                                    <button class="btn btn-default" value="<%= AllAds.get(i).isOpen()%>" id="<%= "closeOpen"+AllAds.get(i).getID()%>"
+                                            onclick="closeOpenAd(<%= AllAds.get(i).getID()%>); return false;">
+                                        <%if(AllAds.get(i).isOpen()){out.print("Close");}else{out.print("Open");} %>
+                                    </button>
+                                    <button class="btn btn-default" onclick="deleteAd(<%= AllAds.get(i).getID()%>); return false;">Delete</button>
+                                </div>
+                            <%
+                        }
+                    %>          
+                    <input class="btn btn-default" type="submit" value="More Details"/>
+                    <br><hr>
+                </form>
+                </center>
+                <%
+            }
         %>
-    <center>
-        <form method="POST" id="<%= AllAds.get(i).getID()%>" action="../AdvertisementController?action=Advertisement&AdID=<%= AllAds.get(i).getID()%>">
-            <label>
-                <span><%= AllAds.get(i).getTitle()%></span> (<%= AllAds.get(i).getAdType()%>)
-                Advertised By <span><%= AllAds.get(i).getAdvertiserName()%></span>
-
-                <!-- Users Ratings-->
-                <span class="fa fa-star" id="<%= "star1" + "0" + AllAds.get(i).getID()%>"></span>
-                <span class="fa fa-star" id="<%= "star2" + "0" + AllAds.get(i).getID()%>"></span>
-                <span class="fa fa-star" id="<%= "star3" + "0" + AllAds.get(i).getID()%>"></span>
-                <span class="fa fa-star" id="<%= "star4" + "0" + AllAds.get(i).getID()%>"></span>
-                <span class="fa fa-star" id="<%= "star5" + "0" + AllAds.get(i).getID()%>"></span>
-                <script>fillStaticStars(<%= averageRate%>,<%= AllAds.get(i).getID()%>);</script>
-            </label><br>
-
-            <b>Size :</b> <%= AllAds.get(i).getBuildingSize()%><br>
-            <b>Status :</b> <%= AllAds.get(i).getStatus().getName()%><br>
-            <b>Type :</b> <%= AllAds.get(i).getType().getName()%><br>
-
-            <div class="AdminAuthority">
-                <button class="btn btn-default" value="<%= AllAds.get(i).isOpen()%>" id="<%= "closeOpen" + AllAds.get(i).getID()%>"
-                        onclick="closeOpenAd(<%= AllAds.get(i).getID()%>); return false;">
-                    <%if (AllAds.get(i).isOpen()) {
-                            out.print("Close");
-                        } else {
-                            out.print("Open");
-                        }%>
-                </button>
-                <button class="btn btn-default" onclick="deleteAd(<%= AllAds.get(i).getID()%>); return false;">Delete</button>
-            </div>
-
-            <input class="btn btn-default" type="submit" value="More Details"/>
-
-            <br><hr>
-        </form>
-    </center>
-    <%
-        }
-    %>
 
     <!-- Interest Modal -->
     <div id="InterestModal" class="modal fade" role="dialog">
@@ -173,14 +173,16 @@
                     <%
                         for (int i = 0; i < notifications.size(); i++) {
                     %>
-                    <a href="<%= notifications.get(i).getLink()%>" class="notifications" 
-                       onclick="markNotificationAsRead(<%= notifications.get(i).getID()%>)">
-                        <b><%= notifications.get(i).getText()%></b>
-                        <%
-                            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                            out.print(dateFormat.format(notifications.get(i).getTime()));
-                        %>
-                    </a>
+                            <a href="<%= notifications.get(i).getLink()%>" class="notifications" 
+                               onclick="markNotificationAsRead(<%= notifications.get(i).getID()%>)">
+                                <b><%= notifications.get(i).getText()%></b>
+                                 <% 
+                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                                    out.print(dateFormat.format(notifications.get(i).getTime()));
+                                 %>
+                            </a><br>
+                            
+                            <button onclick="markNotificationAsRead(<%= notifications.get(i).getID()%>)" ></button>      
                     <%
                         }
                     %>
@@ -212,7 +214,6 @@
             </div>
         </div>
     </div>
-
 
 </body>
 </html>
