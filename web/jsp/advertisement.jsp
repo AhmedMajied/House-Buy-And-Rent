@@ -99,20 +99,21 @@
         </div>
         <br><br>
         <iframe id="map" src="https://www.google.com/maps/embed/v1/place?q=<%=ad.getLatitude()%>, <%=ad.getLongitude()%>&key=AIzaSyDknmD-bIczC5pP5WPolW9zsx8xA8Ty6Cw"></iframe>
-        <br/>
-        <div id="type"><%=ad.getAdType()%></div>
-        <br/><br/>
-        <div id="type"><%=ad.getDescription()%></div>
-        <br/><br/>
-        <div id="type">Size: <%=ad.getBuildingSize()%></div>
-        <br/><br/>
-        <div id="type">Floor: <%=ad.getBuildingFloor()%></div>
-        <br/><br/>
-        <div id="type">Type: <%=ad.getType().getName()%></div>
-        <br/><br/>
-        <div id="type">Status: <%=ad.getStatus().getName()%></div>
-        <br/>
-
+        <div id="adInfo">
+            <div id="type"><%=ad.getAdType()%></div>
+            <br/><br/>
+            <div id="type"><%=ad.getDescription()%></div>
+            <br/><br/>
+            <div id="type">Size: <%=ad.getBuildingSize()%></div>
+            <br/><br/>
+            <div id="type">Floor: <%=ad.getBuildingFloor()%></div>
+            <br/><br/>
+            <div id="type">Type: <%=ad.getType().getName()%></div>
+            <br/><br/>
+            <div id="type">Status: <%=ad.getStatus().getName()%></div>
+            <br/>
+        </div>
+            <br/>
         <fieldset id="Photo"> 
             <legend>Photos</legend>
             <%  for (Blob image : ad.getPhotos()) {

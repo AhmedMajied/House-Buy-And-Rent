@@ -8,8 +8,14 @@ and open the template in the editor.
     Author     : MariamAshraf
 */
 #map{
-    width: 100%;
+    width: 40%;
     height: 400px;
+    float:right;
+}
+#adInfo{
+    width:60%;
+    border:2px #000 groove ;
+    border-radius: 5px;
 }
 #title
 {
