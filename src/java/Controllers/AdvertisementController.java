@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "AdvertisementController", urlPatterns = {"/AdvertisementController"})
 public class AdvertisementController extends HttpServlet {
@@ -146,12 +147,15 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel dbModel=new AdvertisementDBModel();
         request.setAttribute("Statuses", dbModel.retrieveAllStatuses());
         request.setAttribute("Types",dbModel.retrieveAllTypes());
-        try{
-            request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
-        }
-        catch(Exception e)
+       String name=getNameFromSession(request);
+        if(name!=null)
         {
-            response.sendRedirect("/");
+            request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
+        }//To change body of generated methods, choose Tools | Templates.
+        else
+        {
+            response.sendRedirect("index.jsp");
+            return;
         }
     }
     public void searchAdvertisements(HttpServletRequest request,HttpServletResponse response) throws IllegalAccessException, InstantiationException, ClassNotFoundException, SQLException, ServletException, IOException
@@ -165,12 +169,16 @@ public class AdvertisementController extends HttpServlet {
         Vector<Advertisement>result=new Vector<Advertisement>();
         result=advetisements.searchAdvertisements(buyOrRent,status,type,size);
         request.setAttribute("searchResult", result);
-        try{
-        request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
+        
+        String name=getNameFromSession(request);
+        if(name!=null)
+        {       
+            request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
         }
-        catch(Exception e)
+        else
         {
-            response.sendRedirect("/");
+            response.sendRedirect("index.jsp");
+            return;
         }
     }
     
@@ -178,13 +186,16 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
         Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();
         request.setAttribute("AllAds", AllAds);
-        try{
-        request.getRequestDispatcher("jsp/AllAds.jsp").forward(request, response);
-        } catch(Exception e)
-        {
-            response.sendRedirect("/");
+        String name=getNameFromSession(request);
+        if(name!=null)
+        {        
+            request.getRequestDispatcher("jsp/AllAds.jsp").forward(request, response);
         }
-
+        else
+        {
+            response.sendRedirect("index.jsp");
+            return;
+        }
     }
     
     public void createAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, ServletException, IOException {
@@ -255,11 +266,15 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
-        try{
-        request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
-        } catch(Exception e)
+        String name=getNameFromSession(request);
+        if(name!=null)
+        { 
+            request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
+        }
+        else
         {
-            response.sendRedirect("/");
+            response.sendRedirect("index.jsp");
+            return;
         }
     }
 
@@ -268,11 +283,16 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         Advertisement adv = advDB.retrieveAd(AdID);
         request.setAttribute("Advertisement", adv);
-        try{
-        request.getRequestDispatcher("/jsp/advertisement.jsp").forward(request, response);
-        } catch(Exception e)
+        String name=getNameFromSession(request);
+        if(name!=null)
+        {        
+            request.getRequestDispatcher("/jsp/advertisement.jsp").forward(request, response);
+
+        }
+        else
         {
-            response.sendRedirect("/");
+            response.sendRedirect("index.jsp");
+            return;
         }
     }
     
@@ -359,12 +379,15 @@ public class AdvertisementController extends HttpServlet {
             AdvertisementDBModel db = new AdvertisementDBModel();
             db.addPhoto(f, adID);
             //response.sendRedirect("AdvertisementController?action=Advertisement&AdID="+adID);
-            try{
-            request.getRequestDispatcher("/AdvertisementController?action=Advertisement&AdID="+adID).forward(request, response);
+            String name=getNameFromSession(request);
+            if(name!=null)
+            {      
+                request.getRequestDispatcher("/AdvertisementController?action=Advertisement&AdID="+adID).forward(request, response);
             }
-             catch(Exception e)
+            else
             {
-                response.sendRedirect("/");
+                response.sendRedirect("index.jsp");
+                return;
             }
             
         }
@@ -381,13 +404,27 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("Advertisement", ad);
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
-        try{
-        request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);//To change body of generated methods, choose Tools | Templates.
-        }
-         catch(Exception e)
+        String name=getNameFromSession(request);
+        if(name!=null)
         {
-            response.sendRedirect("/");
+            request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);
+        }//To change body of generated methods, choose Tools | Templates.
+        else
+        {
+            response.sendRedirect("index.jsp");
+            return;
         }
+    }
+    public String getNameFromSession(HttpServletRequest request)
+    {
+        HttpSession currentSession=request.getSession(true);
+        String name=null;
+        if(currentSession.getAttribute("User")!=null)
+        {
+            name=((User)currentSession.getAttribute("User")).getUsername();
+        }
+        
+        return name;
     }
 
 }
