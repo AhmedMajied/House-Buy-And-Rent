@@ -113,7 +113,7 @@
             <div id="type">Status: <%=ad.getStatus().getName()%></div>
             <br/>
         </div>
-            <br/>
+        <br/>
         <fieldset id="Photo"> 
             <legend>Photos</legend>
             <%  for (Blob image : ad.getPhotos()) {
@@ -156,9 +156,15 @@
                         <%
                             }
                         %>
-                        <input type="text" id="newComment"/><br>
-                        <button class="btn btn-default" onclick="saveNewComment('<%= ad.getID()%>', '<%= ad.getAdvertiserName()%>', '<%= ((User) session.getAttribute("User")).getUsername()%>')">Add Comment</button>
+                        <input type="text" id="newComment"placeholder="write your comment here"/>
+                        <br><br>
 
+                    </div>
+                    <div class="modal-footer">
+                        <center>
+                            <button class="btn btn-default" onclick="saveNewComment('<%= ad.getID()%>', '<%= ad.getAdvertiserName()%>', '<%= ((User) session.getAttribute("User")).getUsername()%>')">Add Comment</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </center>
                     </div>
                 </div>
 

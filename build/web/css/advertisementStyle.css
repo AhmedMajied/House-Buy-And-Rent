@@ -110,3 +110,12 @@ and open the template in the editor.
 {
     margin-left: 20%;
 }
+#newComment
+{
+    width: 50%;
+    height: 40px;
+    font-weight: bold;
+    font-size: 15px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 5px;    
+}
