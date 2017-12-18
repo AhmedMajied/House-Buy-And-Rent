@@ -39,7 +39,8 @@ and open the template in the editor.
     border: 2px solid #cd54a9;
     background-color: #cd54a9;
     border-radius: 5px;
-    margin-left: 30%;
+    margin-left: 56%;
+
 }
 #photos
 {
@@ -58,7 +59,6 @@ and open the template in the editor.
 {
     float: right;
     font-size: 20px;
-    margin-top: -30px;
     margin-right: 38px;
     display: none;
 }
@@ -89,7 +89,6 @@ and open the template in the editor.
 {
     width:100px;
     height:40px;
-    margin-left: 70%;
 }
 .rate
 {
@@ -100,4 +99,8 @@ and open the template in the editor.
 {
     font-weight: bold;
     font-size: 15px;
+}
+#div
+{
+    margin-left: 20%;
 }
