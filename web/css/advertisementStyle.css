@@ -7,13 +7,19 @@ and open the template in the editor.
     Created on : Dec 6, 2017, 3:10:05 PM
     Author     : MariamAshraf
 */
-body
-{
-    font-family: cursive;
-}
+
 #map{
-    width: 100%;
+    width: 40%;
     height: 400px;
+    float:right;
+}
+#adInfo{
+    width:60%;
+    border:2px #000 groove ;
+    border-radius: 5px;
+    height:400px;
+    padding:30px;
+    overflow: scroll;
 }
 #title
 {
@@ -24,24 +30,27 @@ body
 }
 #type
 {
-    text-align: center;
+    text-align: left;
     font-size: 20px;
+    word-break: break-all;
 }
 #photo
 {
     color: transparent;
     margin-left: 46%;
 }
-#add , #displayInfo
+#add , #displayInfo , .button
 {
     width: 150px;
     height: 40px;
-    color: #a9a9a9;
+    color: white;
     font-weight: bold;
     font-size: 15px;
-    border: 2px solid black;
+    border: 2px solid #cd54a9;
+    background-color: #cd54a9;
     border-radius: 5px;
-    margin-left: 30%;
+    margin-left: 56%;
+
 }
 #photos
 {
@@ -60,7 +69,6 @@ body
 {
     float: right;
     font-size: 20px;
-    margin-top: -30px;
     margin-right: 38px;
     display: none;
 }
@@ -77,14 +85,42 @@ body
 #navBar a
 {
     padding:15px 90px;
-}
-.fa-star.checked{
-    color:orange;
-}
-.fa-star.shaded{
-    color:orange;
+    height:50px;
 }
 .modal-body{
     height: 250px;
     overflow-y: auto;
+
+}
+#btn
+{
+    display:inline-block;
+}
+.button
+{
+    width:100px;
+    height:40px;
+}
+.rate
+{
+    width:300px;
+    margin-left:15%;
+}
+.heading
+{
+    font-weight: bold;
+    font-size: 15px;
+}
+#div
+{
+    margin-left: 20%;
+}
+#newComment
+{
+    width: 50%;
+    height: 40px;
+    font-weight: bold;
+    font-size: 15px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 5px;    
 }

@@ -104,10 +104,12 @@ public class AdvertisementDBModel {
     public void saveNewAd(Advertisement ad) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Connection conn = DBConfig.getConnection();
         Statement stmt= conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Advertisements(Title,BuildingSize,BuildingFloor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType) VALUES('"
+
+        boolean isOpen=true;
+        stmt.executeUpdate("INSERT INTO Advertisements(Title,BuildingSize,BuildingFloor,Description,Latitude,Longitude,AdvertiserName,AdType,buildingStatus,buildingType,isOpen) VALUES('"
                             +ad.getTitle()+"',"+ad.getBuildingSize()+","+ad.getBuildingFloor()+",'"
                             +ad.getDescription()+"',"+ad.getLatitude()+","+ad.getLongitude()+",'"+ad.getAdvertiserName()+"','"
-                            +ad.getAdType()+"',"+ad.getStatus().getID()+","+ad.getType().getID()+")"
+                            +ad.getAdType()+"',"+ad.getStatus().getID()+","+ad.getType().getID()+","+isOpen+")"
         );
         stmt.close();
         conn.close();
@@ -307,18 +309,18 @@ public class AdvertisementDBModel {
     {
         Vector<Advertisement> ads=new Vector<Advertisement>();
         Connection conn=DBConfig.getConnection();
-        String sql="select * from Advertisements where AdType = ' "+buyOrRent+" ' or BuildingStatus = ' "+status+" ' or BuildingType = ' "+type+" ' "+"or BuildingSize = ' "+size+" ' ";
+        String sql="select * from Advertisements where AdType = '"+buyOrRent+"' or BuildingStatus = '"+status+"' or BuildingType = '"+type+"'"+"or BuildingSize = '"+size+"'";
         Statement statment=conn.createStatement();
         ResultSet result=statment.executeQuery(sql);
         while(result.next())
         {
             Advertisement a=new Advertisement();
             a.setAdType(result.getString("AdType"));
-            //a.setBuildingFloor(result.getInt("BuildingFloor"));
+            a.setBuildingFloor(result.getInt("BuildingFloor"));
             a.setID(result.getInt("ID"));
             a.setBuildingSize(result.getInt("BuildingSize"));
             a.setTitle(result.getString("Title"));
-            a.setDescription(result.getString("Description"));
+            //a.setDescription(result.getString("Description"));
             ads.add(a);
         }
         return ads;

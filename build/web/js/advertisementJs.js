@@ -9,9 +9,15 @@ $(document).ready(function() {
             url: "/UserController?action=requestContact",
             data:"advertiserName="+advertiserName,
             success: function(data){
-               btn.hide();
-               $("#result").css("display","block");
-               $("#result").html(data);
+                btn.hide();
+                $("#result").css("display","block");
+                if(data==="null"){
+                    $("#result").html("No Phone");
+                }
+                else
+                {
+                    $("#result").html(data);
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#result").html("an error happens please try again");

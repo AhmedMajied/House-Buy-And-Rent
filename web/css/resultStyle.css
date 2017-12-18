@@ -7,10 +7,6 @@ and open the template in the editor.
     Created on : Dec 10, 2017, 10:33:20 PM
     Author     : MariamAshraf
 */
-body
-{
-    font-family: cursive;
-}
 #title
 {
     font-size: 20px;
@@ -25,4 +21,11 @@ body
 #navBar a
 {
     padding:15px 90px;
+}
+#noResult
+{
+    margin-top:20%;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
 }

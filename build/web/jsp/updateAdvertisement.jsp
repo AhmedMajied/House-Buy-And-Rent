@@ -25,7 +25,7 @@
             <a href="/UserController?action=logOut">LogOut</a>
         </div>
     </header>
-    <div id="updateForm">
+    <div id="addForm">
         <% Advertisement ad = (Advertisement) request.getAttribute("Advertisement");%>
         <form action="/AdvertisementController?action=updateAdvertisement&ID=<%=ad.getID()%>" method="POST">
             <div id="Title">Update Advertisement</div>
@@ -86,11 +86,7 @@
 
             </div>
             <br/>
-            <input type="submit" id="update" value="Update"/>
-        </form>
-        <form action="/AdvertisementController?action=deleteAdvertisement" method="post">
-            <input type="hidden" name="adID" value="<%=ad.getID()%>"/>
-            <input type="submit" id="delete" value="Delete Advertisement"/>
+            <input type="submit" id="add" value="Update"/>
         </form>
     </div>
 </body>

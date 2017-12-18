@@ -24,7 +24,10 @@
             User user = new User();
             if (currentSession.getAttribute("User") != null) {
                 user = (User) currentSession.getAttribute("User");
-            } else {
+
+            } 
+            else 
+            {
                 response.sendRedirect("/");
             }
 
@@ -148,7 +151,7 @@
                     <div class="modal-footer">
                         <center>
                             <button type="button" class="btn btn-default" onclick="addInterest()">Save</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </center>
                     </div>
                 </form>
@@ -198,15 +201,18 @@
                     <div class="modal-header">
                         <h5>Change User Password</h5>
                     </div>
-                    <div class="modal-body">
-                        User Name
-                        <input type="text"name="userName" required/>
-                        New Password
-                        <input type="password"name="newPassword" required/>
+                    <div class="modal-body changePassword">
+                        <span id="label">User Name</span>
+                        <input type="text"name="userName" required id="userData"/>
+                        <br><br>
+                        <span id="label">New Password</span>
+                        <input type="password"name="newPassword" required id="userData"/>
                     </div>
                     <div class="modal-footer">
+                        <center>
                         <input type="submit" value="Change Password" class="btn btn-default"/>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </center>
                     </div>
                 </form>
             </div>
