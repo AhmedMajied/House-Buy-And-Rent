@@ -433,7 +433,6 @@ public class UserController extends HttpServlet {
         userDBModel.updatePassword(name, password);
         User user=getUser(adminName);
         DisplayHome(request,response);
-       // response.sendRedirect("/UserController?action=displayHome");
 
     }
 

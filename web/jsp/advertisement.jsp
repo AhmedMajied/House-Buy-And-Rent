@@ -131,9 +131,12 @@
                 <input name="file" type="file" id="photo"/>
                 <br><br>
                 <input type="submit" id="add" value="Add Photo"/>
+                <br/>
             </form>
             <%}%>
         </fieldset>
+                <br/>
+                <br/>
 
 
 
