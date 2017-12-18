@@ -91,6 +91,11 @@ and open the template in the editor.
     height:40px;
     margin-left: 70%;
 }
+.rate
+{
+    width:300px;
+    margin-left:15%;
+}
 .heading
 {
     font-weight: bold;

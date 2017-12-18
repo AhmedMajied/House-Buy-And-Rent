@@ -51,6 +51,31 @@
             <button type="button" class="button" data-toggle="modal" data-target="#CommentsModal">Comments</button>
          </div>
         
+          <%
+            String rateStatus = "new";
+            int userRate = 0;
+            for (int i = 0; i < ad.getRatings().size(); i++) {
+                if (ad.getRatings().get(i).getUsername().equals(user.getUsername())) {
+                    rateStatus = "existing";
+                    userRate = ad.getRatings().get(i).getValue();
+                    break;
+                }
+            }
+        %>
+        <!-- User Rating -->
+        <%if (!(user.getUsername().equals(ad.getAdvertiserName()))) {%>
+        <div id="btn" class="rate">
+            <span class="heading"> Your Rating : </span>
+            <span class="fa fa-star" id="<%= "star1" + ad.getID()%>" onclick="saveUserRate(1,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(1,<%= ad.getID()%>)" onmouseout="unShadeStars(1,<%= ad.getID()%>)"></span>
+            <span class="fa fa-star" id="<%= "star2" + ad.getID()%>" onclick="saveUserRate(2,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(2,<%= ad.getID()%>)" onmouseout="unShadeStars(2,<%= ad.getID()%>)"></span>
+            <span class="fa fa-star" id="<%= "star3" + ad.getID()%>" onclick="saveUserRate(3,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(3,<%= ad.getID()%>)" onmouseout="unShadeStars(3,<%= ad.getID()%>)"></span>
+            <span class="fa fa-star" id="<%= "star4" + ad.getID()%>" onclick="saveUserRate(4,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(4,<%= ad.getID()%>)" onmouseout="unShadeStars(4,<%= ad.getID()%>)"></span>
+            <span class="fa fa-star" id="<%= "star5" + ad.getID()%>" onclick="saveUserRate(5,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(5,<%= ad.getID()%>)" onmouseout="unShadeStars(5,<%= ad.getID()%>)"></span>
+        </div>
+
+        <script>fillStars(<%= userRate%>,<%= ad.getID()%>);</script>
+        <%}%>
+        
         <%if (user.getUsername().equals(ad.getAdvertiserName())) {%>
         <div id="btn">
             <form action="/AdvertisementController?action=updateAdvertisementPage&adID=<%=ad.getID()%>" method="post">
@@ -58,6 +83,7 @@
             </form>
         </div>
         <%}%>
+        <br><br>
          <%if (user.getUsername().equals(ad.getAdvertiserName())) {%>
         <div id="btn">
             <form action="/AdvertisementController?action=deleteAdvertisement&adID=<%=ad.getID()%>" method="post">
@@ -109,33 +135,7 @@
             <%}%>
         </fieldset>
 
-        <%
-            String rateStatus = "new";
-            int userRate = 0;
-
-            for (int i = 0; i < ad.getRatings().size(); i++) {
-                if (ad.getRatings().get(i).getUsername().equals(((User) obj).getUsername())) {
-                    rateStatus = "existing";
-                    userRate = ad.getRatings().get(i).getValue();
-                    break;
-                }
-            }
-        %>
-        <br><br>
-
-        <!-- User Rating -->
-        <%if (!(user.getUsername().equals(ad.getAdvertiserName()))) {%>
-        <div>
-            <span class="heading"> Your Rating : </span>
-            <span class="fa fa-star" id="<%= "star1" + ad.getID()%>" onclick="saveUserRate(1,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(1,<%= ad.getID()%>)" onmouseout="unShadeStars(1,<%= ad.getID()%>)"></span>
-            <span class="fa fa-star" id="<%= "star2" + ad.getID()%>" onclick="saveUserRate(2,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(2,<%= ad.getID()%>)" onmouseout="unShadeStars(2,<%= ad.getID()%>)"></span>
-            <span class="fa fa-star" id="<%= "star3" + ad.getID()%>" onclick="saveUserRate(3,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(3,<%= ad.getID()%>)" onmouseout="unShadeStars(3,<%= ad.getID()%>)"></span>
-            <span class="fa fa-star" id="<%= "star4" + ad.getID()%>" onclick="saveUserRate(4,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(4,<%= ad.getID()%>)" onmouseout="unShadeStars(4,<%= ad.getID()%>)"></span>
-            <span class="fa fa-star" id="<%= "star5" + ad.getID()%>" onclick="saveUserRate(5,<%= ad.getID()%>, '<%= rateStatus%>')" onmouseover="shadeStars(5,<%= ad.getID()%>)" onmouseout="unShadeStars(5,<%= ad.getID()%>)"></span>
-        </div>
-
-        <script>fillStars(<%= userRate%>,<%= ad.getID()%>);</script>
-        <%}%>
+       
         
 
 
@@ -156,7 +156,7 @@
                         <%
                             }
                         %>
-                        <input type="text" id="newComment" /><br>
+                        <input type="text" id="newComment"/><br>
                         <button class="btn btn-default" onclick="saveNewComment('<%= ad.getID()%>', '<%= ad.getAdvertiserName()%>', '<%= ((User) session.getAttribute("User")).getUsername()%>')">Add Comment</button>
 
                     </div>
