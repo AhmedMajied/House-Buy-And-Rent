@@ -74,3 +74,8 @@ function unShadeStars(star,id){
         document.getElementById(stars[starIndex]+id).classList.remove('shaded');
     }
 }
+function displayButtons()
+  {
+       	document.getElementById("addPhoto").style.display = (document.getElementById("addPhoto").style.display === 'block') ? 'none' :'';
+        document.getElementById("NewPhotos").style.display = (document.getElementById("NewPhotos").style.display === 'block') ? 'none' : 'block';
+  }

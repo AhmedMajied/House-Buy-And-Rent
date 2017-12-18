@@ -116,6 +116,11 @@
         <br/>
         <fieldset id="Photo"> 
             <legend>Photos</legend>
+            <%if(ad.getPhotos().size()==0){%>
+            <center>
+                <label>There are no available photos</label>
+            </center>
+            <%}%>
             <%  for (Blob image : ad.getPhotos()) {
                     byte[] imgData = image.getBytes(1, (int) image.length());
                     String code = Base64.getEncoder().encodeToString(imgData);
@@ -127,14 +132,20 @@
             %>
             <br>
 
-            <form action="AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
-                <input name="file" type="file" id="photo"/>
-                <br><br>
-                <input type="submit" id="add" value="Add Photo"/>
-                <br/>
-            </form>
-            <%}%>
+            <button id="addPhoto" onclick="displayButtons();">Add New Photo</button>
+            <fieldset id="NewPhotos">
+                <legend>Add Photo</legend>
+                <form action="AdvertisementController?action=addPhoto&adID=<%=ad.getID()%>" method="post" enctype="multipart/form-data">
+                    <input name="file" type="file" id="photo"/>
+                    <br><br>
+                    <input type="submit" id="add" value="Add Photo"/>
+                    <br/>
+                </form>
+            </fieldset>
+                    <br><br>
         </fieldset>
+        <%}%>
+
                 <br/>
                 <br/>
 

@@ -37,9 +37,9 @@ and open the template in the editor.
 #photo
 {
     color: transparent;
-    margin-left: 46%;
+    margin-left: 39%;
 }
-#add , #displayInfo , .button
+#add , #displayInfo , .button , #addPhoto
 {
     width: 150px;
     height: 40px;
@@ -74,7 +74,7 @@ and open the template in the editor.
 }
 #add
 {
-    margin-left: 43%;
+    margin-left: 30%;
 }
 .fa-star.checked{
     color:orange;
@@ -122,4 +122,18 @@ and open the template in the editor.
     font-size: 15px;
     border: 2px solid rgba(0,0,0,0.3);
     border-radius: 5px;    
+}
+#addPhoto
+{
+    width:200px;
+    text-align: center;
+    margin-left:43%;
+    display:block;
+}
+#NewPhotos
+{
+    border:2px solid black;
+    width: 350px;
+    margin-left: 39%;
+    display: none;
 }
