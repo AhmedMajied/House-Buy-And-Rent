@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/web/css/homeStyle.css</file>
-            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/web/css/advertisementStyle.css</file>
-            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/web/jsp/advertisement.jsp</file>
-            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/web/jsp/Home.jsp</file>
+            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/src/java/Controllers/AdvertisementController.java</file>
+            <file>file:/E:/material/Fourth%20Year/Internet%20Applications/IA%20Project/House-Buy-And-Rent/src/java/Controllers/UserController.java</file>
         </group>
     </open-files>
 </project-private>

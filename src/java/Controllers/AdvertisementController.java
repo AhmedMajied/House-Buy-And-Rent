@@ -146,7 +146,13 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel dbModel=new AdvertisementDBModel();
         request.setAttribute("Statuses", dbModel.retrieveAllStatuses());
         request.setAttribute("Types",dbModel.retrieveAllTypes());
-        request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
+        try{
+            request.getRequestDispatcher("/jsp/search.jsp").forward(request, response);
+        }
+        catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
     }
     public void searchAdvertisements(HttpServletRequest request,HttpServletResponse response) throws IllegalAccessException, InstantiationException, ClassNotFoundException, SQLException, ServletException, IOException
     {
@@ -154,18 +160,30 @@ public class AdvertisementController extends HttpServlet {
         int status=Integer.parseInt(request.getParameter("status"));
         int type=Integer.parseInt(request.getParameter("type"));
         int size=Integer.parseInt(request.getParameter("size"));
+        System.out.println(buyOrRent+"   "+status+"   "+type+"  "+size);
         AdvertisementDBModel advetisements=new AdvertisementDBModel();
         Vector<Advertisement>result=new Vector<Advertisement>();
         result=advetisements.searchAdvertisements(buyOrRent,status,type,size);
         request.setAttribute("searchResult", result);
+        try{
         request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
+        }
+        catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
     }
     
     public void getAllAdvertisements(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException, ServletException {
         AdvertisementDBModel adDBModel = new AdvertisementDBModel();
         Vector<Advertisement> AllAds = adDBModel.retrieveAllAds();
         request.setAttribute("AllAds", AllAds);
+        try{
         request.getRequestDispatcher("jsp/AllAds.jsp").forward(request, response);
+        } catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
 
     }
     
@@ -237,7 +255,12 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
+        try{
         request.getRequestDispatcher("jsp/createAdvertisement.jsp").forward(request, response);
+        } catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
     }
 
     private void displayAdvertisement(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException {
@@ -245,7 +268,12 @@ public class AdvertisementController extends HttpServlet {
         AdvertisementDBModel advDB = new AdvertisementDBModel();
         Advertisement adv = advDB.retrieveAd(AdID);
         request.setAttribute("Advertisement", adv);
+        try{
         request.getRequestDispatcher("/jsp/advertisement.jsp").forward(request, response);
+        } catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
     }
     
     public void rateAd(HttpServletRequest request, HttpServletResponse response) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ServletException, IOException{
@@ -330,7 +358,14 @@ public class AdvertisementController extends HttpServlet {
             File f = new File(saveFile);
             AdvertisementDBModel db = new AdvertisementDBModel();
             db.addPhoto(f, adID);
-            response.sendRedirect("AdvertisementController?action=Advertisement&AdID="+adID);
+            //response.sendRedirect("AdvertisementController?action=Advertisement&AdID="+adID);
+            try{
+            request.getRequestDispatcher("/AdvertisementController?action=Advertisement&AdID="+adID).forward(request, response);
+            }
+             catch(Exception e)
+            {
+                response.sendRedirect("/");
+            }
             
         }
         /*AdvertisementDBModel advDB = new AdvertisementDBModel();
@@ -346,7 +381,13 @@ public class AdvertisementController extends HttpServlet {
         request.setAttribute("Advertisement", ad);
         request.setAttribute("Statuses", advDB.retrieveAllStatuses());
         request.setAttribute("Types", advDB.retrieveAllTypes());
+        try{
         request.getRequestDispatcher("jsp/updateAdvertisement.jsp").forward(request, response);//To change body of generated methods, choose Tools | Templates.
+        }
+         catch(Exception e)
+        {
+            response.sendRedirect("/");
+        }
     }
 
 }

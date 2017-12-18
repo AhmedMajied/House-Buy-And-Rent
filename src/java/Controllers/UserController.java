@@ -186,8 +186,16 @@ public class UserController extends HttpServlet {
         AdvertisementDBModel AdDBModel = new AdvertisementDBModel();
         Vector<Advertisement> allAds = AdDBModel.retrieveAllAds();
         request.setAttribute("AllAds", allAds);
-        
+        String name=getNameFromSession(request);
+        if(name==null){
+            response.sendRedirect("index.jsp");
+            return;
+        }
+        else{
         request.getRequestDispatcher("jsp/Home.jsp").forward(request, response);
+        }
+        
+        
     }
 
     public void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, SQLException {
@@ -207,7 +215,7 @@ public class UserController extends HttpServlet {
         Vector<Notification> notifications = getUserNotifications(name);
         user.setNotifications(notifications);
         currentSession.setAttribute("User", user);
-        currentSession.setMaxInactiveInterval(30 * 60);
+        currentSession.setMaxInactiveInterval(30*60);
         
         DisplayHome(request, response);
     }
@@ -229,7 +237,7 @@ public class UserController extends HttpServlet {
                 user = getUser(Username);
                 user.setNotifications(new Vector<Notification>());
                 currentSession.setAttribute("User", user);
-                currentSession.setMaxInactiveInterval(30 * 60);
+                currentSession.setMaxInactiveInterval(30*60);
             }
             DisplayHome(request,response);
 
@@ -252,7 +260,11 @@ public class UserController extends HttpServlet {
         UserDBModel userDBModel = new UserDBModel();
         userDBModel.savePhoneNumber(name, phone);
         updateSession(request);
+        if(name!=null){
         request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("index.jsp");
+        }
     }
 
     public void deletePhoneNumber(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException {
@@ -264,7 +276,11 @@ public class UserController extends HttpServlet {
         UserDBModel userDBModel = new UserDBModel();
         userDBModel.deletePhoneNumber(name);
         updateSession(request);
+        if(name!=null){
         request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("index.jsp");
+        }
     }
 
     public void changePassword(HttpServletRequest request, HttpServletResponse response) throws IOException, InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, ServletException {
@@ -323,7 +339,12 @@ public class UserController extends HttpServlet {
             UserDBModel dbModel=new UserDBModel();
             dbModel.savePicture(f,name); 
             updateSession(request);
+           if(name!=null){
             request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
+            }
+            else{
+            response.sendRedirect("/");
+            }
         }
     }
     public String getNameFromSession(HttpServletRequest request)
@@ -352,7 +373,7 @@ public class UserController extends HttpServlet {
         PrintWriter out= response.getWriter();
         notification.setUsername(advertiserName);
         notification.setLink("#");
-        notification.setText("there are user requested your phone number");
+        notification.setText("there is user requested your phone number");
         Timestamp time = new Timestamp(new Date().getTime());
         notification.setTime(time);
         UserDBModel dbModel=new UserDBModel();
@@ -411,8 +432,8 @@ public class UserController extends HttpServlet {
         UserDBModel userDBModel=new UserDBModel();
         userDBModel.updatePassword(name, password);
         User user=getUser(adminName);
-       // DisplayHome(request,response);
-        response.sendRedirect("/UserController?action=displayHome");
+        DisplayHome(request,response);
+       // response.sendRedirect("/UserController?action=displayHome");
 
     }
 
